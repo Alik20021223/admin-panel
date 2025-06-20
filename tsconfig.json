@@ -1,0 +1,75 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "./src/app/types",
+      "./node_modules/@types"
+    ],
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "baseUrl": "./src/",
+    "paths": {
+      "@/*": [
+        "*"
+      ],
+      "@app/*": [
+        "app/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@feature/*": [
+        "feature/*"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ],
+      "@widgets/*": [
+        "widgets/*"
+      ],
+      "@entities/*": [
+        "entities/*"
+      ],
+      "@assets/*": [
+        "app/assets/*"
+      ],
+      "@components/*": [
+        "shared/components/*"
+      ],
+      "@utils/*": [
+        "shared/utils/*"
+      ],
+      "@lib/*": [
+        "shared/lib/*"
+      ],
+      "@shadcdn/*": [
+        "shared/shadcdn/*"
+      ]
+    },
+  },
+  "include": [
+    "vite.config.ts",
+    "src"
+  ],
+}

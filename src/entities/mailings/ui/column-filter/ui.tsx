@@ -1,0 +1,88 @@
+import { Button } from "@shadcdn/button"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@shadcdn/dialog"
+import { Funnel, Save } from 'lucide-react';
+
+import SortableItemBlockColumn from "./item-block-column";
+import {
+    DndContext,
+    closestCenter,
+    PointerSensor,
+    useSensor,
+    useSensors,
+    DragEndEvent,
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { useMailingTableStore } from "@entities/mailings/store";
+
+
+const ColumnFilter = () => {
+
+    const { allColumns, setAllColumns, setColumnOrder } = useMailingTableStore()
+
+    const sensors = useSensors(useSensor(PointerSensor));
+
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+        if (active.id !== over?.id) {
+            const oldIndex = allColumns.findIndex(col => col.id === active.id);
+            const newIndex = allColumns.findIndex(col => col.id === over?.id);
+            const newOrder = arrayMove(allColumns, oldIndex, newIndex);
+
+
+
+            setAllColumns(newOrder); // Обновляем порядок в Zustand
+            setColumnOrder(newOrder.map(col => col.id));
+        }
+    };
+
+    return (
+        <>
+            <Dialog>
+                <form className="pr-3">
+                    <DialogTrigger asChild>
+                        <Button variant="outline">Фильтр Колонок
+                            <Funnel />
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] sm:max-h-[550px]" >
+                        <DialogHeader>
+                            <DialogTitle>Настройка таблицы</DialogTitle>
+                        </DialogHeader>
+                        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                            <SortableContext items={allColumns.map(col => col.id)} strategy={verticalListSortingStrategy}>
+                                <div className="grid gap-4 max-h-[400px] overflow-y-auto pr-3 custom-scroll">
+                                    {allColumns.map((item) => (
+                                        <SortableItemBlockColumn key={item.id} item={item} />
+                                    ))}
+                                </div>
+                            </SortableContext>
+                        </DndContext>
+                        <DialogFooter className="pr-3">
+                            <DialogClose asChild>
+                                <Button type="submit">
+                                    <Save className="ml-2 w-4 h-4" />
+                                    Сохранить данные
+                                </Button>
+                            </DialogClose>
+                        </DialogFooter>
+                    </DialogContent>
+                </form>
+            </Dialog>
+        </>
+    )
+}
+
+export default ColumnFilter
