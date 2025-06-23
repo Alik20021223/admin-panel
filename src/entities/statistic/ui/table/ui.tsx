@@ -11,6 +11,7 @@ import {
 import { useStatisticTableStore } from '@entities/statistic/store';
 import { useEffect } from 'react';
 import { ArrowDownUp } from 'lucide-react';
+import { useQueryDashboardStatistic } from '@entities/statistic/hooks/get-dashboard-statistic';
 
 const TableStatistic = () => {
 
@@ -25,6 +26,11 @@ const TableStatistic = () => {
         columnPinning,
         setColumnPinning
     } = useStatisticTableStore()
+
+    const { data } = useQueryDashboardStatistic()
+
+    console.log(data);
+
 
     const table = useReactTable({
         data: tableDataMock,

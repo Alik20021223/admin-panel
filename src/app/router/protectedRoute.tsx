@@ -8,6 +8,10 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         const check = () => {
             const cached = localStorage.getItem("auth_check");
             const parsed = cached ? JSON.parse(cached) : null;
+
+            console.log(parsed);
+            
+            
             setAuth(parsed?.status === true);
         };
 
@@ -16,6 +20,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         window.addEventListener("auth_check_changed", check);
         return () => window.removeEventListener("auth_check_changed", check);
     }, []);
+
 
     if (auth === null) return null;
     return auth ? <>{children}</> : <Navigate to="/login" replace />;

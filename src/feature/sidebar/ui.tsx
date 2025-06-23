@@ -1,6 +1,6 @@
 "use client"
 
-import { mockSideBarItems, userMock } from "@shared/mock"
+import { mockSideBarItems } from "@shared/mock"
 import {
     Sidebar,
     SidebarContent,
@@ -14,12 +14,14 @@ import {
     SidebarMenuItem,
     SidebarTrigger,
 } from "@shadcdn/sidebar"
-
-import * as React from "react"
 // import { Signal } from "lucide-react"
 import { NavUser } from "./nav-user"
+import { useQueryInfoUser } from "@shared/hooks/get-info-person"
+
 
 const SidebarCustom = (props: React.ComponentProps<typeof Sidebar>) => {
+
+    const { data: userData } = useQueryInfoUser()
 
     return (
         <Sidebar collapsible="icon" {...props}>
@@ -55,7 +57,7 @@ const SidebarCustom = (props: React.ComponentProps<typeof Sidebar>) => {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavUser user={userMock} />
+                <NavUser user={userData} />
             </SidebarFooter>
 
         </Sidebar>

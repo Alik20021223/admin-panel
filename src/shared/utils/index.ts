@@ -30,30 +30,18 @@ export const isAuthenticated = async (): Promise<boolean> => {
   const now = Date.now();
 
   if (parsed && now - parsed.timestamp < ONE_HOUR) {
-    return parsed.status;
+    console.log("lox");
   }
 
   try {
     const res = await axiosInstance.get("auth/check");
     const status = res.status === 200;
 
-    localStorage.setItem(
-      AUTH_CHECK_KEY,
-      JSON.stringify({
-        status,
-        timestamp: now,
-      })
-    );
+    updateAuth(status);
 
     return status;
   } catch {
-    localStorage.setItem(
-      AUTH_CHECK_KEY,
-      JSON.stringify({
-        status: false,
-        timestamp: now,
-      })
-    );
+    updateAuth(false);
 
     return false;
   }

@@ -29,19 +29,19 @@ import {
 import { useMutationLogOut } from "@entities/login-register/hooks/use-mutation-logout"
 import { useNavigate } from "react-router-dom"
 import { updateAuth } from "@shared/utils"
+import img from "@assets/shadcn-user.jpg";
+import { UserInfo } from "@shared/types"
+
 
 export function NavUser({
     user,
 }: {
-    user: {
-        name: string
-        email: string
-        avatar: string
-    }
+    user?: UserInfo
 }) {
     const { isMobile } = useSidebar()
 
     const { mutateAsync } = useMutationLogOut()
+
     const navigate = useNavigate()
 
     const handleLogOut = async () => {
@@ -58,6 +58,8 @@ export function NavUser({
 
 
 
+
+
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -68,13 +70,15 @@ export function NavUser({
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
-                                <AvatarImage src={user.avatar} alt={user.name} />
+                                <AvatarImage src={img} alt="avatar" />
                                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                             </Avatar>
-                            <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-medium">{user.name}</span>
-                                <span className="truncate text-xs">{user.email}</span>
-                            </div>
+                            {user &&
+                                <div className="grid flex-1 text-left text-sm leading-tight">
+                                    <span className="truncate font-medium">{user.first_name}</span>
+                                    <span className="truncate text-xs">{user.email}</span>
+                                </div>
+                            }
                             <ChevronsUpDown className="ml-auto size-4" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
@@ -87,21 +91,25 @@ export function NavUser({
                         <DropdownMenuLabel className="p-0 font-normal">
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <Avatar className="h-8 w-8 rounded-lg">
-                                    <AvatarImage src={user.avatar} alt={user.name} />
+                                    <AvatarImage src={img} alt="avatar" />
                                     <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                                 </Avatar>
-                                <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-medium">{user.name}</span>
-                                    <span className="truncate text-xs">{user.email}</span>
-                                </div>
+                                {user &&
+                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                        <span className="truncate font-medium">{user.first_name}</span>
+                                        <span className="truncate text-xs">{user.email}</span>
+                                    </div>
+                                }
                             </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <CircleUser />
-                                Role
-                            </DropdownMenuItem>
+                            {user &&
+                                <DropdownMenuItem>
+                                    <CircleUser />
+                                    {user.role}
+                                </DropdownMenuItem>
+                            }
                             <DropdownMenuItem>
                                 <Bell />
                                 Notifications

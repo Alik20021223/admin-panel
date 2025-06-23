@@ -8,6 +8,18 @@ export type NotificationItems = {
   status: NotificationStatus;
 };
 
+export type UserInfo = {
+  email: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  role: string;
+};
+
+export type UserInfoResponse = {
+  user: UserInfo
+}
+
 export type BreadCrumpType = {
   PATH: string;
   BREADCRUMB: string;
