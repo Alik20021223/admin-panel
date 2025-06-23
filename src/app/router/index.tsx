@@ -10,23 +10,39 @@ import { MAILINGS } from "@entities/mailings/constant";
 import { LANDINGS } from "@entities/landing/constant";
 import { SPOTS } from "@entities/spots/constant";
 import { SPOTS_ROUTES } from "@entities/spots/router";
+import PublicRoute from "./publicRoute";
+import ProtectedRoute from "./protectedRoute";
+
+
 
 export const router = createBrowserRouter([
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <PublicRoute>
+        <LoginPage />
+      </PublicRoute>
+    ),
   },
   {
     path: "/register",
-    element: <RegisterPage />,
+    element: (
+      <PublicRoute>
+        <RegisterPage />
+      </PublicRoute>
+    ),
   },
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "/statistic",
-        element: <StatisticPage />
+        element: <StatisticPage />,
       },
       {
         path: SPOTS.PREFIX,
@@ -43,6 +59,6 @@ export const router = createBrowserRouter([
         element: <Outlet />,
         children: MAILING_ROUTES,
       },
-    ]
+    ],
   },
 ]);

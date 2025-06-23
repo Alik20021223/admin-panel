@@ -1,4 +1,5 @@
 import { DateRange } from "react-day-picker";
+import { axiosInstance } from "./axios";
 
 export function formatDateRange(range: DateRange | undefined) {
   if (!range?.from) return "";
@@ -16,3 +17,55 @@ export function formatDateRange(range: DateRange | undefined) {
     : "";
   return to ? `${from} - ${to}` : from;
 }
+
+// @shared/utils.ts
+
+export const AUTH_CHECK_KEY = "auth_check";
+const ONE_HOUR = 60 * 60 * 1000;
+
+export const isAuthenticated = async (): Promise<boolean> => {
+  const cached = localStorage.getItem(AUTH_CHECK_KEY);
+  const parsed = cached ? JSON.parse(cached) : null;
+
+  const now = Date.now();
+
+  if (parsed && now - parsed.timestamp < ONE_HOUR) {
+    return parsed.status;
+  }
+
+  try {
+    const res = await axiosInstance.get("auth/check");
+    const status = res.status === 200;
+
+    localStorage.setItem(
+      AUTH_CHECK_KEY,
+      JSON.stringify({
+        status,
+        timestamp: now,
+      })
+    );
+
+    return status;
+  } catch {
+    localStorage.setItem(
+      AUTH_CHECK_KEY,
+      JSON.stringify({
+        status: false,
+        timestamp: now,
+      })
+    );
+
+    return false;
+  }
+};
+
+export const updateAuth = (status: boolean) => {
+  localStorage.setItem(
+    "auth_check",
+    JSON.stringify({
+      status,
+      timestamp: Date.now(),
+    })
+  );
+  window.dispatchEvent(new Event("auth_check_changed"));
+};

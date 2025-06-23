@@ -26,6 +26,9 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@shadcdn/sidebar"
+import { useMutationLogOut } from "@entities/login-register/hooks/use-mutation-logout"
+import { useNavigate } from "react-router-dom"
+import { updateAuth } from "@shared/utils"
 
 export function NavUser({
     user,
@@ -37,6 +40,23 @@ export function NavUser({
     }
 }) {
     const { isMobile } = useSidebar()
+
+    const { mutateAsync } = useMutationLogOut()
+    const navigate = useNavigate()
+
+    const handleLogOut = async () => {
+        try {
+            await mutateAsync()
+
+            updateAuth(false)
+            navigate("/login")
+
+        } catch (error) {
+            console.error("Ошибка логина:", error)
+        }
+    }
+
+
 
     return (
         <SidebarMenu>
@@ -88,7 +108,7 @@ export function NavUser({
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={handleLogOut}>
                             <LogOut />
                             Log out
                         </DropdownMenuItem>

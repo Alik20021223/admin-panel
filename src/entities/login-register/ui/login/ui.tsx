@@ -12,9 +12,11 @@ import {
     FormMessage
 } from "@shadcdn/form"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { loginSchema } from "./validation"
 import { loginType } from "@entities/login-register/types"
+import { useMutationPostLogin } from "@entities/login-register/hooks/use-mutation-login"
+import { updateAuth } from "@shared/utils"
 
 
 
@@ -30,9 +32,23 @@ export default function Login() {
     })
 
 
+    const { mutateAsync } = useMutationPostLogin()
+    const navigate = useNavigate()
 
-    const onSubmit = (data: loginType) => {
-        console.log("Submitted:", data)
+    const onSubmit = async (data: loginType) => {
+        try {
+            await mutateAsync(data)
+
+
+            updateAuth(true)
+            navigate("/", { replace: true });
+
+        } catch (error) {
+            console.error("Ошибка логина:", error)
+            form.setError("password", {
+                message: "Неверный email или пароль",
+            })
+        }
     }
 
     return (
