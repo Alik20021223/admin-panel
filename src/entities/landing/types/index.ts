@@ -1,3 +1,4 @@
+import { ChannelType, DomainType, UserType } from "@shared/types";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type TableRow = {
@@ -6,8 +7,6 @@ export type TableRow = {
   spot_title: string;
   domain: string;
 };
-
-
 
 export type ColumnConfig = {
   id: string;
@@ -59,4 +58,15 @@ export type ExpertDesignFormType = {
   logo: File | null;
   avatar: File | null;
   patternBg: File | null;
+};
+
+export type ListLandingResponseType = {
+  user: UserType;
+  landings: TableRow[];
+};
+
+export type InfoAddFormResponseType = {
+  user: UserType;
+  channels: ChannelType[];
+  domains: DomainType[];
 };

@@ -43,3 +43,19 @@ export type ButtonBotType = {
   link: string;
   id: number;
 };
+
+export type UserType =  {
+  id: number,
+  role: string,
+}
+
+export type DomainType = {
+  id: number,
+  url: string,
+}
+
+export type ChannelType = {
+  id: number,
+  channel_id: Int16Array,
+  title: string
+}

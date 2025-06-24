@@ -9,9 +9,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
             const cached = localStorage.getItem("auth_check");
             const parsed = cached ? JSON.parse(cached) : null;
 
-            console.log(parsed);
-            
-            
+                    
             setAuth(parsed?.status === true);
         };
 

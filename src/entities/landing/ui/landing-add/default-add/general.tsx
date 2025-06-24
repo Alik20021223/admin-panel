@@ -5,7 +5,8 @@ import { Button } from "@shadcdn/button"
 import { Form } from "@shadcdn/form"
 import { useForm } from "react-hook-form"
 import { Plus } from "lucide-react"
-import { defaultOptions } from "@shared/mock"
+import { defaultOptions, postBackOptions } from "@shared/mock"
+import { useQueryInfoAddForm } from "@entities/landing/hooks/get-info-add-form"
 
 
 const GeneralTab = () => {
@@ -19,6 +20,11 @@ const GeneralTab = () => {
         },
     })
 
+    const { data: InfoData } = useQueryInfoAddForm()
+
+    console.log(InfoData);
+    
+
     const onSubmitForm = (data: GeneralFormType) => {
         console.log(data);
 
@@ -31,7 +37,7 @@ const GeneralTab = () => {
                     <FormInput name="name" control={form.control} label="Введите название" />
                     <FormSelect name="domen" control={form.control} label="Домен" options={defaultOptions} />
                     <div className="grid grid-cols-2 gap-3 items-center">
-                        <FormSelect name="autoRedirect" control={form.control} label="Авторедирект" options={defaultOptions} />
+                        <FormSelect name="autoRedirect" control={form.control} label="Авторедирект" options={postBackOptions} />
                         <FormSelect name="spot" control={form.control} label="Спот" options={defaultOptions} />
                     </div>
 

@@ -30,7 +30,7 @@ export const isAuthenticated = async (): Promise<boolean> => {
   const now = Date.now();
 
   if (parsed && now - parsed.timestamp < ONE_HOUR) {
-    console.log("lox");
+    return parsed.status;
   }
 
   try {

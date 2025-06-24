@@ -1,5 +1,5 @@
 import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel, getSortedRowModel } from '@tanstack/react-table';
-import { tableHeaderMock } from '@entities/landing/mock';
+import { tableDataMock, tableHeaderMock } from '@entities/landing/mock';
 import {
     Table,
     TableBody,
@@ -29,7 +29,7 @@ const TableLanding = () => {
     const { data } = useQueryListLanding()
 
     const table = useReactTable({
-        data: data?.data,
+        data: tableDataMock,
         columns: tableHeaderMock,
         state: {
             columnVisibility: columnVisibility,
