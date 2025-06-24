@@ -5,10 +5,10 @@ import ButtonsActionsTable from '@entities/landing/ui/buttonsActionsTable';
 
 
 export const tableHeaderMock: CustomColumnDef<TableRow>[] = [
-  { id: "id", accessorKey: "id", header: "ID", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "name", accessorKey: "name", header: "Название", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "domen", accessorKey: "domen", header: "Домен", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "spot", accessorKey: "spot", header: "Спот", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
+  { id: "landing_id", accessorKey: "landing_id", header: "ID", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
+  { id: "title", accessorKey: "title", header: "Название", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
+  { id: "spot_title", accessorKey: "spot_title", header: "Домен", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
+  { id: "domain", accessorKey: "domain", header: "Спот", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
   {
     id: "actions",
     accessorKey: "actions",
@@ -18,25 +18,5 @@ export const tableHeaderMock: CustomColumnDef<TableRow>[] = [
       style: { width: "252px" },
     },
   }
-
-];
-
-
-
-
-export const tableDataMock: TableRow[] = [
-  {
-    id: 1,
-    name: "Канал A",
-    domen: "example.com",
-    spot: "test 1",
-  },
-  {
-    id: 2,
-    name: "Канал B",
-    domen: "test.ru",
-    spot: "test 2",
-
-  },
 ];
 

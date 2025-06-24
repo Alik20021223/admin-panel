@@ -1,5 +1,5 @@
 import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel, getSortedRowModel } from '@tanstack/react-table';
-import { tableDataMock, tableHeaderMock } from '@entities/landing/mock';
+import { tableHeaderMock } from '@entities/landing/mock';
 import {
     Table,
     TableBody,
@@ -11,6 +11,7 @@ import {
 import { useLandingTableStore } from '@entities/landing/store';
 import { useEffect } from 'react';
 import { ArrowDownUp } from 'lucide-react';
+import { useQueryListLanding } from '../../hooks/get-list-landings';
 
 const TableLanding = () => {
 
@@ -25,8 +26,10 @@ const TableLanding = () => {
         setColumnPinning
     } = useLandingTableStore()
 
+    const { data } = useQueryListLanding()
+
     const table = useReactTable({
-        data: tableDataMock,
+        data: data?.data,
         columns: tableHeaderMock,
         state: {
             columnVisibility: columnVisibility,

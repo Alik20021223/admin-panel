@@ -1,10 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 export type TableRow = {
-  id: number;
-  name: string;
-  domen: string;
-  spot: string;
+  landing_id: string;
+  title: string;
+  spot_title: string;
+  domain: string;
 };
 
 
