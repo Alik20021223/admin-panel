@@ -8,14 +8,18 @@ import { ControllerRenderProps, FieldValues, Path } from "react-hook-form"
 interface DropFieldInnerProps<T extends FieldValues> {
     field: ControllerRenderProps<T, Path<T>>
     label?: string
+    disabled?: boolean
 }
 
-const DropFieldInner = <T extends FieldValues>({ field, label = "Медиа" }: DropFieldInnerProps<T>) => {
-    const { getRootProps, getInputProps } = useDropzone({
-        onDrop: (acceptedFiles: File[]) => {
-            field.onChange(acceptedFiles)
-        },
-    })
+const DropFieldInner = <T extends FieldValues>({ field, label = "Медиа", disabled }: DropFieldInnerProps<T>) => {
+    const { getRootProps, getInputProps } = useDropzone(
+        disabled
+            ? { noClick: true, noDrag: true, disabled: true }
+            : {
+                onDrop: (acceptedFiles: File[]) => field.onChange(acceptedFiles),
+            }
+    );
+
 
     return (
         <FormItem>
@@ -26,17 +30,21 @@ const DropFieldInner = <T extends FieldValues>({ field, label = "Медиа" }: 
                     border: "2px dashed #4285f4",
                     padding: 40,
                     borderRadius: 12,
-                    cursor: "pointer"
+                    cursor: disabled ? "not-allowed" : "pointer",
+                    opacity: disabled ? 0.5 : 1,
                 }}
             >
-                <input {...getInputProps()} />
+                <input {...getInputProps()} disabled={disabled} />
                 <div className="space-x-2 flex justify-center items-center">
                     <MousePointerClick className="text-blue-500" />
                     <p className="text-blue-500 text-sm">
-                        Перетяните или выберите файл на вашем устройстве
+                        {disabled
+                            ? "Файл уже добавлен"
+                            : "Перетяните или выберите файл на вашем устройстве"}
                     </p>
                 </div>
             </div>
+
 
             {Array.isArray(field.value) && field.value.length > 0 && (
                 <div className="mt-2 text-sm text-gray-600">

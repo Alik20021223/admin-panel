@@ -5,14 +5,20 @@ import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { TranslateFormType } from "@entities/landing/types";
 import FormInput from "@feature/formInput";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { expertTranslateSchema } from "../validation";
 
 interface ExpertTranslateTabProps {
     onNextStep: () => void;
 }
 
 
+
+
 const ExpertTranslateTab = ({ onNextStep }: ExpertTranslateTabProps) => {
     const form = useForm<TranslateFormType>({
+        resolver: zodResolver(expertTranslateSchema),
+        mode: "onChange",
         defaultValues: {
             textDownload: "",
             textViewTelegram: "",
@@ -36,7 +42,14 @@ const ExpertTranslateTab = ({ onNextStep }: ExpertTranslateTabProps) => {
                     </div>
 
                     <div className="col-span-3">
-                        <Button type="submit" className="space-x-2 w-full"><Plus className="w-4 h-4" />Создать лендинг</Button>
+                        <Button
+                            disabled={!form.formState.isValid}
+                            type="submit"
+                            className="space-x-2 w-full"
+                        >
+                            <Plus className="w-4 h-4" />
+                            Создать лендинг
+                        </Button>
                     </div>
                 </form>
             </Form>

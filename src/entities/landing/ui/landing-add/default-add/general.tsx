@@ -7,11 +7,18 @@ import { useForm } from "react-hook-form"
 import { Plus } from "lucide-react"
 import { defaultOptions, postBackOptions } from "@shared/mock"
 import { useQueryInfoAddForm } from "@entities/landing/hooks/get-info-add-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { defaultGeneralSchema } from "../validation"
 
+interface GeneralTabProps {
+    onNextStep: () => void;
+}
 
-const GeneralTab = () => {
+const GeneralTab = ({ onNextStep }: GeneralTabProps) => {
 
     const form = useForm<GeneralFormType>({
+        resolver: zodResolver(defaultGeneralSchema),
+        mode: "onChange",
         defaultValues: {
             name: "",
             spot: "",
@@ -23,11 +30,11 @@ const GeneralTab = () => {
     const { data: InfoData } = useQueryInfoAddForm()
 
     console.log(InfoData);
-    
+
 
     const onSubmitForm = (data: GeneralFormType) => {
         console.log(data);
-
+        onNextStep()
     }
 
     return (
@@ -42,7 +49,14 @@ const GeneralTab = () => {
                     </div>
 
                     <div className="col-span-3">
-                        <Button type="submit" className="space-x-2 w-full"><Plus className="w-4 h-4" />Создать лендинг</Button>
+                        <Button
+                            disabled={!form.formState.isValid}
+                            type="submit"
+                            className="space-x-2 w-full"
+                        >
+                            <Plus className="w-4 h-4" />
+                            Создать лендинг
+                        </Button>
                     </div>
                 </form>
             </Form>

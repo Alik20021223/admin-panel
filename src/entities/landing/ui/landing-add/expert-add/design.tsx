@@ -5,13 +5,19 @@ import { Controller, useForm } from 'react-hook-form';
 import { Plus } from 'lucide-react';
 import FormColorPicker from '@feature/formColorPicker';
 import DropFieldInner from '@feature/dropField';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { expertDesignSchema } from '../validation';
 
 interface ExpertDesignTabProps {
     onNextStep: () => void;
 }
 
+
 const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
+
     const form = useForm<ExpertDesignFormType>({
+        resolver: zodResolver(expertDesignSchema),
+        mode: "onChange",
         defaultValues: {
             colorBgBanner: "",
             bgColor: "",
@@ -61,7 +67,14 @@ const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
                     </div>
 
                     <div className="col-span-3">
-                        <Button type="submit" className="space-x-2 w-full"><Plus className="w-4 h-4" />Создать лендинг</Button>
+                        <Button
+                            disabled={!form.formState.isValid}
+                            type="submit"
+                            className="space-x-2 w-full"
+                        >
+                            <Plus className="w-4 h-4" />
+                            Создать лендинг
+                        </Button>
                     </div>
                 </form>
             </Form>

@@ -5,10 +5,14 @@ import { Form } from "@shadcdn/form";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { AccessFormType } from "@entities/landing/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AccessSchema } from "../validation";
 
 
 const AccessTab = () => {
     const form = useForm<AccessFormType>({
+        resolver: zodResolver(AccessSchema),
+        mode: "onChange",
         defaultValues: {
             // channelAccess: '',
             deleteAccess: '',
@@ -32,7 +36,14 @@ const AccessTab = () => {
                     </div>
 
                     <div className="col-span-3">
-                        <Button type="submit" className="space-x-2 w-full"><Plus className="w-4 h-4" />Создать лендинг</Button>
+                        <Button
+                            disabled={!form.formState.isValid}
+                            type="submit"
+                            className="space-x-2 w-full"
+                        >
+                            <Plus className="w-4 h-4" />
+                            Создать лендинг
+                        </Button>
                     </div>
                 </form>
             </Form>

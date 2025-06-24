@@ -17,6 +17,7 @@ import {
 import { BadgeInfo } from "lucide-react";
 import { ColorPicker, ColorPickerChangeEvent } from "primereact/colorpicker";
 
+
 interface FormColorPickerInnerProps<T extends FieldValues> {
     field: ControllerRenderProps<T, Path<T>>;
     label?: string;
@@ -31,7 +32,6 @@ const FormColorPickerInner = <T extends FieldValues>({
     tooltipText,
 }: FormColorPickerInnerProps<T>) => {
     const [color, setColor] = useState(field.value?.replace("#", "") || "ff0000");
-
     useEffect(() => {
         if (field.value !== `#${color}`) {
             setColor(field.value?.replace("#", "") || "ff0000");
