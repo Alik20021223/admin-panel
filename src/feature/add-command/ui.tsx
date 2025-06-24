@@ -63,7 +63,7 @@ const AddCommand: React.FC<AddCommandProps> = ({ name }) => {
                                     name={`${name}.${index}.descriptionCommand`}
                                     control={control}
                                     render={({ field }) => (
-                                        <CustomEditor value={field.value ?? ''} onChange={field.onChange} />
+                                        <CustomEditor value={field.value ?? ''} label="Описание команды" onChange={field.onChange} />
                                     )}
                                 />
 

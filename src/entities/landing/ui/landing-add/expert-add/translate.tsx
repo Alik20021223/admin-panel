@@ -6,8 +6,12 @@ import { useForm } from "react-hook-form";
 import { TranslateFormType } from "@entities/landing/types";
 import FormInput from "@feature/formInput";
 
+interface ExpertTranslateTabProps {
+    onNextStep: () => void;
+}
 
-const ExpertTranslateTab = () => {
+
+const ExpertTranslateTab = ({ onNextStep }: ExpertTranslateTabProps) => {
     const form = useForm<TranslateFormType>({
         defaultValues: {
             textDownload: "",
@@ -18,7 +22,7 @@ const ExpertTranslateTab = () => {
 
     const onSubmitForm = (data: TranslateFormType) => {
         console.log(data);
-
+        onNextStep()
     }
 
     return (

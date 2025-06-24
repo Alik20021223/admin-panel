@@ -29,7 +29,7 @@ export type GeneralFormType = {
 };
 
 export type AccessFormType = {
-  channelAccess: string;
+  // channelAccess: string;
   showToCountry: string;
   deleteAccess: string;
 };

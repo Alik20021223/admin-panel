@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useRef, useState } from 'react';
 import { Editor } from 'primereact/editor';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
@@ -12,6 +10,13 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '
 import { Input } from '@shadcdn/input';
 import { Button } from '@shadcdn/button';
 import Quill from 'quill';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@shadcdn/tooltip";
+import { BadgeInfo } from 'lucide-react';
 
 type Range = {
     index: number;
@@ -21,9 +26,12 @@ type Range = {
 interface CustomEditorProps {
     value: string;
     onChange: (value: string) => void;
+    label: string;
+    tooltipText?: string
+    readOnly?: boolean
 }
 
-export default function CustomEditor({ value, onChange }: CustomEditorProps) {
+export default function CustomEditor({ value, onChange, label, tooltipText, readOnly }: CustomEditorProps) {
     const [showEmojiDialog, setShowEmojiDialog] = useState(false);
     const [showLinkModal, setShowLinkModal] = useState(false);
     const [linkValue, setLinkValue] = useState('');
@@ -52,8 +60,16 @@ export default function CustomEditor({ value, onChange }: CustomEditorProps) {
         return () => {
             quill.off('text-change', handleTextChange);
         };
-    }, [linkMode, linkValue, onChange]);
+    }, [linkMode, linkValue, onChange]); // Логика для ссылки
 
+    useEffect(() => {
+        if (editorRef.current?.getQuill) {
+            const quill = editorRef.current.getQuill();
+            if (quill) {
+                quill.enable(!readOnly);
+            }
+        }
+    }, [readOnly]);
 
 
     const handleEmojiClick = (emojiData: EmojiClickData) => {
@@ -106,9 +122,6 @@ export default function CustomEditor({ value, onChange }: CustomEditorProps) {
 
     };
 
-
-
-
     const toggleOffLinkMode = () => {
         const quill = editorRef.current?.getQuill();
         if (linkMode) {
@@ -150,7 +163,24 @@ export default function CustomEditor({ value, onChange }: CustomEditorProps) {
     return (
         <>
             <div className="flex gap-4">
-                <div className="w-full">
+                <div className="w-full space-y-2">
+                    {label && (
+                        <div className="flex items-center gap-1">
+                            <label className="text-sm font-medium">{label}</label>
+                            {tooltipText && (
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <BadgeInfo className="w-4 h-4 text-muted-foreground cursor-help" />
+                                        </TooltipTrigger>
+                                        <TooltipContent className="max-w-[300px]">
+                                            <p>{tooltipText}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            )}
+                        </div>
+                    )}
                     <Editor
                         ref={editorRef}
                         value={value}

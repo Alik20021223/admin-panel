@@ -10,7 +10,7 @@ import { AccessFormType } from "@entities/landing/types";
 const AccessTab = () => {
     const form = useForm<AccessFormType>({
         defaultValues: {
-            channelAccess: '',
+            // channelAccess: '',
             deleteAccess: '',
             showToCountry: '',
         },
@@ -26,7 +26,7 @@ const AccessTab = () => {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmitForm)} className="space-y-3">
                     <div className="grid grid-cols-2 gap-3 items-center">
-                        <FormSelect name="channelAccess" control={form.control} label="Права на канал" options={defaultOptions} />
+                        {/* <FormSelect name="channelAccess" control={form.control} label="Права на канал" options={defaultOptions} /> */}
                         <FormSelect name="showToCountry" control={form.control} label="Показывать для стран" options={defaultOptions} />
                         <FormSelect name="deleteAccess" control={form.control} label="Права на удаление" options={defaultOptions} />
                     </div>

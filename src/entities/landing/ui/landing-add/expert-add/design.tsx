@@ -6,7 +6,11 @@ import { Plus } from 'lucide-react';
 import FormColorPicker from '@feature/formColorPicker';
 import DropFieldInner from '@feature/dropField';
 
-const ExpertDesignTab = () => {
+interface ExpertDesignTabProps {
+    onNextStep: () => void;
+}
+
+const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
     const form = useForm<ExpertDesignFormType>({
         defaultValues: {
             colorBgBanner: "",
@@ -20,7 +24,7 @@ const ExpertDesignTab = () => {
 
     const onSubmitForm = (data: ExpertDesignFormType) => {
         console.log(data);
-
+        onNextStep()
     }
 
     return (

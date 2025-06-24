@@ -67,7 +67,7 @@ const BotSpotAppTab = ({ form }: BotSpotAppProps) => {
                             name="textHello"
                             control={form.control}
                             render={({ field }) => (
-                                <CustomEditor value={field.value ?? ''} onChange={field.onChange} />
+                                <CustomEditor value={field.value ?? ''} label="Текст приветствия" onChange={field.onChange} />
                             )}
                         />
 

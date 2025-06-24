@@ -39,3 +39,11 @@ export const tableDataMock: TableRow[] = [
   },
 ];
 
+export const stepsLandingExpAdd = [
+  { value: "general", label: "Общее" },
+  { value: "design", label: "Дизайн" },
+  { value: "translate", label: "Перевод" },
+  { value: "access", label: "Доступ" },
+];
+
+

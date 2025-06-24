@@ -77,7 +77,7 @@ const AddMailing = () => {
                             name="text"
                             control={form.control}
                             render={({ field }) => (
-                                <CustomEditor value={field.value} onChange={field.onChange} />
+                                <CustomEditor value={field.value} label="Текст" onChange={field.onChange} />
                             )}
                         />
 

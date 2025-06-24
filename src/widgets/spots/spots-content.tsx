@@ -65,6 +65,7 @@ const SpotsContent = () => {
                         <ItemSpot item={item} />
                     ))}
                 </div>
+
             </div>
 
         </>

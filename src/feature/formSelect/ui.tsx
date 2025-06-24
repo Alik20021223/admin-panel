@@ -6,7 +6,7 @@ import {
     SelectValue,
 } from "@shadcdn/select"
 import { Controller, Control, FieldValues, Path } from "react-hook-form"
-import { FormControl, FormItem, FormLabel } from "@shadcdn/form"
+import { FormControl, FormItem, FormLabel, FormMessage } from "@shadcdn/form"
 import { BadgeInfo } from "lucide-react"
 import {
     Tooltip,
@@ -22,6 +22,7 @@ interface FormSelectProps<T extends FieldValues> {
     placeholder?: string
     options: { label: string; value: string }[]
     tooltipText?: string
+    disabled?: boolean
 }
 
 export const FormSelect = <T extends FieldValues>({
@@ -31,6 +32,7 @@ export const FormSelect = <T extends FieldValues>({
     placeholder = "Выберите",
     options,
     tooltipText,
+    disabled
 }: FormSelectProps<T>) => {
     return (
         <Controller
@@ -55,12 +57,13 @@ export const FormSelect = <T extends FieldValues>({
                             )}
                         </div>
                     )}
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select disabled={disabled} onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                             <SelectTrigger className="w-full">
                                 <SelectValue placeholder={placeholder} />
                             </SelectTrigger>
                         </FormControl>
+                        <FormMessage />
                         <SelectContent>
                             {options.map((option) => (
                                 <SelectItem key={option.value} value={option.value}>

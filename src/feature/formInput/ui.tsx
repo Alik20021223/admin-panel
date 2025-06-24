@@ -41,7 +41,7 @@ const FormInput = <T extends FieldValues>({
                 <FormItem>
                     {label && (
                         <div className="flex items-center gap-1">
-                            <label className="text-sm font-medium text-muted-foreground">{label}</label>
+                            <label className="text-sm font-medium">{label}</label>
                             {tooltipText && (
                                 <TooltipProvider>
                                     <Tooltip>
