@@ -4,15 +4,15 @@ import { Form } from "@/shared/shadcdn/form";
 import { Plus } from "lucide-react";
 import { Button } from "@shadcdn/button";
 import { AppSpotPostBackType } from "@entities/spots/types";
-
-type PostBackSpotAppProps = {
-    onNextStep: () => void;
-};
+import { zodResolver } from "@hookform/resolvers/zod";
+import { appSpotPostBackSchema } from "./validation";
 
 
-const PostBackTab = ({ onNextStep }: PostBackSpotAppProps) => {
+const PostBackTab = () => {
 
     const form = useForm<AppSpotPostBackType>({
+        mode: "onChange",
+        resolver: zodResolver(appSpotPostBackSchema),
         defaultValues: {
             postBack: [],
         }
@@ -20,7 +20,6 @@ const PostBackTab = ({ onNextStep }: PostBackSpotAppProps) => {
 
     const onSubmitForm = (data: AppSpotPostBackType) => {
         console.log(data);
-        onNextStep()
     }
 
     return (

@@ -116,14 +116,20 @@ export type FormFilterTypeFollower = {
 export type StepOneSpotChannel = {
   idChannel: string;
   tokenBot: string;
+  autoReception: string;
+  HelloSelect?: string;
+  textHello?: string;
+  mediaHello?: File | null;
+  buttonsTypeHello?: ButtonBotType[];
+  postBack: PostBack[];
 };
 
 export type CommandCondition = {
   commandCondition: string;
   textCommand: string;
   descriptionCommand: string;
-  buttonsTypeCommand: ButtonBotType[];
-  mediaCommand: File | null;
+  buttonsTypeCommand?: ButtonBotType[];
+  mediaCommand?: File | null;
 };
 
 export type outPostBackType = {
@@ -158,7 +164,7 @@ export type AppSpotBotType = {
   textHello?: string;
   mediaHello?: File | null;
   buttonsTypeHello?: ButtonBotType[];
-  command: CommandCondition[];
+  command?: CommandCondition[];
 };
 
 export type BotSpotType = {
@@ -166,4 +172,9 @@ export type BotSpotType = {
   shortName: string;
   linkToWebhook: string;
   postBack: PostBack[];
+};
+
+export type BotSpotBotType = {
+  shortName: string;
+  linkToWebhook: string;
 };

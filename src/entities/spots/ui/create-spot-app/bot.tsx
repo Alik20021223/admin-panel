@@ -12,6 +12,8 @@ import AddCommand from "@feature/add-command";
 import { Plus } from "lucide-react";
 import { Button } from "@shadcdn/button";
 import { Form } from "@shadcdn/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { appSpotBotSchema } from "./validation";
 
 type BotSpotAppProps = {
     onNextStep: () => void;
@@ -20,6 +22,8 @@ type BotSpotAppProps = {
 const BotSpotAppTab = ({ onNextStep }: BotSpotAppProps) => {
 
     const form = useForm<AppSpotBotType>({
+        mode: "onChange",
+        resolver: zodResolver(appSpotBotSchema),
         defaultValues: {
             botToken: '',
             userName: '',

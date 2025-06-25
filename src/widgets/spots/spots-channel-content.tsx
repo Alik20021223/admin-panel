@@ -1,4 +1,4 @@
-import FirstStep from "@entities/spots/ui/spot-channel/first-step-channel";
+import FirstStep from "@entities/spots/ui/spot-channel";
 
 
 const SpotsChannelContent = () => {

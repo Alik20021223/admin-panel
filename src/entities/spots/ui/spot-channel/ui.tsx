@@ -7,19 +7,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { StepOneSpotSchema } from "./validation";
 import { Checkbox } from "@shadcdn/checkbox";
 import { Label } from "@shadcdn/label";
+import { useState } from "react";
+import SecondStep from "./second-step";
 
 const FirstStep = () => {
+
+    const [checked, setChecked] = useState<boolean>(false)
+
     const form = useForm<StepOneSpotChannel>({
         resolver: zodResolver(StepOneSpotSchema),
         defaultValues: {
-            idChannel: '',
-            tokenBot: '',
+            idChannel: "",
+            tokenBot: "",
+            autoReception: "",
+            HelloSelect: "false",
+            textHello: "",
+            mediaHello: null,
+            buttonsTypeHello: [],
+            postBack: [],
         },
     })
 
     const onSubmitForm = (data: StepOneSpotChannel) => {
         console.log(data);
-
+        setChecked(true)
     }
 
 
@@ -33,28 +44,32 @@ const FirstStep = () => {
                             <FormInput name="tokenBot" control={form.control} label="Введите токен бота" placeholder="0000000:xxxxxxx" tooltipText="Токен бота который будет использоваться для трекинга и рассылок, токен выдается при создании бота в https://t.me/BotFather" />
                         </div>
                         <div className="col-span-3 flex flex-col w-full gap-3">
-                            <div className="bg-white border rounded-md p-4 space-y-3 text-sm text-neutral-700">
-                                <p className="text-base font-medium">Давайте проверим, что все работает</p>
+                            <div className="col-span-3 flex flex-col w-full gap-3">
+                                <div className="bg-white border rounded-md p-4 space-y-3 text-sm text-neutral-700">
+                                    <p className="text-base font-medium">Давайте проверим, что все работает</p>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox disabled id="check-bot-exists" />
+                                        <Label htmlFor="check-bot-exists">Существует ли бот с указанным токеном?</Label>
+                                    </div>
 
-                                <div className="flex items-center gap-2">
-                                    <Checkbox disabled id="check-bot-exists" />
-                                    <Label htmlFor="check-bot-exists">Существует ли бот с указанным токеном?</Label>
-                                </div>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox disabled id="check-bot-added" />
+                                        <Label htmlFor="check-bot-added">Добавлен ли бот в канал?</Label>
+                                    </div>
 
-                                <div className="flex items-center gap-2">
-                                    <Checkbox disabled id="check-bot-added" />
-                                    <Label htmlFor="check-bot-added">Добавлен ли бот в канал?</Label>
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox disabled id="check-bot-permissions" />
+                                        <Label htmlFor="check-bot-permissions">У бота есть все нужные права?</Label>
+                                    </div>
                                 </div>
-
-                                <div className="flex items-center gap-2">
-                                    <Checkbox disabled id="check-bot-permissions" />
-                                    <Label htmlFor="check-bot-permissions">У бота есть все нужные права?</Label>
-                                </div>
+                                <Button onClick={() => setChecked(true)} type="button" className="space-x-2 w-full">
+                                    Проверить
+                                </Button>
                             </div>
-                            <Button type="submit" className="space-x-2 w-full">
-                                Проверить
-                            </Button>
+
+                            <SecondStep form={form} />
                         </div>
+
                     </form>
                 </Form>
             </div>
