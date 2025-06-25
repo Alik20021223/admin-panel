@@ -141,8 +141,15 @@ export type PostBack = {
   outPostBackArray: outPostBackType[];
 };
 
-export type AppSpotType = {
+export type AppSpotPostBackType = {
+  postBack: PostBack[];
+};
+
+export type AppSpotGeneralType = {
   generalText: string;
+};
+
+export type AppSpotBotType = {
   botToken: string;
   userName: string;
   linkToApp: string;
@@ -152,7 +159,6 @@ export type AppSpotType = {
   mediaHello?: File | null;
   buttonsTypeHello?: ButtonBotType[];
   command: CommandCondition[];
-  postBack: PostBack[];
 };
 
 export type BotSpotType = {

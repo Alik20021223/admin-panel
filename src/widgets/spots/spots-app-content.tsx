@@ -10,26 +10,7 @@ import PostBackTab from "@entities/spots/ui/create-spot-app/postback";
 
 const SpotsAppContent = () => {
 
-    const form = useForm<AppSpotType>({
-        defaultValues: {
-            generalText: '',
-            botToken: '',
-            userName: '',
-            linkToApp: '',
-            linkToName: '',
-            HelloSelect: "false", // ← переключатель, если true — показывать textHello и т.д.
-            textHello: '',       // ← условное поле
-            mediaHello: null,    // ← файл
-            buttonsTypeHello: [],// ← массив кнопок
-            command: [],           // ← массив команд (может быть пустой по умолчанию)
-            postBack: [],
-        }
-    });
-
-
-    const onSubmitForm = (data: AppSpotType) => {
-        console.log(data);
-    }
+    
 
     return (
         <>
@@ -42,9 +23,6 @@ const SpotsAppContent = () => {
                     </TabsList>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmitForm)}>
-                            <TabsContent className="mt-5" value="general">
-                                <GeneralTab control={form.control} />
-                            </TabsContent>
                             <TabsContent className="mt-5" value="bot">
                                 <BotSpotAppTab form={form} />
                             </TabsContent>

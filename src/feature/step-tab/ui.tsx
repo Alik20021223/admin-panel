@@ -14,6 +14,7 @@ interface StepTabsProps {
     onCompleteStep: (step: string) => void;
     isLockedBack?: boolean;
     onFinish?: () => void;
+    disableStepLock?: boolean;
 }
 
 export const StepTabs = ({
@@ -24,6 +25,7 @@ export const StepTabs = ({
     onCompleteStep,
     isLockedBack = true,
     onFinish,
+    disableStepLock
 }: StepTabsProps) => {
     const goToNextStep = () => {
         const currentIndex = steps.findIndex(s => s.value === currentStep);
@@ -41,11 +43,17 @@ export const StepTabs = ({
         <Tabs
             value={currentStep}
             onValueChange={(val) => {
+                if (disableStepLock) {
+                    onStepChange(val);
+                    return;
+                }
+
                 const currentIndex = steps.findIndex(s => s.value === currentStep);
                 const nextIndex = steps.findIndex(s => s.value === val);
                 const canGo =
                     (!isLockedBack || nextIndex >= currentIndex) &&
                     completedSteps.includes(val);
+
                 if (canGo) onStepChange(val);
             }}
             className="w-full"
@@ -54,9 +62,12 @@ export const StepTabs = ({
                 {steps.map((step) => {
                     const stepIndex = steps.findIndex(s => s.value === step.value);
                     const currentIndex = steps.findIndex(s => s.value === currentStep);
-                    const isLocked =
+
+                    const isLocked = !disableStepLock && (
                         (isLockedBack && stepIndex < currentIndex) ||
-                        (stepIndex > currentIndex && !completedSteps.includes(step.value));
+                        (stepIndex > currentIndex && !completedSteps.includes(step.value))
+                    );
+
                     return (
                         <TabsTrigger key={step.value} value={step.value} disabled={isLocked}>
                             {step.label}
@@ -64,6 +75,7 @@ export const StepTabs = ({
                     );
                 })}
             </TabsList>
+
 
             {steps.map((step) => (
                 <TabsContent className="mt-5" key={step.value} value={step.value}>
