@@ -26,12 +26,7 @@ export type GeneralFormType = {
   domen: string;
   autoRedirect: string;
   spot: string;
-};
-
-export type AccessFormType = {
-  // channelAccess: string;
   showToCountry: string;
-  deleteAccess: string;
 };
 
 export type TranslateFormType = {
@@ -43,8 +38,9 @@ export type TranslateFormType = {
 export type ExpertGeneralFormType = {
   name: string;
   title: string;
-  whitePage: string;
+  // whitePage: string;
   description: string;
+  showToCountry: string;
   domen: string;
   autoRedirect: string;
   spot: string;
@@ -67,6 +63,9 @@ export type ListLandingResponseType = {
 
 export type InfoAddFormResponseType = {
   user: UserType;
-  channels: ChannelType[];
+  spots: ChannelType[];
   domains: DomainType[];
+  auto_redirect: boolean;
+  text_button: string;
+  text_members: string;
 };

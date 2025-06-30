@@ -17,8 +17,20 @@ export type UserInfo = {
 };
 
 export type UserInfoResponse = {
-  user: UserInfo
-}
+  user: UserInfo;
+};
+
+export type domainItem = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  url: string;
+};
+
+export type DomainListResponse = {
+  domain: domainItem[];
+};
 
 export type BreadCrumpType = {
   PATH: string;
@@ -44,18 +56,18 @@ export type ButtonBotType = {
   id: number;
 };
 
-export type UserType =  {
-  id: number,
-  role: string,
-}
+export type UserType = {
+  id: number;
+  role: string;
+};
 
 export type DomainType = {
-  id: number,
-  url: string,
-}
+  id: number;
+  url: string;
+};
 
 export type ChannelType = {
-  id: number,
-  channel_id: Int16Array,
-  title: string
-}
+  id: number;
+  channel_id: Int16Array;
+  title: string;
+};

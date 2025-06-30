@@ -1,12 +1,13 @@
 // stores/useStatisticTableStore.ts
 import { create } from "zustand";
-import { TableRow } from "@entities/landing/types";
+import { InfoAddFormResponseType, TableRow } from "@entities/landing/types";
 import {
   Updater,
   VisibilityState,
   Column,
   ColumnPinningState,
 } from "@tanstack/react-table";
+import { MockInitialData } from "../mock";
 
 interface LandingTableState {
   columnVisibility: VisibilityState;
@@ -20,10 +21,14 @@ interface LandingTableState {
 
   columnPinning: ColumnPinningState;
   setColumnPinning: (updater: Updater<ColumnPinningState>) => void; // для закрепа
+
+  infoData: InfoAddFormResponseType;
+  setInfoData: (data: InfoAddFormResponseType) => void;
 }
 
-export const useLandingTableStore = create<LandingTableState>((set, get) => ({
-
+export const useLandingStore = create<LandingTableState>((set, get) => ({
+  infoData: MockInitialData,
+  setInfoData: (data) => set({infoData: data}),
 
   columnVisibility: {},
   setColumnVisibility: (updater) => {

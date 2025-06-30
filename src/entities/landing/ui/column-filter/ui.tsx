@@ -9,7 +9,7 @@ import {
     DialogTrigger,
 } from "@shadcdn/dialog"
 import { Funnel, Save } from 'lucide-react';
-import { useLandingTableStore } from "@entities/landing/store";
+import { useLandingStore } from "@entities/landing/store";
 import SortableItemBlockColumn from "./item-block-column";
 import {
     DndContext,
@@ -28,7 +28,7 @@ import {
 
 const ColumnFilter = () => {
 
-    const { allColumns, setAllColumns, setColumnOrder } = useLandingTableStore()
+    const { allColumns, setAllColumns, setColumnOrder } = useLandingStore()
 
     const sensors = useSensors(useSensor(PointerSensor));
 

@@ -4,7 +4,7 @@ import { TableRow } from "@entities/landing/types"
 import { Button } from "@shadcdn/button";
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { useLandingTableStore } from "@entities/landing/store";
+import { useLandingStore } from "@entities/landing/store";
 
 
 interface ItemBlockColumnProps {
@@ -13,7 +13,7 @@ interface ItemBlockColumnProps {
 }
 
 const ItemBlockColumn: React.FC<ItemBlockColumnProps> = ({ item, dragHandleProps }) => {
-    const { columnVisibility, columnPinning, setColumnPinning } = useLandingTableStore();
+    const { columnVisibility, columnPinning, setColumnPinning } = useLandingStore();
 
     const isVisible = columnVisibility[item.id] !== false;
     const isPinned = (columnPinning.left ?? []).includes(item.id);

@@ -11,6 +11,8 @@ import { defaultGeneralSchema } from "../validation"
 import { mapToSelectOptions } from "@shared/utils"
 import { useLandingStore } from "@/entities/landing/store"
 import { useEffect } from "react"
+import { countryMock } from "country-data"
+import { FormSelectCountry } from "@feature/formSelectСountry"
 
 interface GeneralTabProps {
     onNextStep: () => void;
@@ -27,6 +29,7 @@ const GeneralTab = ({ onNextStep }: GeneralTabProps) => {
             name: "",
             spot: "",
             domen: "",
+            showToCountry: "",
             autoRedirect: String(infoData.auto_redirect),
         },
     })
@@ -34,8 +37,8 @@ const GeneralTab = ({ onNextStep }: GeneralTabProps) => {
     useEffect(() => {
         if (infoData.auto_redirect !== false) {
 
-            console.log(infoData);
-            
+            // console.log(infoData);
+
             form.reset({
                 name: "",
                 spot: "",
@@ -45,8 +48,8 @@ const GeneralTab = ({ onNextStep }: GeneralTabProps) => {
         }
     }, [infoData.auto_redirect]);
 
-    console.log(form.watch());
-    
+    // console.log(form.watch());
+
 
 
 
@@ -69,6 +72,7 @@ const GeneralTab = ({ onNextStep }: GeneralTabProps) => {
                 <form onSubmit={form.handleSubmit(onSubmitForm)} className="space-y-3">
                     <FormInput name="name" control={form.control} label="Введите название" />
                     <FormSelect name="domen" control={form.control} label="Домен" options={DomainOptions} />
+                    <FormSelectCountry name="showToCountry" control={form.control} label="Показывать для стран" options={countryMock} />
                     <div className="grid grid-cols-2 gap-3 items-center">
                         <FormSelect name="autoRedirect" control={form.control} label="Авторедирект" options={postBackOptions} />
                         <FormSelect name="spot" control={form.control} label="Спот" options={SpotsOptions} />

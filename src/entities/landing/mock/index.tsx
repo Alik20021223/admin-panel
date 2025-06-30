@@ -46,4 +46,16 @@ export const stepsLandingExpAdd = [
   { value: "access", label: "Доступ" },
 ];
 
+export const MockInitialData = {
+  user: {
+    id: 1,
+    role: "",
+  },
+  spots: [],
+  domains: [],
+  text_button: "",
+  text_members: "",
+  auto_redirect: false,
+}
+
 

@@ -8,7 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "@shadcdn/table"
-import { useLandingTableStore } from '@entities/landing/store';
+import { useLandingStore } from '@entities/landing/store';
 import { useEffect } from 'react';
 import { ArrowDownUp } from 'lucide-react';
 import { useQueryListLanding } from '../../hooks/get-list-landings';
@@ -24,7 +24,7 @@ const TableLanding = () => {
         columnOrder,
         columnPinning,
         setColumnPinning
-    } = useLandingTableStore()
+    } = useLandingStore()
 
     const { data } = useQueryListLanding()
 

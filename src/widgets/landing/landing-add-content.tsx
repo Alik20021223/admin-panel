@@ -1,15 +1,15 @@
 import { LANDINGS } from "@entities/landing/constant/url";
 import DynamicBreadcrumbs from "@feature/dynamicBreadcrump";
 import GeneralTab from "@entities/landing/ui/landing-add/default-add/general";
-import AccessTab from "@entities/landing/ui/landing-add/default-add/access";
 import { Label } from "@shadcdn/label";
 import { Switch } from "@shadcdn/switch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ExpertTranslateTab from "@entities/landing/ui/landing-add/expert-add/translate";
-import ExpertAccessTab from "@entities/landing/ui/landing-add/expert-add/access";
 import ExpertGeneralTab from "@entities/landing/ui/landing-add/expert-add/general";
 import ExpertDesignTab from "@entities/landing/ui/landing-add/expert-add/design";
 import { StepTabItem, StepTabs } from "@feature/step-tab";
+import { useQueryInfoAddForm } from "@entities/landing/hooks/get-info-add-form";
+import { useLandingStore } from "@entities/landing/store";
 
 const PATH_MAP = {
     landings: LANDINGS,
@@ -19,6 +19,21 @@ const LandingAddContent = () => {
     const [isExpertVersion, setIsExpertVersion] = useState(false);
     const [currentStep, setCurrentStep] = useState("general");
     const [completedSteps, setCompletedSteps] = useState<string[]>([]);
+
+    const { setInfoData } = useLandingStore();
+
+    const { refetch } = useQueryInfoAddForm({
+        enabled: false,
+    });
+
+    useEffect(() => {
+        refetch().then((result) => {
+            if (result.data) {
+                setInfoData(result.data);
+            }
+        });
+    }, []);
+
 
     const steps: StepTabItem[] = isExpertVersion
         ? [
@@ -37,11 +52,6 @@ const LandingAddContent = () => {
                 label: "Переводы",
                 content: ({ onNextStep }) => <ExpertTranslateTab onNextStep={onNextStep} />,
             },
-            {
-                value: "access",
-                label: "Доступ",
-                content: <ExpertAccessTab />,
-            },
         ]
         : [
             {
@@ -59,11 +69,6 @@ const LandingAddContent = () => {
                         />
                     );
                 },
-            },
-            {
-                value: "access",
-                label: "Доступ",
-                content: <AccessTab />,
             },
         ];
 
@@ -91,6 +96,7 @@ const LandingAddContent = () => {
                     onCompleteStep={(step: string) =>
                         setCompletedSteps((prev) => [...new Set([...prev, step])])
                     }
+                    disableStepLock={true}
                 />
             </div>
 

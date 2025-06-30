@@ -9,6 +9,8 @@ import { defaultOptions } from "@shared/mock";
 import CustomEditor from "@feature/text-editor";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { expertGeneralSchema } from "../validation";
+import { countryMock } from "country-data";
+import { FormSelectCountry } from "@feature/formSelectСountry";
 
 
 
@@ -26,9 +28,9 @@ const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
             domen: '',
             description: "",
             title: '',
-            whitePage: '',
             countUsers: '',
             autoRedirect: '',
+            showToCountry: '',
         },
     })
 
@@ -43,7 +45,8 @@ const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
                 <form onSubmit={form.handleSubmit(onSubmitForm)} className="space-y-3">
                     <FormInput name="name" control={form.control} label="Название" />
                     <FormInput name="title" control={form.control} label="Заголовок" />
-                    <FormSelect name="whitePage" control={form.control} label="White page" options={defaultOptions} />
+                    {/* <FormSelect name="whitePage" control={form.control} label="White page" options={defaultOptions} /> */}
+                    <FormSelectCountry name="showToCountry" control={form.control} label="Показывать для стран" options={countryMock} />
                     <Controller
                         name="description"
                         control={form.control}
