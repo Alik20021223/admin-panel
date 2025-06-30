@@ -6,6 +6,7 @@ import ModalGenLink from '../modal-gen-link'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ModalDelete from '@feature/modal-delete'
+import { useDeleteSpot } from '@entities/spots/hooks/delete-landing-list'
 
 interface ItemSpotProps {
     item: ItemSpotType
@@ -19,12 +20,17 @@ const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
 
     const navigate = useNavigate()
 
+    const { mutateAsync } = useDeleteSpot()
+
     const OpenDeleteModal = (id: string) => {
         setDeleteId(id)
         setOpenDelete(true)
     }
 
+
+
     const onDeleteSpot = (id: string) => {
+        mutateAsync(Number(id))
         console.log(id);
     }
 

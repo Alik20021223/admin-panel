@@ -1,4 +1,4 @@
-import { Button } from "@shared/shadcdn/button";
+import { Button } from "@shadcdn/button";
 import { Plus } from "lucide-react";
 import ColumnFilter from "@entities/landing/ui/column-filter";
 import TableLanding from "@entities/landing/ui/table";

@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { AppSpotGeneralType } from "@entities/spots/types";
 import FormInput from "@feature/formInput";
-import { Form } from "@shared/shadcdn/form";
+import { Form } from "@shadcdn/form";
 import { Plus } from "lucide-react";
 import { Button } from "@shadcdn/button";
 import { zodResolver } from "@hookform/resolvers/zod";

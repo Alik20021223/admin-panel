@@ -1,8 +1,8 @@
-import LoginPage from "@/pages/login-register/login-page";
-import RegisterPage from "@/pages/login-register/register-page";
+import LoginPage from "@pages/login-register/login-page";
+import RegisterPage from "@pages/login-register/register-page";
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import MainLayout from "@app/layouts/main-layout";
-import StatisticPage from "@/pages/statistic/statistic-page";
+import StatisticPage from "@pages/statistic/statistic-page";
 
 import { MAILING_ROUTES } from "@entities/mailings/router";
 import { LANDING_ROUTES } from "@entities/landing/router";

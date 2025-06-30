@@ -9,7 +9,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@shared/shadcdn/dialog"
+} from "@shadcdn/dialog"
 
 function Command({
   className,

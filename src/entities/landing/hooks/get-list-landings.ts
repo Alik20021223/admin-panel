@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import landingsService from "@entities/landing/service";
+import landingsService from "@/entities/landing/service/index.service";
 import { ListLandingResponseType } from "@entities/landing/types";
 
 const initialData: ListLandingResponseType = {
@@ -12,7 +12,7 @@ const initialData: ListLandingResponseType = {
 
 export function useQueryListLanding() {
   const { isLoading, isError, data, error, refetch } = useQuery({
-    queryKey: ["list-statistic"],
+    queryKey: ["list-landings"],
     queryFn: () => landingsService.getListLandings(),
     retry: false,
     initialData: initialData,

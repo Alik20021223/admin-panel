@@ -18,6 +18,12 @@ class Landings_service {
 
     return result.data;
   }
+
+  async deleteFromLandingList(id: number) {
+    const result = await axiosInstance.delete(`${LANDINGS_URL.LIST}/${id}`);
+
+    return result.data;
+  }
 }
 
 export default new Landings_service();

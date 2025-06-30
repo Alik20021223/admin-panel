@@ -1,6 +1,6 @@
 import { CellContext } from "@tanstack/react-table"
-import { TableRow } from "@entities/landing/types"
-import { CopyPlus, Files, ChevronRight, Edit, Trash } from "lucide-react"
+import { TableRow } from "@entities/mailings/types"
+import { CopyPlus, Edit, Trash } from "lucide-react"
 import { TooltipProvider } from "@shadcdn/tooltip"
 import IconButtonWithTooltip from "@feature/iconButtonTooltip"
 import ModalDelete from "@feature/modal-delete"
@@ -14,12 +14,12 @@ interface ButtonsActionsTableProps {
 const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
 
     const [openDelete, setOpenDelete] = useState(false)
-    const [deleteId, setDeleteId] = useState('')
+    const [deleteId, setDeleteId] = useState("")
 
     const { mutateAsync } = useDeleteLanding()
 
-    const OpenDeleteModal = (id: string) => {
-        setDeleteId(id)
+    const OpenDeleteModal = (id: number) => {
+        setDeleteId(String(id))
         setOpenDelete(true)
     }
 
@@ -37,22 +37,12 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
                         tooltip="Копировать"
                     />
                     <IconButtonWithTooltip
-                        onClickButton={() => console.log("Файлы", props)}
-                        icon={<Files className="text-black hover:text-white" />}
-                        tooltip="Файлы"
-                    />
-                    <IconButtonWithTooltip
-                        onClickButton={() => console.log("Детали", props)}
-                        icon={<ChevronRight className="text-black hover:text-white" />}
-                        tooltip="Детали"
-                    />
-                    <IconButtonWithTooltip
                         onClickButton={() => console.log("Редактировать", props)}
                         icon={<Edit className="text-black hover:text-white" />}
                         tooltip="Редактировать"
                     />
                     <IconButtonWithTooltip
-                        onClickButton={() => OpenDeleteModal(props.row.original.landing_id)}
+                        onClickButton={() => OpenDeleteModal(props.row.original.id)}
                         icon={<Trash className="text-black hover:text-white" />}
                         tooltip="Удалить"
                     />

@@ -2,7 +2,7 @@ import { ButtonBotType } from "@shared/types";
 import { ReactNode } from "react";
 
 export type TableRow = {
-  id: number | string;
+  id: number;
   name: string;
   type: string;
   status: string;
@@ -11,15 +11,11 @@ export type TableRow = {
   actions?: ReactNode; // для отображения React-компонентов в колонке "Действия"
 };
 
-
-
 export type ColumnConfig = {
   id: string;
   isVisible: boolean;
   isPinned: boolean;
 };
-
-
 
 export type FormType = {
   search: string;
@@ -27,8 +23,6 @@ export type FormType = {
   typeMailing: string;
   spot: string;
 };
-
-
 
 export type EditFormType = {
   name: string;
@@ -41,3 +35,10 @@ export type EditFormType = {
   time: string;
 };
 
+export type MailingItem = {
+  id: string; // Уникальный идентификатор рассылки
+  user_email: string; // Email пользователя, создавшего рассылку
+  mailing_name: string; // Название рассылки
+  mailing_type: "permanent" | "disposable"; // Тип рассылки
+  status: "pending" | "sending" | "sent" | "failed"; // Текущий статус рассылки
+};

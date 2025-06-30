@@ -1,7 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { TableRow } from '@entities/mailings/types';
-import { Button } from '@shared/shadcdn/button';
-import { EllipsisVertical } from 'lucide-react';
+import ButtonsActionsTable from '@entities/mailings/ui/buttonsActionsTable';
 
 export const tableHeaderMock: ColumnDef<TableRow>[] = [
   { id: "id", accessorKey: "id", header: "ID", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
@@ -11,10 +10,7 @@ export const tableHeaderMock: ColumnDef<TableRow>[] = [
   { id: "message_count", accessorKey: "message_count", header: "Кол-во сообщений", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
   { id: "author", accessorKey: "author", header: "Автор", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
   {
-    id: "actions", accessorKey: "actions", header: "Действия", cell: (props) =>
-      <Button onClick={() => console.log(props)}>
-        <EllipsisVertical />
-      </Button >
+    id: "actions", accessorKey: "actions", header: "Действия", cell: (props) => <ButtonsActionsTable props={props} />,
   },
 ];
 

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import landingsService from "@entities/landing/service";
+import landingsService from "@/entities/landing/service/index.service";
 import { InfoAddFormResponseType } from "@entities/landing/types";
 
 const initialData: InfoAddFormResponseType = {

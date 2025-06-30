@@ -2,7 +2,7 @@ import { Button } from "@shadcdn/button";
 import { FormType } from "@entities/spots/types";
 import { Funnel, Plus } from "lucide-react";
 import { useState } from "react";
-import FilterRow from "@/entities/spots/ui/filter-row-spots";
+import FilterRow from "@entities/spots/ui/filter-row-spots";
 import { CreateTypeSpotTelegram, SpotsMockItems } from "@entities/spots/mock";
 import ItemSpot from "@entities/spots/ui/item-spot";
 import {
@@ -13,6 +13,7 @@ import {
     DialogTrigger,
 } from "@shadcdn/dialog"
 import { Link } from "react-router-dom";
+import { useQueryListSpots } from "@entities/spots/hooks/get-list-spots";
 // import { useNavigate } from "react-router-dom";
 
 
@@ -21,6 +22,11 @@ const SpotsContent = () => {
     // const navigate = useNavigate()
 
     const [openFilterData, setFilterData] = useState<boolean>(false)
+
+    const { data } = useQueryListSpots()
+
+    console.log(data);
+    
 
     const handleSubmitFilterRow = (data: FormType) => {
         console.log(data);

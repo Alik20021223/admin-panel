@@ -9,6 +9,7 @@ import { Checkbox } from "@shadcdn/checkbox";
 import { Label } from "@shadcdn/label";
 import { useState } from "react";
 import SecondStep from "./second-step";
+import { Plus } from "lucide-react";
 
 const FirstStep = () => {
 
@@ -19,8 +20,8 @@ const FirstStep = () => {
         defaultValues: {
             idChannel: "",
             tokenBot: "",
-            autoReception: "",
-            HelloSelect: "false",
+            autoReception: false,
+            HelloSelect: false,
             textHello: "",
             mediaHello: null,
             buttonsTypeHello: [],
@@ -30,45 +31,54 @@ const FirstStep = () => {
 
     const onSubmitForm = (data: StepOneSpotChannel) => {
         console.log(data);
-        setChecked(true)
     }
 
 
     return (
         <>
-            <div className="px-2 py-3 bg-white rounded-lg">
+            <div className="px-3 py-4 bg-white rounded-lg">
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmitForm)} className="space-x-3 flex items-start">
-                        <div className="flex flex-col gap-3 w-full">
-                            <FormInput name="idChannel" control={form.control} label="Введите ID канала" placeholder="-0000000000" tooltipText="Уникальный идентификатор канала в формате -1001509131086. Узнать его можно переслав сообщение из канала в бота https://t.me/getmyid_bot" />
-                            <FormInput name="tokenBot" control={form.control} label="Введите токен бота" placeholder="0000000:xxxxxxx" tooltipText="Токен бота который будет использоваться для трекинга и рассылок, токен выдается при создании бота в https://t.me/BotFather" />
-                        </div>
-                        <div className="col-span-3 flex flex-col w-full gap-3">
-                            <div className="col-span-3 flex flex-col w-full gap-3">
-                                <div className="bg-white border rounded-md p-4 space-y-3 text-sm text-neutral-700">
-                                    <p className="text-base font-medium">Давайте проверим, что все работает</p>
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox disabled id="check-bot-exists" />
-                                        <Label htmlFor="check-bot-exists">Существует ли бот с указанным токеном?</Label>
-                                    </div>
-
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox disabled id="check-bot-added" />
-                                        <Label htmlFor="check-bot-added">Добавлен ли бот в канал?</Label>
-                                    </div>
-
-                                    <div className="flex items-center gap-2">
-                                        <Checkbox disabled id="check-bot-permissions" />
-                                        <Label htmlFor="check-bot-permissions">У бота есть все нужные права?</Label>
-                                    </div>
-                                </div>
-                                <Button onClick={() => setChecked(true)} type="button" className="space-x-2 w-full">
-                                    Проверить
-                                </Button>
+                    <form onSubmit={form.handleSubmit(onSubmitForm)} className="space-y-3 flex flex-col items-start">
+                        <div className="space-x-3 flex items-start w-full">
+                            <div className="flex flex-col gap-3 w-full">
+                                <FormInput name="idChannel" control={form.control} label="Введите ID канала" placeholder="-0000000000" tooltipText="Уникальный идентификатор канала в формате -1001509131086. Узнать его можно переслав сообщение из канала в бота https://t.me/getmyid_bot" />
+                                <FormInput name="tokenBot" control={form.control} label="Введите токен бота" placeholder="0000000:xxxxxxx" tooltipText="Токен бота который будет использоваться для трекинга и рассылок, токен выдается при создании бота в https://t.me/BotFather" />
                             </div>
+                            <div className="col-span-3 flex flex-col w-full gap-3">
+                                <div className="col-span-3 flex flex-col w-full gap-3">
+                                    <div className="bg-white border rounded-md p-4 space-y-3 text-sm text-neutral-700">
+                                        <p className="text-base font-medium">Давайте проверим, что все работает</p>
+                                        <div className="flex items-center gap-2">
+                                            <Checkbox disabled id="check-bot-exists" />
+                                            <Label htmlFor="check-bot-exists">Существует ли бот с указанным токеном?</Label>
+                                        </div>
 
-                            <SecondStep form={form} />
+                                        <div className="flex items-center gap-2">
+                                            <Checkbox disabled id="check-bot-added" />
+                                            <Label htmlFor="check-bot-added">Добавлен ли бот в канал?</Label>
+                                        </div>
+
+                                        <div className="flex items-center gap-2">
+                                            <Checkbox disabled id="check-bot-permissions" />
+                                            <Label htmlFor="check-bot-permissions">У бота есть все нужные права?</Label>
+                                        </div>
+                                    </div>
+                                    <Button onClick={() => setChecked(true)} type="button" className="space-x-2 w-full">
+                                        Проверить
+                                    </Button>
+                                </div>
+
+
+                            </div>
                         </div>
+                        {checked &&
+                            <>
+                                <SecondStep form={form} />
+                                <div className="mt-5 w-full">
+                                    <Button disabled={!form.formState.isValid} type="submit" className="space-x-2 w-full"><Plus className="w-4 h-4" />Создать спот</Button>
+                                </div>
+                            </>}
+
 
                     </form>
                 </Form>

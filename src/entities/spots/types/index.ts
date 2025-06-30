@@ -1,4 +1,4 @@
-import { ButtonBotType } from "@shared/types";
+import { ButtonBotType, UserType } from "@shared/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { ReactNode } from "react";
 
@@ -116,8 +116,8 @@ export type FormFilterTypeFollower = {
 export type StepOneSpotChannel = {
   idChannel: string;
   tokenBot: string;
-  autoReception: string;
-  HelloSelect?: string;
+  autoReception: boolean;
+  HelloSelect?: boolean;
   textHello?: string;
   mediaHello?: File | null;
   buttonsTypeHello?: ButtonBotType[];
@@ -177,4 +177,56 @@ export type BotSpotType = {
 export type BotSpotBotType = {
   shortName: string;
   linkToWebhook: string;
+};
+
+export type WelcomeButton = {
+  id: number;
+  text_button: string;
+  url_button: string;
+};
+
+export type Pixel = {
+  id: number;
+  pixel_id: number; // int64, но в JS это number
+  access_token: string;
+};
+
+// export type UserShortInfo = {
+//   // Предполагается, что структура описана отдельно
+//   // id: number;
+//   // name: string;
+//   // ...
+// };
+
+// export type ChannelPermissionDTO = {
+//   // Предполагается, что структура описана отдельно
+//   // permission: string;
+//   // ...
+// };
+
+export type ChannelUser = {
+  id: number;
+  email: string;
+  role: string;
+};
+
+export type ChannelInfo = {
+  id: number;
+  channel_id: number; // int64
+  bot_token: string;
+  welcome_message: string;
+  welcome_image_url: string;
+  members: number;
+  welcome_buttons: WelcomeButton[];
+  title: string;
+  pixels: Pixel[];
+  // available_users: UserShortInfo[];
+  // permissions: ChannelPermissionDTO[];
+  user: ChannelUser;
+  owner_email: string;
+};
+
+export type ListSpotsResponseType = {
+  user: UserType;
+  spots: ChannelInfo[];
 };

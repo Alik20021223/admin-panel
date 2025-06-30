@@ -1,9 +1,9 @@
-import { Button } from "@shared/shadcdn/button";
+import { Button } from "@shadcdn/button";
 import { Download, Funnel } from "lucide-react";
 import { useState } from "react";
 import { FormFilterTypeFollower } from "@entities/spots/types";
-import TableFollower from "@/entities/spots/ui/item-followers/table-follower";
-import ColumnFilterFollower from "@/entities/spots/ui/item-followers/column-filter-follower";
+import TableFollower from "@entities/spots/ui/item-followers/table-follower";
+import ColumnFilterFollower from "@entities/spots/ui/item-followers/column-filter-follower";
 import FilterRowFollower from "@entities/spots/ui/item-followers/filter-row-follower";
 
 

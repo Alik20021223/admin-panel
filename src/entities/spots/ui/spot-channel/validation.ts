@@ -24,13 +24,12 @@ const postBackSchema = z.object({
   outPostBackArray: z.array(outPostBackSchema),
 });
 
-
 // Основная схема
 export const StepOneSpotSchema = z.object({
   idChannel: z.string().min(1, "Введите ID канала"),
   tokenBot: z.string().min(1, "Введите токен бота"),
-  autoReception: z.string().min(1, "Автоприем обязателен"),
-  HelloSelect: z.string().optional(),
+  autoReception: z.boolean(),
+  HelloSelect: z.boolean().optional(),
   textHello: z.string().optional(),
   mediaHello: z.instanceof(File).nullable().optional(),
   buttonsTypeHello: z.array(buttonBotSchema).optional(),

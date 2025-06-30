@@ -1,4 +1,4 @@
-import { Button } from "@shared/shadcdn/button";
+import { Button } from "@shadcdn/button";
 import { FormType } from "@entities/mailings/types";
 import { useState } from "react";
 import { Funnel, Plus } from "lucide-react";

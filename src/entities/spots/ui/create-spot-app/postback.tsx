@@ -1,6 +1,6 @@
 import AddPixel from "@feature/add-pixel";
 import { useForm } from "react-hook-form";
-import { Form } from "@/shared/shadcdn/form";
+import { Form } from "@shadcdn/form";
 import { Plus } from "lucide-react";
 import { Button } from "@shadcdn/button";
 import { AppSpotPostBackType } from "@entities/spots/types";

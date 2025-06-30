@@ -8,8 +8,8 @@ import {
     CardTitle,
 } from "@shadcdn/card"
 import { XIcon } from "lucide-react"
-import { Form } from "@/shared/shadcdn/form"
-import { CalendarField } from "@/feature/formDate"
+import { Form } from "@shadcdn/form"
+import { CalendarField } from "@feature/formDate"
 import { useForm } from "react-hook-form"
 
 type typeFilter = {

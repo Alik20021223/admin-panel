@@ -1,6 +1,6 @@
 import TableConversion from "@entities/spots/ui/item-conversion/table-conversion";
 import ColumnFilter from "@entities/spots/ui/item-conversion/column-filter-conversion";
-import { Button } from "@shared/shadcdn/button";
+import { Button } from "@shadcdn/button";
 import { Download, Funnel } from "lucide-react";
 import { useState } from "react";
 import { FormTypeConversion } from "@entities/spots/types";

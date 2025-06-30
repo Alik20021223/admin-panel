@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import appService from "@/shared/service";
+import appService from "@shared/service";
 
 export function useQueryInfoUser() {
   const { isLoading, isError, data, error, refetch } = useQuery({
