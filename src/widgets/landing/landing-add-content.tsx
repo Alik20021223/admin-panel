@@ -59,14 +59,7 @@ const LandingAddContent = () => {
                 label: "Общее",
                 content: () => {
                     return (
-                        <GeneralTab
-                            onNextStep={() => {
-                                setCompletedSteps((prev) => [
-                                    ...new Set([...prev, "general", "access"]),
-                                ]);
-                                setCurrentStep("access");
-                            }}
-                        />
+                        <GeneralTab/>
                     );
                 },
             },

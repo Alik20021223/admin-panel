@@ -1,6 +1,10 @@
 import { axiosInstance } from "@shared/utils/axios";
 import { LANDINGS_URL } from "@entities/landing/constant/api_url";
-import { InfoAddFormResponseType, ListLandingResponseType } from "../types";
+import {
+  CreateDefaultLanding,
+  InfoAddFormResponseType,
+  ListLandingResponseType,
+} from "@entities/landing/types";
 
 class Landings_service {
   async getListLandings(): Promise<ListLandingResponseType> {
@@ -21,6 +25,12 @@ class Landings_service {
 
   async deleteFromLandingList(id: number) {
     const result = await axiosInstance.delete(`${LANDINGS_URL.LIST}/${id}`);
+
+    return result.data;
+  }
+
+  async createLandingDefault(payload: CreateDefaultLanding) {
+    const result = await axiosInstance.post(LANDINGS_URL.DEFAULT, payload);
 
     return result.data;
   }

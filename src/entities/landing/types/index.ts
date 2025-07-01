@@ -26,7 +26,7 @@ export type GeneralFormType = {
   domen: string;
   autoRedirect: string;
   spot: string;
-  showToCountry: string;
+  showToCountry: string[];
 };
 
 export type TranslateFormType = {
@@ -40,7 +40,7 @@ export type ExpertGeneralFormType = {
   title: string;
   // whitePage: string;
   description: string;
-  showToCountry: string;
+  showToCountry: string[];
   domen: string;
   autoRedirect: string;
   spot: string;
@@ -68,4 +68,13 @@ export type InfoAddFormResponseType = {
   auto_redirect: boolean;
   text_button: string;
   text_members: string;
+};
+
+export type CreateDefaultLanding = {
+  name: string;
+  domain_id: number;
+  spot_id: number;
+  // spot_type: string;
+  auto_redirect: boolean;
+  allowed_countries: string[];
 };

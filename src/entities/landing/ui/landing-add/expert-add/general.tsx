@@ -10,7 +10,7 @@ import CustomEditor from "@feature/text-editor";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { expertGeneralSchema } from "../validation";
 import { countryMock } from "country-data";
-import { FormSelectCountry } from "@feature/formSelectСountry";
+import { FormMultiSelectCountry } from "@feature/formSelectСountry";
 
 
 
@@ -30,7 +30,7 @@ const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
             title: '',
             countUsers: '',
             autoRedirect: '',
-            showToCountry: '',
+            showToCountry: [],
         },
     })
 
@@ -46,7 +46,7 @@ const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
                     <FormInput name="name" control={form.control} label="Название" />
                     <FormInput name="title" control={form.control} label="Заголовок" />
                     {/* <FormSelect name="whitePage" control={form.control} label="White page" options={defaultOptions} /> */}
-                    <FormSelectCountry name="showToCountry" control={form.control} label="Показывать для стран" options={countryMock} />
+                    <FormMultiSelectCountry name="showToCountry" control={form.control} label="Показывать для стран" options={countryMock} />
                     <Controller
                         name="description"
                         control={form.control}

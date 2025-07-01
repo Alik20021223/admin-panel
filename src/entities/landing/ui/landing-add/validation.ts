@@ -1,12 +1,11 @@
 import { z } from "zod";
 
-
 export const defaultGeneralSchema = z.object({
   name: z.string().min(1, "Название обязательно"),
   domen: z.string().min(1, "Домен обязателен"),
   autoRedirect: z.string().min(1, "Авторедирект обязателен"),
   spot: z.string().min(1, "Спот обязателен"),
-  showToCountry: z.string().min(1, "Выбор обязателен"),
+  showToCountry: z.array(z.string()).min(1, "Выберите хотя бы одну страну"),
 });
 
 export const expertDesignSchema = z.object({
@@ -16,7 +15,6 @@ export const expertDesignSchema = z.object({
   logo: z.custom<File>().nullable(),
   patternBg: z.custom<File>().nullable(),
   avatar: z.custom<File>().nullable(), // по умолчанию опциональные
-  
 });
 
 export const expertGeneralSchema = z.object({
@@ -28,7 +26,7 @@ export const expertGeneralSchema = z.object({
   autoRedirect: z.string().min(1, "Авторедирект обязателен"),
   spot: z.string().min(1, "Спот обязателен"),
   countUsers: z.string().min(1, "Количество участников обязательно"),
-  showToCountry: z.string().min(1, "Выбор обязателен"),
+  showToCountry: z.array(z.string()).min(1, "Выберите хотя бы одну страну"),
 });
 
 export const expertTranslateSchema = z.object({
