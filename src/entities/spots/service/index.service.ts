@@ -1,6 +1,6 @@
 import { axiosInstance } from "@shared/utils/axios";
 import { SPOTS_URL } from "@entities/spots/constant/api-url";
-import { ListSpotsResponseType } from "@entities/spots/types";
+import { CheckChannelType, ListSpotsResponseType } from "@entities/spots/types";
 
 class Spots_service {
   async getListSpots(): Promise<ListSpotsResponseType> {
@@ -21,6 +21,12 @@ class Spots_service {
 
   async deleteFromSpotList(id: number) {
     const result = await axiosInstance.delete(`${SPOTS_URL.LIST}/${id}`);
+
+    return result.data;
+  }
+
+  async CheckChannelStatus(payload: CheckChannelType) {
+    const result = await axiosInstance.post(SPOTS_URL.CHECK_CHANNEL, payload);
 
     return result.data;
   }

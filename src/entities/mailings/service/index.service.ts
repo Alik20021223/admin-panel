@@ -10,6 +10,12 @@ class Mailing_service {
     return result.data;
   }
 
+  async getMailingForm() {
+    const result = await axiosInstance.get(MAILINGS_URL.CREATE);
+
+    return result.data;
+  }
+
   // async getInfoAddForm(): Promise<InfoAddFormResponseType> {
   //   const result = await axiosInstance.get<InfoAddFormResponseType>(
   //     LANDINGS_URL.INFO_ADD_FORM

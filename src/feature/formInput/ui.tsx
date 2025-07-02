@@ -22,6 +22,8 @@ interface FormInputProps<T extends FieldValues> {
     leftIcon?: React.ReactNode;
     tooltipText?: string;
     disabled?: boolean
+    type?: string;
+    defaultValue?: string;
 }
 
 const FormInput = <T extends FieldValues>({
@@ -31,7 +33,9 @@ const FormInput = <T extends FieldValues>({
     placeholder = "Введите",
     leftIcon,
     tooltipText,
-    disabled = false
+    disabled = false,
+    type,
+    defaultValue
 }: FormInputProps<T>) => {
     return (
         <FormField
@@ -57,7 +61,14 @@ const FormInput = <T extends FieldValues>({
                         </div>
                     )}
                     <FormControl>
-                        <Input {...field} placeholder={placeholder} leftIcon={leftIcon} disabled={disabled} />
+                        <Input
+                            {...field}
+                            placeholder={placeholder}
+                            type={type}
+                            leftIcon={leftIcon}
+                            disabled={disabled}
+                            defaultValue={defaultValue}
+                        />
                     </FormControl>
                     <FormMessage />
                 </FormItem>

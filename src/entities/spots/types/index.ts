@@ -230,3 +230,8 @@ export type ListSpotsResponseType = {
   user: UserType;
   spots: ChannelInfo[];
 };
+
+export type CheckChannelType = {
+  bot_token: string;
+  channel_id: number;
+};

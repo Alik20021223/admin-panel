@@ -10,6 +10,7 @@ import { Label } from "@shadcdn/label";
 import { useState } from "react";
 import SecondStep from "./second-step";
 import { Plus } from "lucide-react";
+import { useCheckChannel } from "@entities/spots/hooks/check-channel";
 
 const FirstStep = () => {
 
@@ -18,7 +19,7 @@ const FirstStep = () => {
     const form = useForm<StepOneSpotChannel>({
         resolver: zodResolver(StepOneSpotSchema),
         defaultValues: {
-            idChannel: "",
+            idChannel: "-",
             tokenBot: "",
             autoReception: false,
             HelloSelect: false,
@@ -33,6 +34,18 @@ const FirstStep = () => {
         console.log(data);
     }
 
+    const { mutateAsync } = useCheckChannel()
+
+    const onCheck = () => {
+
+
+        setChecked(true)
+        mutateAsync({
+            bot_token: form.getValues('tokenBot'),
+            channel_id: Number(form.getValues('idChannel'))
+        })
+    }
+
 
     return (
         <>
@@ -41,8 +54,22 @@ const FirstStep = () => {
                     <form onSubmit={form.handleSubmit(onSubmitForm)} className="space-y-3 flex flex-col items-start">
                         <div className="space-x-3 flex items-start w-full">
                             <div className="flex flex-col gap-3 w-full">
-                                <FormInput name="idChannel" control={form.control} label="Введите ID канала" placeholder="-0000000000" tooltipText="Уникальный идентификатор канала в формате -1001509131086. Узнать его можно переслав сообщение из канала в бота https://t.me/getmyid_bot" />
-                                <FormInput name="tokenBot" control={form.control} label="Введите токен бота" placeholder="0000000:xxxxxxx" tooltipText="Токен бота который будет использоваться для трекинга и рассылок, токен выдается при создании бота в https://t.me/BotFather" />
+                                <FormInput
+                                    name="idChannel"
+                                    control={form.control} label="Введите ID канала"
+                                    placeholder="-0000000000"
+                                    defaultValue="-"
+                                    type="number"
+                                    tooltipText="Уникальный идентификатор канала в формате -1001509131086. Узнать его можно переслав сообщение из канала в бота https://t.me/getmyid_bot"
+                                />
+                                <FormInput
+                                    name="tokenBot"
+                                    control={form.control}
+                                    label="Введите токен бота"
+                                    placeholder="0000000:xxxxxxx"
+
+                                    tooltipText="Токен бота который будет использоваться для трекинга и рассылок, токен выдается при создании бота в https://t.me/BotFather"
+                                />
                             </div>
                             <div className="col-span-3 flex flex-col w-full gap-3">
                                 <div className="col-span-3 flex flex-col w-full gap-3">
@@ -63,7 +90,7 @@ const FirstStep = () => {
                                             <Label htmlFor="check-bot-permissions">У бота есть все нужные права?</Label>
                                         </div>
                                     </div>
-                                    <Button onClick={() => setChecked(true)} type="button" className="space-x-2 w-full">
+                                    <Button onClick={onCheck} type="button" className="space-x-2 w-full">
                                         Проверить
                                     </Button>
                                 </div>
