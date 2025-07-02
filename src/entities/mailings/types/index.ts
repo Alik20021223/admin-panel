@@ -42,3 +42,16 @@ export type MailingItem = {
   mailing_type: "permanent" | "disposable"; // Тип рассылки
   status: "pending" | "sending" | "sent" | "failed"; // Текущий статус рассылки
 };
+
+export type CreateMailingType = {
+  mailing_name: string;
+  mailing_type: "permanent" | "disposable";
+  text: string;
+  channels?: string;
+  date_and_time: string;
+  image: string;
+  buttons: {
+    text: string,
+    url: string
+  }[]
+};

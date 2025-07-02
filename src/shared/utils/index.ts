@@ -68,3 +68,12 @@ export function mapToSelectOptions<T extends Record<string, unknown>>(
     label: String(item[labelKey]),
   }));
 }
+
+export function mergeDateAndTime(date: Date, time: string): string {
+  const [hours, minutes, seconds] = time.split(":").map(Number);
+  const merged = new Date(date);
+  merged.setHours(hours);
+  merged.setMinutes(minutes);
+  merged.setSeconds(seconds || 0);
+  return merged.toISOString(); // → формат RFC3339
+}

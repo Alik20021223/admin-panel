@@ -13,6 +13,8 @@ import CustomEditor from "@feature/text-editor"
 import AddButton from "@feature/add-button"
 import PreviewContent from "@feature/preview"
 import DropFieldInner from "@feature/dropField"
+// import { useCreateMailing } from "@entities/mailings/hooks/create-mailing"
+// import { mergeDateAndTime } from "@shared/utils"
 
 const AddMailing = () => {
 
@@ -29,9 +31,21 @@ const AddMailing = () => {
         },
     })
 
+    // const { mutateAsync } = useCreateMailing()
+
     const onSubmitForm = (data: EditFormType) => {
         console.log(data);
 
+        // const dateAndTime = mergeDateAndTime(data.dateAndTime, data.time)
+
+        // mutateAsync({
+        //     mailing_name: data.name
+        //     mailing_type: data.typeMailing, // Изменить потом
+        //     channels: data.spot, // Изменить потом
+        //     image: data.media, // Изменить потом
+        //     text: data.text,
+        //     date_and_time: dateAndTime,
+        // })
     }
 
     const text = form.watch('text')

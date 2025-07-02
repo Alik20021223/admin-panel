@@ -11,7 +11,7 @@ import {
 import { useMailingTableStore } from '@entities/mailings/store';
 import { useEffect } from 'react';
 import { ArrowDownUp } from 'lucide-react';
-import { useQueryListMailing } from '@entities/mailings/hooks/get-list-spots';
+import { useQueryListMailing } from '@/entities/mailings/hooks/get-list-mailing';
 
 const TableMailing = () => {
 

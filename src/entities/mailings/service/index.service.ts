@@ -1,7 +1,7 @@
 import { axiosInstance } from "@shared/utils/axios";
 // import { ListMailingsResponseType } from "@entities/spots/types";
 import { MAILINGS_URL } from "@entities/mailings/constant/api_url";
-
+import { CreateMailingType } from "@entities/mailings/types";
 
 class Mailing_service {
   async getListMailing() {
@@ -20,6 +20,12 @@ class Mailing_service {
 
   async deleteMailingFromList(id: number) {
     const result = await axiosInstance.delete(`${MAILINGS_URL.LIST}/${id}`);
+
+    return result.data;
+  }
+
+  async createMailingFromList(payload: CreateMailingType) {
+    const result = await axiosInstance.post(MAILINGS_URL.CREATE, payload);
 
     return result.data;
   }
