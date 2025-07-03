@@ -2,6 +2,8 @@ import { axiosInstance } from "@shared/utils/axios";
 import { LANDINGS_URL } from "@entities/landing/constant/api_url";
 import {
   CreateDefaultLanding,
+  CreateProDesign,
+  CreateProLanding,
   InfoAddFormResponseType,
   ListLandingResponseType,
 } from "@entities/landing/types";
@@ -31,6 +33,18 @@ class Landings_service {
 
   async createLandingDefault(payload: CreateDefaultLanding) {
     const result = await axiosInstance.post(LANDINGS_URL.DEFAULT, payload);
+
+    return result.data;
+  }
+
+  async createLandingPro(payload: CreateProLanding) {
+    const result = await axiosInstance.post(LANDINGS_URL.DEFAULT, payload);
+
+    return result.data;
+  }
+
+  async createLandingProDesign(payload: CreateProDesign) {
+    const result = await axiosInstance.post(LANDINGS_URL.DESIGN, payload);
 
     return result.data;
   }

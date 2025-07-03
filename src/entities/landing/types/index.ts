@@ -78,3 +78,23 @@ export type CreateDefaultLanding = {
   auto_redirect: boolean;
   allowed_countries: string[];
 };
+
+export type CreateProLanding = {
+  name: string;
+  title: string;
+  description: string;
+  domain_id: number;
+  spot_id: number;
+  spot_type: string;
+  auto_redirect: boolean;
+  members: number;
+};
+
+export interface CreateProDesign {
+  avatar_image: File;
+  background_image: File;
+  logo: File;
+  accent_color: string;
+  background_color: string;
+  banner_background_color: string;
+}

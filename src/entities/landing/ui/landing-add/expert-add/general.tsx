@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { expertGeneralSchema } from "../validation";
 import { countryMock } from "country-data";
 import { FormMultiSelectCountry } from "@feature/formSelectСountry";
+import { useCreateProLanding } from "@entities/landing/hooks/create-landing-pro";
 
 
 
@@ -34,8 +35,20 @@ const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
         },
     })
 
+    const { mutateAsync } = useCreateProLanding()
+
     const onSubmitForm = (data: ExpertGeneralFormType) => {
         console.log(data);
+        mutateAsync({
+            members: Number(data.countUsers),
+            title: data.title,
+            name: data.name,
+            description: data.description,
+            auto_redirect: Boolean(data.autoRedirect),
+            domain_id: Number(data.domen),
+            spot_type: data.spot,
+            spot_id: Number(data.spot),
+        })
         onNextStep()
     }
 
