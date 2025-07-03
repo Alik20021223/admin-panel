@@ -7,6 +7,7 @@ import FormColorPicker from '@feature/formColorPicker';
 import DropFieldInner from '@feature/dropField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { expertDesignSchema } from '../validation';
+import { useCreateProDesign } from '@entities/landing/hooks/create-landing-design';
 
 interface ExpertDesignTabProps {
     onNextStep: () => void;
@@ -28,8 +29,25 @@ const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
         },
     })
 
+    const { mutateAsync } = useCreateProDesign()
+
     const onSubmitForm = (data: ExpertDesignFormType) => {
-        console.log(data);
+
+        const formData = new FormData()
+
+        if (data.avatar) {
+            formData.append("avatar_image", data.avatar)
+        }
+
+        if (data.patternBg) {
+            formData.append("background_image", data.patternBg)
+        }
+
+        formData.append("accent_color", data.accentColor)
+        formData.append("background_color", data.bgColor)
+        formData.append("banner_background_color", data.colorBgBanner)
+
+        mutateAsync(formData)
         onNextStep()
     }
 
