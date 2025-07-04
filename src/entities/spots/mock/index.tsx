@@ -228,8 +228,8 @@ export const typeSpotTelegram = [
 ]
 
 export const CreateTypeSpotTelegram = [
-  { value: 'create/app', label: 'Telegram app', icon: <LayoutPanelLeft /> },
-  { value: 'create/bot', label: 'Telegram Бот', icon: <Bot /> },
+  // { value: 'create/app', label: 'Telegram app', icon: <LayoutPanelLeft /> },
+  // { value: 'create/bot', label: 'Telegram Бот', icon: <Bot /> },
   {
     value: 'create/channel', label: 'Telegram канал', icon:
       <img src={TgIcon} alt='tg-icon' width={24} height={24}></img>
