@@ -117,10 +117,10 @@ export type StepOneSpotChannel = {
   idChannel: string;
   tokenBot: string;
   autoReception: boolean;
-  HelloSelect?: boolean;
-  textHello?: string;
-  mediaHello?: File | null;
-  buttonsTypeHello?: ButtonBotType[];
+  HelloSelect: boolean;
+  textHello: string;
+  mediaHello: File | null;
+  buttonsTypeHello: ButtonBotType[];
   postBack: PostBack[];
 };
 
@@ -234,4 +234,14 @@ export type ListSpotsResponseType = {
 export type CheckChannelType = {
   bot_token: string;
   channel_id: number;
+};
+
+export type AddChannelMessage = {
+  auto_approve: boolean;
+  welcome_message_flag: boolean;
+  welcome_message: string;
+  welcome_buttons: {
+    text: string;
+    url: string;
+  }[];
 };

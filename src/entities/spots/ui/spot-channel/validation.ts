@@ -29,9 +29,9 @@ export const StepOneSpotSchema = z.object({
   idChannel: z.string().min(1, "Введите ID канала"),
   tokenBot: z.string().min(1, "Введите токен бота"),
   autoReception: z.boolean(),
-  HelloSelect: z.boolean().optional(),
-  textHello: z.string().optional(),
-  mediaHello: z.instanceof(File).nullable().optional(),
-  buttonsTypeHello: z.array(buttonBotSchema).optional(),
+  HelloSelect: z.boolean(),
+  textHello: z.string(),
+  mediaHello: z.instanceof(File).nullable(),
+  buttonsTypeHello: z.array(buttonBotSchema),
   postBack: z.array(postBackSchema),
 });

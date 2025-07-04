@@ -11,6 +11,7 @@ import { useState } from "react";
 import SecondStep from "./second-step";
 import { Plus } from "lucide-react";
 import { useCheckChannel } from "@entities/spots/hooks/check-channel";
+import { useSpotAddMessage } from "@entities/spots/hooks/spots-add-channel-message";
 
 const FirstStep = () => {
 
@@ -30,9 +31,24 @@ const FirstStep = () => {
         },
     })
 
+    const { mutateAsync: AddSpotMessage } = useSpotAddMessage()
+
     const onSubmitForm = (data: StepOneSpotChannel) => {
         console.log(data);
-    }
+
+        const mappedButtons = data.buttonsTypeHello.map((btn) => ({
+            text: btn.name,
+            url: btn.link,
+        }));
+
+        AddSpotMessage({
+            auto_approve: data.autoReception,
+            welcome_message_flag: data.HelloSelect,
+            welcome_message: data.textHello,
+            welcome_buttons: mappedButtons,
+        });
+    };
+
 
     const { mutateAsync } = useCheckChannel()
 
