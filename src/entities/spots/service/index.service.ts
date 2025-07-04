@@ -1,6 +1,11 @@
 import { axiosInstance } from "@shared/utils/axios";
 import { SPOTS_URL } from "@entities/spots/constant/api-url";
-import { AddChannelMessage, CheckChannelType, ListSpotsResponseType } from "@entities/spots/types";
+import {
+  AddChannelMessage,
+  // AddChannelPhoto,
+  CheckChannelType,
+  ListSpotsResponseType,
+} from "@entities/spots/types";
 
 class Spots_service {
   async getListSpots(): Promise<ListSpotsResponseType> {
@@ -36,6 +41,12 @@ class Spots_service {
       SPOTS_URL.SPOTS_ADD_MESSAGE,
       payload
     );
+
+    return result.data;
+  }
+
+  async AddChannelPhoto(payload: FormData) {
+    const result = await axiosInstance.post(SPOTS_URL.SPOTS_ADD_PHOTO, payload);
 
     return result.data;
   }

@@ -12,6 +12,7 @@ import SecondStep from "./second-step";
 import { Plus } from "lucide-react";
 import { useCheckChannel } from "@entities/spots/hooks/check-channel";
 import { useSpotAddMessage } from "@entities/spots/hooks/spots-add-channel-message";
+import { useSpotAddPhoto } from "../../hooks/spots-add-channel-photo";
 
 const FirstStep = () => {
 
@@ -32,9 +33,11 @@ const FirstStep = () => {
     })
 
     const { mutateAsync: AddSpotMessage } = useSpotAddMessage()
+    const { mutateAsync: AddSpotPhoto } = useSpotAddPhoto()
+
 
     const onSubmitForm = (data: StepOneSpotChannel) => {
-        console.log(data);
+        // console.log(data);
 
         const mappedButtons = data.buttonsTypeHello.map((btn) => ({
             text: btn.name,
@@ -47,6 +50,14 @@ const FirstStep = () => {
             welcome_message: data.textHello,
             welcome_buttons: mappedButtons,
         });
+
+        const formData = new FormData()
+
+        if (data.mediaHello) {
+            formData.append("photo", data.mediaHello)
+        }
+
+        AddSpotPhoto(formData)
     };
 
 

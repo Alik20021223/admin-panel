@@ -245,3 +245,7 @@ export type AddChannelMessage = {
     url: string;
   }[];
 };
+
+export type AddChannelPhoto = {
+  photo: File;
+};
