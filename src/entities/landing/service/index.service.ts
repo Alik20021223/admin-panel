@@ -25,7 +25,7 @@ class Landings_service {
     return result.data;
   }
 
-  async deleteFromLandingList(id: number) {
+  async deleteFromLandingList(id: string) {
     const result = await axiosInstance.delete(`${LANDINGS_URL.LIST}/${id}`);
 
     return result.data;

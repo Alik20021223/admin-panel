@@ -8,7 +8,9 @@ export function useCreateMailing() {
     mutationKey: ["create-mailing"],
     mutationFn: (payload: FormData) =>
       mailingService.createMailingFromList(payload),
-    onSuccess: () => queryClient.invalidateQueries(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["list-mailing"] });
+    },
   });
 
   return { mutateAsync, isSuccess, isError, isPending, isIdle };

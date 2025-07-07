@@ -17,10 +17,20 @@ import { mapToSelectOptions } from "@/shared/utils"
 import { TimeInputField } from "@feature/FormTime"
 import { useCreateMailing } from "@entities/mailings/hooks/create-mailing"
 import { mergeDateAndTime } from "@shared/utils"
+import { useGetInfoMailing } from "@entities/mailings/hooks/get-mailing-by-id"
+import { useSearchParams } from "react-router-dom"
+import { useEffect } from "react"
 
 const AddMailing = () => {
 
     const { data: FormDataMock } = useQueryFormMailing()
+    const [searchParams] = useSearchParams();
+    const edit = searchParams.get("edit");
+
+    const { data: infoMailing } = useGetInfoMailing(edit || "")
+
+
+
 
     const form = useForm<EditFormType>({
         defaultValues: {
@@ -36,6 +46,28 @@ const AddMailing = () => {
         },
     })
 
+    useEffect(() => {
+        if (infoMailing?.current_mailing) {
+            const mailing = infoMailing.current_mailing;
+
+            const scheduledDate = new Date(mailing.scheduled_at);
+            const date = scheduledDate.toISOString().split("T")[0]; // yyyy-mm-dd
+            const time = scheduledDate.toTimeString().split(" ")[0]; // HH:mm:ss
+
+            form.reset({
+                name: mailing.mailing_name,
+                typeMailing: mailing.mailing_type,
+                text: mailing.text,
+                spot: mailing.spots.map((s) => String(s)), // т.к. у тебя select работает по string
+                dateAndTime: new Date(date),
+                time: time,
+                daysOfWeek: mailing.days_of_week,
+                media: null, // если хочешь показывать media, то нужно отдельно подгрузить файл
+                buttonsType: [], // если редактирование кнопок будет — сюда передавай
+            });
+        }
+    }, [infoMailing, form]);
+
     const { mutateAsync } = useCreateMailing()
 
     const SpotsOptions = mapToSelectOptions(FormDataMock?.channels, "id", "title");
@@ -45,13 +77,10 @@ const AddMailing = () => {
         "label"
     );
 
-
-
     const onSubmitForm = (data: EditFormType) => {
         const dateAndTime = mergeDateAndTime(data.dateAndTime, data.time);
         const spotsArray = data.spot.map((s) => Math.abs(Number(s)));
         const spotsString = JSON.stringify(spotsArray); // Получишь например "[1002684105006]"
-
 
         const formData = new FormData();
         formData.append("mailing_name", data.name);
@@ -60,23 +89,20 @@ const AddMailing = () => {
         formData.append("text", data.text);
         formData.append("date_and_time", dateAndTime);
 
+        if (data.daysOfWeek) {
+            formData.append("days_of_week", JSON.stringify(data.daysOfWeek));
+        }
 
         if (data.media) {
             formData.append("image", data.media);
         }
 
-
         mutateAsync(formData);
     };
-
 
     const text = form.watch('text')
     const buttonsType = form.watch('buttonsType')
     const typeMailing = form.watch('typeMailing')
-
-    console.log(form.watch());
-
-
 
     return (
         <>
@@ -87,7 +113,7 @@ const AddMailing = () => {
                             <FormInput name="name" control={form.control} label="Введите название" />
                             <FormSelect name="typeMailing" control={form.control} label="Тип рассылки" options={mailingTypesOptions} />
                             {
-                                typeMailing === "disposable"
+                                typeMailing === "permanent"
                                     ?
                                     <>
                                         <TimeInputField

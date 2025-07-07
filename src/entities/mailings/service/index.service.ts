@@ -3,6 +3,7 @@ import { axiosInstance } from "@shared/utils/axios";
 import { MAILINGS_URL } from "@entities/mailings/constant/api_url";
 import {
   GetDataFormMailingForm,
+  MailingResponse,
 } from "@entities/mailings/types";
 
 class Mailing_service {
@@ -15,6 +16,14 @@ class Mailing_service {
   async getMailingForm() {
     const result = await axiosInstance.get<GetDataFormMailingForm>(
       MAILINGS_URL.CREATE
+    );
+
+    return result.data;
+  }
+
+  async getMailingById(id: string) {
+    const result = await axiosInstance.get<MailingResponse>(
+      `${MAILINGS_URL.LIST}/${id}`
     );
 
     return result.data;
@@ -36,6 +45,15 @@ class Mailing_service {
 
   async createMailingFromList(payload: FormData) {
     const result = await axiosInstance.post(MAILINGS_URL.CREATE, payload);
+
+    return result.data;
+  }
+
+  async UpdateMailing(payload: FormData, id: string) {
+    const result = await axiosInstance.put(
+      `${MAILINGS_URL.LIST}/${id}`,
+      payload
+    );
 
     return result.data;
   }

@@ -6,7 +6,7 @@ export function useDeleteLanding() {
 
   const { mutateAsync, isSuccess, isError, isPending, isIdle } = useMutation({
     mutationKey: ["delete-landing"],
-    mutationFn: (payload: number) =>
+    mutationFn: (payload: string) =>
       landingsService.deleteFromLandingList(payload),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["list-landings"] }),

@@ -68,7 +68,7 @@ export type DomainType = {
 
 export type SpotType = {
   id: number;
-  channel_id: Int16Array;
+  channel_id: number;
   title: string;
 };
 

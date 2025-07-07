@@ -1,32 +1,32 @@
 import { Button } from "@shadcdn/button";
-import { FormType } from "@entities/mailings/types";
-import { useState } from "react";
-import { Funnel, Plus } from "lucide-react";
+// import { FormType } from "@entities/mailings/types";
+// import { useState } from "react";
+import { Plus } from "lucide-react";
 import ColumnFilter from "@entities/mailings/ui/column-filter";
-import FilterRow from "@entities/mailings/ui/filter-row";
+// import FilterRow from "@entities/mailings/ui/filter-row";
 import TableMailing from "@entities/mailings/ui/table";
 import { useNavigate } from "react-router-dom";
 
 
 const MailingContent = () => {
 
-    const [openFilterData, setFilterData] = useState<boolean>(false)
+    // const [openFilterData, setFilterData] = useState<boolean>(false)
 
     const navigate = useNavigate()
 
-    const handleSubmitFilterRow = (data: FormType) => {
-        console.log(data);
-        setFilterData(false)
-    }
+    // const handleSubmitFilterRow = (data: FormType) => {
+    //     console.log(data);
+    //     setFilterData(false)
+    // }
 
     return (
         <>
             <div className="space-y-5">
                 <div className="flex justify-between">
                     <div className="flex gap-4">
-                        <Button onClick={() => setFilterData(true)} variant="outline">Фильтр данных
+                        {/* <Button onClick={() => setFilterData(true)} variant="outline">Фильтр данных
                             <Funnel />
-                        </Button>
+                        </Button> */}
                         <ColumnFilter />
                     </div>
 
@@ -35,7 +35,7 @@ const MailingContent = () => {
                         Добавить рассылку
                     </Button>
                 </div>
-                {openFilterData && <FilterRow onClose={() => setFilterData(false)} onSubmit={handleSubmitFilterRow} />}
+                {/* {openFilterData && <FilterRow onClose={() => setFilterData(false)} onSubmit={handleSubmitFilterRow} />} */}
                 <TableMailing />
             </div>
         </>

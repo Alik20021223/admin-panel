@@ -1,39 +1,28 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { TableRow } from '@entities/mailings/types';
 import ButtonsActionsTable from '@entities/mailings/ui/buttonsActionsTable';
+import { statusMap } from '@shared/utils';
 
 export const tableHeaderMock: ColumnDef<TableRow>[] = [
-  { id: "id", accessorKey: "id", header: "ID", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "name", accessorKey: "name", header: "Название", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "type", accessorKey: "type", header: "Тип", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "status", accessorKey: "status", header: "Статус рассылки", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "message_count", accessorKey: "message_count", header: "Кол-во сообщений", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "author", accessorKey: "author", header: "Автор", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
+  { id: "mailing_name", accessorKey: "mailing_name", header: "Название", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
+  { id: "mailing_type", accessorKey: "mailing_type", header: "Тип", cell: (props) => <p>{String(props.getValue() === "permanent" ? "Постоянная" : "Одноразовая")}</p> },
+  {
+    id: "status",
+    accessorKey: "status",
+    header: "Статус рассылки",
+    cell: (props) => {
+      const value = String(props.getValue() ?? '');
+      return <p>{statusMap[value] ?? value}</p>;
+    }
+  },
+  { id: "user_email", accessorKey: "user_email", header: "Автор", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
   {
     id: "actions", accessorKey: "actions", header: "Действия", cell: (props) => <ButtonsActionsTable props={props} />,
   },
 ];
 
-export const tableDataMock: TableRow[] = [
-  {
-    id: 1,
-    name: "Летняя акция",
-    type: "Автоматическая",
-    status: "Запущена",
-    message_count: 120,
-    author: "Иван Иванов",
-    actions: "", // действия обычно рендерятся отдельно
-  },
-  {
-    id: 2,
-    name: "Приветственное письмо",
-    type: "Ручная",
-    status: "Остановлена",
-    message_count: 45,
-    author: "Анна Смирнова",
-    actions: "",
-  },
-];
+
+
 
 export const multiOptions = [
   { value: "apple", label: "Apple" },

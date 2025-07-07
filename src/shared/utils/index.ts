@@ -79,3 +79,10 @@ export function mergeDateAndTime(date: Date, time: string): string {
   merged.setSeconds(seconds || 0);
   return merged.toISOString(); // → формат RFC3339
 }
+
+export const statusMap: Record<string, string> = {
+  pending: "Ожидает",
+  sending: "Отправляется",
+  sent: "Отправлено",
+  failed: "Ошибка",
+};

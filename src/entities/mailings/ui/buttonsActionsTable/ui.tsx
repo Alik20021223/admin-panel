@@ -6,6 +6,7 @@ import IconButtonWithTooltip from "@feature/iconButtonTooltip"
 import ModalDelete from "@feature/modal-delete"
 import { useState } from "react"
 import { useDeleteLanding } from "@entities/landing/hooks/delete-landing-list"
+import { useNavigate } from "react-router-dom"
 
 interface ButtonsActionsTableProps {
     props: CellContext<TableRow, unknown>
@@ -18,13 +19,15 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
 
     const { mutateAsync } = useDeleteLanding()
 
-    const OpenDeleteModal = (id: number) => {
-        setDeleteId(String(id))
+    const navigate = useNavigate()
+
+    const OpenDeleteModal = (id: string) => {
+        setDeleteId(id)
         setOpenDelete(true)
     }
 
     const onDeleteSpot = (id: string) => {
-        mutateAsync(Number(id))
+        mutateAsync(id)
     }
 
     return (
@@ -37,7 +40,7 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
                         tooltip="Копировать"
                     />
                     <IconButtonWithTooltip
-                        onClickButton={() => console.log("Редактировать", props)}
+                        onClickButton={() => navigate(`add-bot?edit=${props.row.original.id}`)}
                         icon={<Edit className="text-black hover:text-white" />}
                         tooltip="Редактировать"
                     />

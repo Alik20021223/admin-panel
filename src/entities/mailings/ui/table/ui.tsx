@@ -1,5 +1,5 @@
 import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel, getSortedRowModel } from '@tanstack/react-table';
-import { tableDataMock, tableHeaderMock } from '@entities/mailings/mock';
+import { tableHeaderMock } from '@entities/mailings/mock';
 import {
     Table,
     TableBody,
@@ -26,13 +26,13 @@ const TableMailing = () => {
         setColumnPinning
     } = useMailingTableStore()
 
-    const { data } = useQueryListMailing()
+    const { data, isLoading } = useQueryListMailing()
 
     console.log(data);
-    
+
 
     const table = useReactTable({
-        data: tableDataMock,
+        data: data,
         columns: tableHeaderMock,
         state: {
             columnVisibility: columnVisibility,
@@ -57,53 +57,53 @@ const TableMailing = () => {
 
     return (
         <>
-
-            <div className="w-full h-full overflow-hidden"> {/* запрет прокрутки контейнера */}
-                <div className="border-2 rounded-lg bg-white">             {/* включаем только горизонтальный скролл */}
-                    <Table className="min-w-max relative">
-                        <TableHeader>
-                            {table.getHeaderGroups().map((headerGroups) => (
-                                <TableRow key={headerGroups.id}>
-                                    {headerGroups.headers.map((header) => (
-                                        <TableHead key={header.id}>
-                                            <div className="flex items-center gap-3">
-                                                {String(header.column.columnDef.header)}
-                                                {header.column.getCanSort() && header.column.id !== 'actions' && (
-                                                    <ArrowDownUp
-                                                        size={14}
-                                                        onClick={header.column.getToggleSortingHandler()}
-                                                        className="cursor-pointer"
-                                                    />
-                                                )}
-                                            </div>
-                                        </TableHead>
-                                    ))}
-                                </TableRow>
-
-                            ))}
-                        </TableHeader>
-                        <TableBody>
-                            {table.getRowModel().rows.map((row) => (
-                                <TableRow key={row.id}>
-                                    {row.getVisibleCells().map((cell) => {
-                                        return (
-                                            <TableCell
-                                                key={cell.id}
-                                            >
+            {isLoading ? (
+                <div className="flex items-center justify-center h-40">
+                    <p className="text-muted-foreground">Загрузка...</p>
+                    {/* Или можешь вставить кастомный спиннер */}
+                </div>
+            ) : (
+                <div className="w-full h-full overflow-hidden">
+                    <div className="border-2 rounded-lg bg-white">
+                        <Table className="min-w-max relative">
+                            <TableHeader>
+                                {table.getHeaderGroups().map((headerGroups) => (
+                                    <TableRow key={headerGroups.id}>
+                                        {headerGroups.headers.map((header) => (
+                                            <TableHead key={header.id}>
+                                                <div className="flex items-center gap-3">
+                                                    {String(header.column.columnDef.header)}
+                                                    {header.column.getCanSort() && header.column.id !== 'actions' && (
+                                                        <ArrowDownUp
+                                                            size={14}
+                                                            onClick={header.column.getToggleSortingHandler()}
+                                                            className="cursor-pointer"
+                                                        />
+                                                    )}
+                                                </div>
+                                            </TableHead>
+                                        ))}
+                                    </TableRow>
+                                ))}
+                            </TableHeader>
+                            <TableBody>
+                                {table.getRowModel().rows.map((row) => (
+                                    <TableRow key={row.id}>
+                                        {row.getVisibleCells().map((cell) => (
+                                            <TableCell key={cell.id}>
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </TableCell>
-                                        );
-                                    })}
-                                </TableRow>
-                            ))}
-                        </TableBody>
-
-                    </Table>
+                                        ))}
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </div>
-            </div>
-
+            )}
         </>
     );
+
 };
 
 export default TableMailing;

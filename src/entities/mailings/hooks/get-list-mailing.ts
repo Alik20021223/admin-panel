@@ -13,7 +13,7 @@ import mailingService from "@entities/mailings/service/index.service";
 
 export function useQueryListMailing() {
   const { isLoading, isError, data, error, refetch } = useQuery({
-    queryKey: ["list-spots"],
+    queryKey: ["list-mailing"],
     queryFn: () => mailingService.getListMailing(),
     retry: false,
     // initialData: initialData,
