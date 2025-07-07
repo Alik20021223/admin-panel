@@ -14,13 +14,14 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@shadcdn/tooltip"
+import { SelectOption } from "@shared/types"
 
 interface FormSelectProps<T extends FieldValues> {
     name: Path<T>
     control: Control<T>
     label?: string
     placeholder?: string
-    options: { label: string; value: string, flag?: string }[]
+    options: SelectOption[]
     tooltipText?: string
     disabled?: boolean
 }

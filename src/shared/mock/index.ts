@@ -1,6 +1,6 @@
 import { AtSign, ChartNoAxesColumn, PanelsTopLeft, Users } from "lucide-react";
 import img from "@assets/shadcn-user.jpg";
-import { NotificationItems } from "@shared/types";
+import { NotificationItems, SelectOption } from "@shared/types";
 
 export const mockSideBarItems = [
   {
@@ -103,4 +103,18 @@ export const CommandOptions = [
   { label: "Команда", value: "true" },
 ];
 
+const mailingTypesRaw = ["permanent", "disposable"];
+export const mailingTypesObjects = mailingTypesRaw.map((type) => ({
+  value: type,
+  label: type === "permanent" ? "Постоянная" : "Одноразовая", // можно задать перевод или оставить как есть
+}));
 
+export const dayOptions: SelectOption[] = [
+  { value: "monday", label: "Понедельник" },
+  { value: "tuesday", label: "Вторник" },
+  { value: "wednesday", label: "Среда" },
+  { value: "thursday", label: "Четверг" },
+  { value: "friday", label: "Пятница" },
+  { value: "saturday", label: "Суббота" },
+  { value: "sunday", label: "Воскресенье" },
+];

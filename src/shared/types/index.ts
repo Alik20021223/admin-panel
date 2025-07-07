@@ -66,8 +66,14 @@ export type DomainType = {
   url: string;
 };
 
-export type ChannelType = {
+export type SpotType = {
   id: number;
   channel_id: Int16Array;
   title: string;
+};
+
+export type SelectOption = {
+  value: string;
+  label: string;
+  flag?: string;
 };

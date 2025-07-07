@@ -6,13 +6,13 @@ import { Controller, Control, FieldValues, Path } from "react-hook-form"
 
 import { Button } from "@shadcdn/button"
 import { Calendar } from "@shadcdn/calendar"
-import { Input } from "@shadcdn/input"
 import { Label } from "@shadcdn/label"
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@shadcdn/popover"
+import { TimeInputField } from "@feature/FormTime"
 
 interface CalendarTimeFieldProps<T extends FieldValues> {
     name: Path<T>
@@ -68,24 +68,7 @@ export const CalendarTimeField = <T extends FieldValues>({
                 />
             </div>
 
-            <div className="flex flex-col gap-2">
-                <Label htmlFor={timeName} className="px-1">
-                    Time
-                </Label>
-                <Controller
-                    name={timeName}
-                    control={control}
-                    render={({ field }) => (
-                        <Input
-                            type="time"
-                            id={timeName}
-                            step="1"
-                            className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden"
-                            {...field}
-                        />
-                    )}
-                />
-            </div>
+            <TimeInputField name={timeName} control={control} label="Время" />
         </div>
     )
 }

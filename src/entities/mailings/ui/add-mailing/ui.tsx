@@ -4,19 +4,23 @@ import { Plus } from "lucide-react"
 import { Button } from "@shadcdn/button"
 import { Form } from "@shadcdn/form"
 import FormInput from "@feature/formInput"
-import { defaultOptions } from "@shared/mock"
+import { dayOptions, mailingTypesObjects } from "@shared/mock"
 import { EditFormType } from "@entities/mailings/types"
 import { CalendarTimeField } from "@feature/formDateAndTime"
-import { multiOptions } from "@entities/mailings/mock"
 import { MultiSelect } from "@feature/MultiSelect"
 import CustomEditor from "@feature/text-editor"
 import AddButton from "@feature/add-button"
 import PreviewContent from "@feature/preview"
 import DropFieldInner from "@feature/dropField"
-// import { useCreateMailing } from "@entities/mailings/hooks/create-mailing"
-// import { mergeDateAndTime } from "@shared/utils"
+import { useQueryFormMailing } from "@entities/mailings/hooks/get-data-form"
+import { mapToSelectOptions } from "@/shared/utils"
+import { TimeInputField } from "@feature/FormTime"
+import { useCreateMailing } from "@entities/mailings/hooks/create-mailing"
+import { mergeDateAndTime } from "@shared/utils"
 
 const AddMailing = () => {
+
+    const { data: FormDataMock } = useQueryFormMailing()
 
     const form = useForm<EditFormType>({
         defaultValues: {
@@ -27,29 +31,52 @@ const AddMailing = () => {
             text: '',
             media: null,
             buttonsType: [],
-            time: '10:20:00',
+            time: "",
+            daysOfWeek: [],
         },
     })
 
-    // const { mutateAsync } = useCreateMailing()
+    const { mutateAsync } = useCreateMailing()
+
+    const SpotsOptions = mapToSelectOptions(FormDataMock?.channels, "id", "title");
+    const mailingTypesOptions = mapToSelectOptions(
+        mailingTypesObjects,
+        "value",
+        "label"
+    );
+
+
 
     const onSubmitForm = (data: EditFormType) => {
-        console.log(data);
+        const dateAndTime = mergeDateAndTime(data.dateAndTime, data.time);
+        const spotsArray = data.spot.map((s) => Math.abs(Number(s)));
+        const spotsString = JSON.stringify(spotsArray); // Получишь например "[1002684105006]"
 
-        // const dateAndTime = mergeDateAndTime(data.dateAndTime, data.time)
 
-        // mutateAsync({
-        //     mailing_name: data.name
-        //     mailing_type: data.typeMailing, // Изменить потом
-        //     channels: data.spot, // Изменить потом
-        //     image: data.media, // Изменить потом
-        //     text: data.text,
-        //     date_and_time: dateAndTime,
-        // })
-    }
+        const formData = new FormData();
+        formData.append("mailing_name", data.name);
+        formData.append("mailing_type", data.typeMailing);
+        formData.append("spots", spotsString); // обязательно строкой
+        formData.append("text", data.text);
+        formData.append("date_and_time", dateAndTime);
+
+
+        if (data.media) {
+            formData.append("image", data.media);
+        }
+
+
+        mutateAsync(formData);
+    };
+
 
     const text = form.watch('text')
     const buttonsType = form.watch('buttonsType')
+    const typeMailing = form.watch('typeMailing')
+
+    console.log(form.watch());
+
+
 
     return (
         <>
@@ -58,21 +85,48 @@ const AddMailing = () => {
                     <form onSubmit={form.handleSubmit(onSubmitForm)} className="space-y-3">
                         <div className="grid grid-cols-2 gap-3 items-center">
                             <FormInput name="name" control={form.control} label="Введите название" />
-                            <FormSelect name="typeMailing" control={form.control} label="Тип рассылки" options={defaultOptions} />
-                            <div className="w-full">
-                                <CalendarTimeField
-                                    name="dateAndTime"
-                                    timeName="time"
-                                    control={form.control}
-                                    label="Meeting time"
-                                />
-                            </div>
+                            <FormSelect name="typeMailing" control={form.control} label="Тип рассылки" options={mailingTypesOptions} />
+                            {
+                                typeMailing === "disposable"
+                                    ?
+                                    <>
+                                        <TimeInputField
+                                            name="time"
+                                            control={form.control}
+                                            label="Время"
+                                        />
+
+                                        {/* dayOptions */}
+                                        <Controller
+                                            name="daysOfWeek"
+                                            control={form.control}
+                                            render={({ field }) => (
+                                                <MultiSelect
+                                                    options={dayOptions}
+                                                    value={field.value}
+                                                    label="День недели"
+                                                    onChange={field.onChange}
+                                                    placeholder="Выберите "
+                                                />
+                                            )}
+                                        />
+                                    </>
+                                    : <div className="w-full">
+                                        <CalendarTimeField
+                                            name="dateAndTime"
+                                            timeName="time"
+                                            control={form.control}
+                                            label="Дата и время"
+                                        />
+                                    </div>
+                            }
+
                             <Controller
                                 name="spot"
                                 control={form.control}
                                 render={({ field }) => (
                                     <MultiSelect
-                                        options={multiOptions}
+                                        options={SpotsOptions}
                                         value={field.value}
                                         label="Cпот"
                                         onChange={field.onChange}
@@ -80,9 +134,6 @@ const AddMailing = () => {
                                     />
                                 )}
                             />
-
-
-
                         </div>
 
                         <PreviewContent text={text} buttonArray={buttonsType} />

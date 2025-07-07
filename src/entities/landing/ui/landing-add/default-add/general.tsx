@@ -51,7 +51,7 @@ const GeneralTab = () => {
     console.log(form.watch());
 
     const DomainOptions = mapToSelectOptions(infoData?.domains, "id", "url");
-    const SpotsOptions = mapToSelectOptions(infoData?.spots, "id", "title");
+    const SpotsOptions = mapToSelectOptions(infoData?.spots, "channel_id", "title");
 
 
     // const optionsDomains = mapToSelectOptions(InfoData)

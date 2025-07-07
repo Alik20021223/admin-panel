@@ -1,4 +1,4 @@
-import { ChannelType, DomainType, UserType } from "@shared/types";
+import { SpotType, DomainType, UserType } from "@shared/types";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type TableRow = {
@@ -63,7 +63,7 @@ export type ListLandingResponseType = {
 
 export type InfoAddFormResponseType = {
   user: UserType;
-  spots: ChannelType[];
+  spots: SpotType[];
   domains: DomainType[];
   auto_redirect: boolean;
   text_button: string;

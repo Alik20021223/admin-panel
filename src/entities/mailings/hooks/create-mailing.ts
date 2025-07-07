@@ -1,13 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import mailingService from "@entities/mailings/service/index.service";
-import { CreateMailingType } from "@entities/mailings/types";
 
 export function useCreateMailing() {
   const queryClient = useQueryClient();
 
   const { mutateAsync, isSuccess, isError, isPending, isIdle } = useMutation({
     mutationKey: ["create-mailing"],
-    mutationFn: (payload: CreateMailingType) =>
+    mutationFn: (payload: FormData) =>
       mailingService.createMailingFromList(payload),
     onSuccess: () => queryClient.invalidateQueries(),
   });

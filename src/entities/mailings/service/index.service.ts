@@ -1,7 +1,9 @@
 import { axiosInstance } from "@shared/utils/axios";
 // import { ListMailingsResponseType } from "@entities/spots/types";
 import { MAILINGS_URL } from "@entities/mailings/constant/api_url";
-import { CreateMailingType } from "@entities/mailings/types";
+import {
+  GetDataFormMailingForm,
+} from "@entities/mailings/types";
 
 class Mailing_service {
   async getListMailing() {
@@ -11,7 +13,9 @@ class Mailing_service {
   }
 
   async getMailingForm() {
-    const result = await axiosInstance.get(MAILINGS_URL.CREATE);
+    const result = await axiosInstance.get<GetDataFormMailingForm>(
+      MAILINGS_URL.CREATE
+    );
 
     return result.data;
   }
@@ -30,7 +34,7 @@ class Mailing_service {
     return result.data;
   }
 
-  async createMailingFromList(payload: CreateMailingType) {
+  async createMailingFromList(payload: FormData) {
     const result = await axiosInstance.post(MAILINGS_URL.CREATE, payload);
 
     return result.data;

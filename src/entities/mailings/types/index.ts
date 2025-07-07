@@ -1,4 +1,4 @@
-import { ButtonBotType } from "@shared/types";
+import { ButtonBotType, SpotType } from "@shared/types";
 import { ReactNode } from "react";
 
 export type TableRow = {
@@ -33,6 +33,7 @@ export type EditFormType = {
   media: File | null;
   buttonsType: ButtonBotType[];
   time: string;
+  daysOfWeek: string[];
 };
 
 export type MailingItem = {
@@ -43,15 +44,7 @@ export type MailingItem = {
   status: "pending" | "sending" | "sent" | "failed"; // Текущий статус рассылки
 };
 
-export type CreateMailingType = {
-  mailing_name: string;
-  mailing_type: "permanent" | "disposable";
-  text: string;
-  channels?: string;
-  date_and_time: string;
-  image: string;
-  buttons: {
-    text: string,
-    url: string
-  }[]
+export type GetDataFormMailingForm = {
+  channels: SpotType[];
+  mailing_types: ["permanent", "disposable"];
 };

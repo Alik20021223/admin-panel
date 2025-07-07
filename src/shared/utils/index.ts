@@ -1,5 +1,6 @@
 import { DateRange } from "react-day-picker";
 import { axiosInstance } from "./axios";
+// import { SpotType } from "../types";
 
 export function formatDateRange(range: DateRange | undefined) {
   if (!range?.from) return "";
@@ -68,6 +69,7 @@ export function mapToSelectOptions<T extends Record<string, unknown>>(
     label: String(item[labelKey]),
   }));
 }
+
 
 export function mergeDateAndTime(date: Date, time: string): string {
   const [hours, minutes, seconds] = time.split(":").map(Number);
