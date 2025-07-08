@@ -74,7 +74,7 @@ export type CreateDefaultLanding = {
   name: string;
   domain_id: number;
   spot_id: number;
-  // spot_type: string;
+  spot_type: string;
   auto_redirect: boolean;
   allowed_countries: string[];
 };
@@ -97,4 +97,10 @@ export interface CreateProDesign {
   accent_color: string;
   background_color: string;
   banner_background_color: string;
+}
+
+export interface ButtonsPro {
+  text_members: string;
+  text_button: string;
+  text_view_telegram: string;
 }

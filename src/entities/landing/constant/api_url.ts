@@ -4,4 +4,5 @@ export enum LANDINGS_URL {
   DEFAULT = "landings/default",
   PRO = "landings/pro",
   DESIGN = "landings/design",
+  BUTTONS = "landings/buttons",
 }

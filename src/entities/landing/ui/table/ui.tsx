@@ -29,7 +29,7 @@ const TableLanding = () => {
     const { data } = useQueryListLanding()
 
     const table = useReactTable({
-        data: tableDataMock,
+        data: data.landings,
         columns: tableHeaderMock,
         state: {
             columnVisibility: columnVisibility,

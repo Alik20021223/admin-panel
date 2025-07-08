@@ -70,6 +70,7 @@ export type SpotType = {
   id: number;
   channel_id: number;
   title: string;
+  spot_type?: string;
 };
 
 export type SelectOption = {

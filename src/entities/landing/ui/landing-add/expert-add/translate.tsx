@@ -7,13 +7,12 @@ import { TranslateFormType } from "@entities/landing/types";
 import FormInput from "@feature/formInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { expertTranslateSchema } from "../validation";
+import { useCreateProTranslate } from "@entities/landing/hooks/create-landing-button";
+import { useNavigate } from "react-router-dom";
 
 interface ExpertTranslateTabProps {
     onNextStep: () => void;
 }
-
-
-
 
 const ExpertTranslateTab = ({ onNextStep }: ExpertTranslateTabProps) => {
     const form = useForm<TranslateFormType>({
@@ -26,9 +25,21 @@ const ExpertTranslateTab = ({ onNextStep }: ExpertTranslateTabProps) => {
         },
     })
 
+    const navigate = useNavigate()
+
+    const { mutateAsync } = useCreateProTranslate()
+
     const onSubmitForm = (data: TranslateFormType) => {
         console.log(data);
         onNextStep()
+
+        mutateAsync({
+            text_view_telegram: data.textViewTelegram,
+            text_members: data.textMembers,
+            text_button: data.textDownload
+        })
+
+        navigate('/landings')
     }
 
     return (

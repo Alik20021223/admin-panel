@@ -5,13 +5,15 @@ import FormInput from "@feature/formInput";
 import { Button } from "@shadcdn/button";
 import { Plus } from "lucide-react";
 import { FormSelect } from "@feature/formSelect";
-import { defaultOptions } from "@shared/mock";
+import { postBackOptions } from "@shared/mock";
 import CustomEditor from "@feature/text-editor";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { expertGeneralSchema } from "../validation";
 import { countryMock } from "country-data";
 import { FormMultiSelectCountry } from "@feature/formSelectСountry";
 import { useCreateProLanding } from "@entities/landing/hooks/create-landing-pro";
+import { useLandingStore } from "@entities/landing/store";
+import { mapToSelectOptions } from "@shared/utils";
 
 
 
@@ -20,6 +22,10 @@ interface ExpertGeneralTabProps {
 }
 
 const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
+
+    const { infoData } = useLandingStore()
+    const { mutateAsync } = useCreateProLanding()
+
     const form = useForm<ExpertGeneralFormType>({
         resolver: zodResolver(expertGeneralSchema),
         mode: "onChange",
@@ -35,7 +41,10 @@ const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
         },
     })
 
-    const { mutateAsync } = useCreateProLanding()
+
+
+    const DomainOptions = mapToSelectOptions(infoData?.domains, "id", "url");
+    const SpotsOptions = mapToSelectOptions(infoData?.spots, "id", "title");
 
     const onSubmitForm = (data: ExpertGeneralFormType) => {
         console.log(data);
@@ -69,9 +78,9 @@ const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
                     />
 
                     <div className="grid grid-cols-2 gap-3 items-center">
-                        <FormSelect name="domen" control={form.control} label="Домен" options={defaultOptions} />
-                        <FormSelect name="autoRedirect" control={form.control} label="Авторедирект" options={defaultOptions} />
-                        <FormSelect name="spot" control={form.control} label="Спот" options={defaultOptions} />
+                        <FormSelect name="domen" control={form.control} label="Домен" options={DomainOptions} />
+                        <FormSelect name="autoRedirect" control={form.control} label="Авторедирект" options={postBackOptions} />
+                        <FormSelect name="spot" control={form.control} label="Спот" options={SpotsOptions} />
                         <FormInput name="countUsers" control={form.control} label="Количество участников" />
                     </div>
 

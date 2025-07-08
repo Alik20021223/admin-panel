@@ -38,6 +38,10 @@ const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
         if (data.avatar) {
             formData.append("avatar_image", data.avatar)
         }
+        
+        if (data.logo) {
+            formData.append("logo_image", data.logo)
+        }
 
         if (data.patternBg) {
             formData.append("background_image", data.patternBg)

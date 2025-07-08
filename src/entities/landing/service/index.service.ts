@@ -1,6 +1,7 @@
 import { axiosInstance } from "@shared/utils/axios";
 import { LANDINGS_URL } from "@entities/landing/constant/api_url";
 import {
+  ButtonsPro,
   CreateDefaultLanding,
   // CreateProDesign,
   CreateProLanding,
@@ -38,13 +39,19 @@ class Landings_service {
   }
 
   async createLandingPro(payload: CreateProLanding) {
-    const result = await axiosInstance.post(LANDINGS_URL.DEFAULT, payload);
+    const result = await axiosInstance.post(LANDINGS_URL.PRO, payload);
 
     return result.data;
   }
 
   async createLandingProDesign(payload: FormData) {
     const result = await axiosInstance.post(LANDINGS_URL.DESIGN, payload);
+
+    return result.data;
+  }
+
+  async createLandingProButton(payload: ButtonsPro) {
+    const result = await axiosInstance.post(LANDINGS_URL.BUTTONS, payload);
 
     return result.data;
   }

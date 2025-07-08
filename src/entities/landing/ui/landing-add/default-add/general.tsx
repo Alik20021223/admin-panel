@@ -14,12 +14,15 @@ import { useEffect } from "react"
 import { countryMock } from "country-data"
 import { FormMultiSelectCountry } from "@feature/formSelectСountry"
 import { useCreateDefaultLanding } from "@entities/landing/hooks/create-landing-default"
+import { useNavigate } from "react-router-dom"
 
 const GeneralTab = () => {
 
     const { infoData } = useLandingStore()
 
     const { mutateAsync } = useCreateDefaultLanding()
+
+    const navigate = useNavigate()
 
     const form = useForm<GeneralFormType>({
         resolver: zodResolver(defaultGeneralSchema),
@@ -48,25 +51,23 @@ const GeneralTab = () => {
         }
     }, [infoData.auto_redirect]);
 
-    console.log(form.watch());
-
     const DomainOptions = mapToSelectOptions(infoData?.domains, "id", "url");
-    const SpotsOptions = mapToSelectOptions(infoData?.spots, "channel_id", "title");
-
-
-    // const optionsDomains = mapToSelectOptions(InfoData)
-
+    const SpotsOptions = mapToSelectOptions(infoData?.spots, "id", "title");
 
     const onSubmitForm = (data: GeneralFormType) => {
         console.log(data);
+        const spotType = infoData?.spots.find(spot => spot.id === Number(data.spot))?.spot_type ?? "";
 
         mutateAsync({
             name: data.name,
+            spot_type: spotType,
             domain_id: Number(data.domen),
             spot_id: Number(data.spot),
             allowed_countries: data.showToCountry,
             auto_redirect: Boolean(data.autoRedirect)
         })
+
+        navigate('/landings')
     }
 
     return (

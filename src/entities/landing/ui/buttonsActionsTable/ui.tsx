@@ -1,18 +1,19 @@
 import { CellContext } from "@tanstack/react-table"
 import { TableRow } from "@entities/landing/types"
-import { CopyPlus, Files, ChevronRight, Edit, Trash } from "lucide-react"
+import { Files, ChevronRight, Edit, Trash } from "lucide-react"
 import { TooltipProvider } from "@shadcdn/tooltip"
 import IconButtonWithTooltip from "@feature/iconButtonTooltip"
 import ModalDelete from "@feature/modal-delete"
 import { useState } from "react"
 import { useDeleteLanding } from "@entities/landing/hooks/delete-landing-list"
+import ModalGenLink from "@entities/landing/ui/modal-gen-link"
 
 interface ButtonsActionsTableProps {
     props: CellContext<TableRow, unknown>
 }
 
 const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
-
+    const [openLink, setOpenLink] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
     const [deleteId, setDeleteId] = useState('')
 
@@ -24,22 +25,22 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
     }
 
     const onDeleteSpot = (id: string) => {
-        mutateAsync(Number(id))
+        mutateAsync(id)
     }
 
     return (
         <>
             <TooltipProvider delayDuration={500}>
                 <div className="flex gap-1 items-center">
-                    <IconButtonWithTooltip
+                    {/* <IconButtonWithTooltip
                         onClickButton={() => console.log("Копировать", props)}
                         icon={<CopyPlus className="text-black hover:text-white" />}
                         tooltip="Копировать"
-                    />
+                    /> */}
                     <IconButtonWithTooltip
-                        onClickButton={() => console.log("Файлы", props)}
+                        onClickButton={() => setOpenLink(true)}
                         icon={<Files className="text-black hover:text-white" />}
-                        tooltip="Файлы"
+                        tooltip="Копировать ссылку"
                     />
                     <IconButtonWithTooltip
                         onClickButton={() => console.log("Детали", props)}
@@ -59,6 +60,7 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
                 </div>
             </TooltipProvider>
 
+            <ModalGenLink open={openLink} setOpen={setOpenLink} />
             <ModalDelete open={openDelete} setOpen={setOpenDelete} id={deleteId} onDelete={onDeleteSpot} />
         </>
     )
