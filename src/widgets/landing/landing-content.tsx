@@ -3,11 +3,21 @@ import { Plus } from "lucide-react";
 import ColumnFilter from "@entities/landing/ui/column-filter";
 import TableLanding from "@entities/landing/ui/table";
 import { useNavigate } from "react-router-dom";
+import { useLandingStore } from "@entities/landing/store";
+import { useEffect } from "react";
 
 
 const LandingContent = () => {
 
     const navigate = useNavigate()
+
+    const {
+        setEditData,
+    } = useLandingStore();
+
+    useEffect(() => {
+        setEditData(null)
+    }, [])
 
     return (
         <>

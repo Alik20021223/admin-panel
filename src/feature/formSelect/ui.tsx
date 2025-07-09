@@ -60,7 +60,7 @@ export const FormSelect = <T extends FieldValues>({
                             </div>
                         )}
 
-                        <Select disabled={disabled} onValueChange={field.onChange} value={field.value}>
+                        <Select disabled={disabled} onValueChange={field.onChange} value={String(field.value)}>
                             <FormControl>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={placeholder} />

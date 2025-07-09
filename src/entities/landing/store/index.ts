@@ -1,6 +1,10 @@
 // stores/useStatisticTableStore.ts
 import { create } from "zustand";
-import { InfoAddFormResponseType, TableRow } from "@entities/landing/types";
+import {
+  InfoAddFormResponseType,
+  LandingData,
+  TableRow,
+} from "@entities/landing/types";
 import {
   Updater,
   VisibilityState,
@@ -13,6 +17,9 @@ interface LandingTableState {
   columnVisibility: VisibilityState;
   setColumnVisibility: (updater: Updater<VisibilityState>) => void;
 
+  editLanding: boolean;
+  setEditLanding: (val: boolean) => void;
+
   allColumns: Column<TableRow>[]; // 👈 массив всех колонок
   setAllColumns: (columns: Column<TableRow>[]) => void;
 
@@ -24,11 +31,20 @@ interface LandingTableState {
 
   infoData: InfoAddFormResponseType;
   setInfoData: (data: InfoAddFormResponseType) => void;
+
+  editData: LandingData | null;
+  setEditData: (data: LandingData | null) => void;
 }
 
 export const useLandingStore = create<LandingTableState>((set, get) => ({
   infoData: MockInitialData,
-  setInfoData: (data) => set({infoData: data}),
+  setInfoData: (data) => set({ infoData: data }),
+
+  editLanding: false,
+  setEditLanding: (val) => set({ editLanding: val }),
+
+  editData: null,
+  setEditData: (data) => set({ editData: data }),
 
   columnVisibility: {},
   setColumnVisibility: (updater) => {

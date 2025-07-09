@@ -14,6 +14,7 @@ import { FormMultiSelectCountry } from "@feature/formSelectСountry";
 import { useCreateProLanding } from "@entities/landing/hooks/create-landing-pro";
 import { useLandingStore } from "@entities/landing/store";
 import { mapToSelectOptions } from "@shared/utils";
+import { useEffect } from "react";
 
 
 
@@ -23,7 +24,7 @@ interface ExpertGeneralTabProps {
 
 const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
 
-    const { infoData } = useLandingStore()
+    const { infoData, editLanding, editData } = useLandingStore()
     const { mutateAsync } = useCreateProLanding()
 
     const form = useForm<ExpertGeneralFormType>({
@@ -47,7 +48,10 @@ const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
     const SpotsOptions = mapToSelectOptions(infoData?.spots, "id", "title");
 
     const onSubmitForm = (data: ExpertGeneralFormType) => {
-        console.log(data);
+
+        const spotType = infoData?.spots.find(spot => spot.id === Number(data.spot))?.spot_type ?? "";
+
+
         mutateAsync({
             members: Number(data.countUsers),
             title: data.title,
@@ -55,11 +59,29 @@ const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
             description: data.description,
             auto_redirect: Boolean(data.autoRedirect),
             domain_id: Number(data.domen),
-            spot_type: data.spot,
+            spot_type: spotType,
             spot_id: Number(data.spot),
         })
         onNextStep()
     }
+
+    useEffect(() => {
+        if (editLanding && editData) {
+            form.reset({
+                name: editData.landing.name || "",
+                title: editData.landing.title || "",
+                description: editData.landing.description || "",
+                domen: String(editData.current_landing.domain.id),
+                spot: String(editData.current_landing.spot.id),
+                countUsers: String(editData.landing.members),
+                autoRedirect: String(editData.landing.auto_redirect),
+                // showToCountry: editData.landing.allowed_countries || [],
+            });
+        }
+    }, [editLanding, editData]);
+
+    console.log(form.watch());
+
 
     return (
         <>

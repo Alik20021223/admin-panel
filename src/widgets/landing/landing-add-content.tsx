@@ -10,6 +10,8 @@ import ExpertDesignTab from "@entities/landing/ui/landing-add/expert-add/design"
 import { StepTabItem, StepTabs } from "@feature/step-tab";
 import { useQueryInfoAddForm } from "@entities/landing/hooks/get-info-add-form";
 import { useLandingStore } from "@entities/landing/store";
+import { useGetInfoLanding } from "@entities/landing/hooks/get-landing-by-id";
+import { useSearchParams } from "react-router-dom";
 
 const PATH_MAP = {
     landings: LANDINGS,
@@ -20,20 +22,36 @@ const LandingAddContent = () => {
     const [currentStep, setCurrentStep] = useState("general");
     const [completedSteps, setCompletedSteps] = useState<string[]>([]);
 
-    const { setInfoData } = useLandingStore();
+    const [searchParams] = useSearchParams();
+    const edit = searchParams.get("edit");
 
-    const { refetch } = useQueryInfoAddForm({
+    const { data: editData } = useGetInfoLanding(edit || "")
+
+    const {
+        setInfoData,
+        // editLanding,
+        setEditData,
+        // setEditLanding
+    } = useLandingStore();
+
+    useEffect(() => {
+        if (editData) {
+            setEditData(editData);
+        }
+    }, [editData]); // и лучше зависимость именно от editData
+
+
+    const { refetch: refetchInfoForm } = useQueryInfoAddForm({
         enabled: false,
     });
 
     useEffect(() => {
-        refetch().then((result) => {
+        refetchInfoForm().then((result) => {
             if (result.data) {
                 setInfoData(result.data);
             }
         });
     }, []);
-
 
     const steps: StepTabItem[] = isExpertVersion
         ? [
@@ -59,7 +77,7 @@ const LandingAddContent = () => {
                 label: "Общее",
                 content: () => {
                     return (
-                        <GeneralTab/>
+                        <GeneralTab />
                     );
                 },
             },
@@ -89,7 +107,7 @@ const LandingAddContent = () => {
                     onCompleteStep={(step: string) =>
                         setCompletedSteps((prev) => [...new Set([...prev, step])])
                     }
-                    disableStepLock={true}
+                    disableStepLock={!!edit}
                 />
             </div>
 

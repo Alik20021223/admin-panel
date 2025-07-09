@@ -7,6 +7,8 @@ import ModalDelete from "@feature/modal-delete"
 import { useState } from "react"
 import { useDeleteLanding } from "@entities/landing/hooks/delete-landing-list"
 import ModalGenLink from "@entities/landing/ui/modal-gen-link"
+import { useLandingStore } from "@entities/landing/store"
+import { useNavigate } from "react-router-dom"
 
 interface ButtonsActionsTableProps {
     props: CellContext<TableRow, unknown>
@@ -19,13 +21,22 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
 
     const { mutateAsync } = useDeleteLanding()
 
+    const navigate = useNavigate()
+
+    const { setEditLanding } = useLandingStore()
+
     const OpenDeleteModal = (id: string) => {
         setDeleteId(id)
         setOpenDelete(true)
     }
 
-    const onDeleteSpot = (id: string) => {
+    const onDeleteLanding = (id: string) => {
         mutateAsync(id)
+    }
+
+    const onEditLanding = (id: string) => {
+        navigate(`add?edit=${id}`)
+        setEditLanding(true)
     }
 
     return (
@@ -48,7 +59,7 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
                         tooltip="Детали"
                     />
                     <IconButtonWithTooltip
-                        onClickButton={() => console.log("Редактировать", props)}
+                        onClickButton={() => onEditLanding(props.row.original.landing_id)}
                         icon={<Edit className="text-black hover:text-white" />}
                         tooltip="Редактировать"
                     />
@@ -61,7 +72,7 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
             </TooltipProvider>
 
             <ModalGenLink open={openLink} setOpen={setOpenLink} />
-            <ModalDelete open={openDelete} setOpen={setOpenDelete} id={deleteId} onDelete={onDeleteSpot} />
+            <ModalDelete open={openDelete} setOpen={setOpenDelete} id={deleteId} onDelete={onDeleteLanding} />
         </>
     )
 }

@@ -9,6 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { expertTranslateSchema } from "../validation";
 import { useCreateProTranslate } from "@entities/landing/hooks/create-landing-button";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useLandingStore } from "@entities/landing/store";
 
 interface ExpertTranslateTabProps {
     onNextStep: () => void;
@@ -27,6 +29,8 @@ const ExpertTranslateTab = ({ onNextStep }: ExpertTranslateTabProps) => {
 
     const navigate = useNavigate()
 
+    const { editLanding, editData } = useLandingStore()
+
     const { mutateAsync } = useCreateProTranslate()
 
     const onSubmitForm = (data: TranslateFormType) => {
@@ -41,6 +45,16 @@ const ExpertTranslateTab = ({ onNextStep }: ExpertTranslateTabProps) => {
 
         navigate('/landings')
     }
+
+    useEffect(() => {
+        if (editLanding && editData) {
+            form.reset({
+                textViewTelegram: editData.landing.text_view_telegram || "",
+                textMembers: editData.landing.text_members || "",
+                textDownload: editData.landing.text_button || "",
+            });
+        }
+    }, [editLanding, editData]);
 
     return (
         <>

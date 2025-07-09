@@ -18,11 +18,13 @@ import { useNavigate } from "react-router-dom"
 
 const GeneralTab = () => {
 
-    const { infoData } = useLandingStore()
+    const { infoData, editLanding, editData } = useLandingStore()
 
     const { mutateAsync } = useCreateDefaultLanding()
 
     const navigate = useNavigate()
+
+
 
     const form = useForm<GeneralFormType>({
         resolver: zodResolver(defaultGeneralSchema),
@@ -36,26 +38,10 @@ const GeneralTab = () => {
         },
     })
 
-    useEffect(() => {
-        if (infoData.auto_redirect !== false) {
-
-            // console.log(infoData);
-
-            form.reset({
-                name: "",
-                spot: "",
-                domen: "",
-                showToCountry: [],
-                autoRedirect: String(infoData.auto_redirect),
-            });
-        }
-    }, [infoData.auto_redirect]);
-
     const DomainOptions = mapToSelectOptions(infoData?.domains, "id", "url");
     const SpotsOptions = mapToSelectOptions(infoData?.spots, "id", "title");
 
     const onSubmitForm = (data: GeneralFormType) => {
-        console.log(data);
         const spotType = infoData?.spots.find(spot => spot.id === Number(data.spot))?.spot_type ?? "";
 
         mutateAsync({
@@ -69,6 +55,23 @@ const GeneralTab = () => {
 
         navigate('/landings')
     }
+
+    useEffect(() => {
+        if (editLanding && editData && infoData.spots.length && infoData.domains.length) {
+            form.reset({
+                name: editData.landing.name || "",
+                domen: String(editData.current_landing.domain.id),
+                spot: String(editData.current_landing.spot.id),
+                showToCountry: editData.landing.allowed_countries || [],
+                autoRedirect: String(editData.landing.auto_redirect),
+            });
+        }
+    }, [editLanding, editData, infoData.spots, infoData.domains]);
+
+
+    console.log(form.watch());
+
+
 
     return (
         <>

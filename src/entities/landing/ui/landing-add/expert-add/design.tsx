@@ -8,6 +8,8 @@ import DropFieldInner from '@feature/dropField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { expertDesignSchema } from '../validation';
 import { useCreateProDesign } from '@entities/landing/hooks/create-landing-design';
+import { useEffect } from 'react';
+import { useLandingStore } from '@entities/landing/store';
 
 interface ExpertDesignTabProps {
     onNextStep: () => void;
@@ -31,6 +33,8 @@ const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
 
     const { mutateAsync } = useCreateProDesign()
 
+    const { editLanding, editData } = useLandingStore()
+
     const onSubmitForm = (data: ExpertDesignFormType) => {
 
         const formData = new FormData()
@@ -38,7 +42,7 @@ const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
         if (data.avatar) {
             formData.append("avatar_image", data.avatar)
         }
-        
+
         if (data.logo) {
             formData.append("logo_image", data.logo)
         }
@@ -54,6 +58,16 @@ const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
         mutateAsync(formData)
         onNextStep()
     }
+
+    useEffect(() => {
+        if (editLanding && editData) {
+            form.reset({
+                colorBgBanner: editData.landing.banner_background_color || "",
+                bgColor: editData.landing.background_color || "",
+                accentColor: editData.landing.accent_color || "",
+            });
+        }
+    }, [editLanding, editData]);
 
     return (
         <>
