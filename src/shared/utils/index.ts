@@ -70,7 +70,6 @@ export function mapToSelectOptions<T extends Record<string, unknown>>(
   }));
 }
 
-
 export function mergeDateAndTime(date: Date, time: string): string {
   const [hours, minutes, seconds] = time.split(":").map(Number);
   const merged = new Date(date);
@@ -86,3 +85,11 @@ export const statusMap: Record<string, string> = {
   sent: "Отправлено",
   failed: "Ошибка",
 };
+
+export const fileToBase64 = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file); // <-- это создаёт base64 строку
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+  });

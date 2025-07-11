@@ -3,8 +3,8 @@ import { z } from "zod";
 // Схема для кнопок
 const buttonBotSchema = z.object({
   name: z.string().min(1, "Название кнопки обязательно"),
-  link: z.string().min(1, "Ссылка обязательна"),
-  id: z.number(),
+  url: z.string().min(1, "Ссылка обязательна"),
+  id: z.number().optional(),
 });
 
 // Схема для outPostBack
@@ -16,13 +16,26 @@ const outPostBackSchema = z.object({
 });
 
 // Схема для postBack
-const postBackSchema = z.object({
-  typePostBack: z.string().min(1, "Тип постбэка обязателен"),
-  enterPixel: z.string().min(1, "Пиксель входа обязателен"),
-  apiKey: z.string().min(1, "API ключ обязателен"),
-  outPostBack: z.string().min(1, "Исходящий постбэк обязателен"),
-  outPostBackArray: z.array(outPostBackSchema),
-});
+export const postBackSchema = z
+  .object({
+    typePostBack: z.string().min(1, "Тип постбэка обязателен"),
+    enterPixel: z.string().min(1, "Пиксель входа обязателен"),
+    apiKey: z.string().min(1, "API ключ обязателен"),
+    outPostBack: z.string().min(1, "Укажите, нужен ли исходящий постбэк"),
+    outPostBackArray: z.array(outPostBackSchema).optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data.outPostBack === "true" &&
+      (!data.outPostBackArray || data.outPostBackArray.length === 0)
+    ) {
+      ctx.addIssue({
+        path: ["outPostBackArray"],
+        code: z.ZodIssueCode.custom,
+        message: "Заполните хотя бы один исходящий постбэк",
+      });
+    }
+  });
 
 // Основная схема
 export const StepOneSpotSchema = z.object({
@@ -31,7 +44,7 @@ export const StepOneSpotSchema = z.object({
   autoReception: z.boolean(),
   HelloSelect: z.boolean(),
   textHello: z.string(),
-  mediaHello: z.instanceof(File).nullable(),
+  mediaHello: z.custom<File>().nullable(),
   buttonsTypeHello: z.array(buttonBotSchema),
   postBack: z.array(postBackSchema),
 });

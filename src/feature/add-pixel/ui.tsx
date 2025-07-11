@@ -3,7 +3,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { Button } from "@shadcdn/button"; // предположим, у тебя такой
 import { Label } from "@shadcdn/label";
-import { defaultOptions, postBackOptions } from "@shared/mock";
+import { postBackOptions } from "@shared/mock";
 import { FormSelect } from "@feature/formSelect";
 import { Separator } from "@shadcdn/separator";
 import AddOutPostBack from "@feature/add-out-postback";
@@ -34,13 +34,13 @@ const AddPixel: React.FC<AddPixelProps> = ({ name }) => {
                     <>
                         <div key={field.id} className="border px-3 py-4 rounded-md bg-slate-100">
                             <div
-                                className="grid grid-cols-[1fr_auto] gap-3 items-end "
+                                className="grid grid-cols-[1fr_auto] gap-3 space-y-3 items-end "
                             >
-                                <FormSelect
+                                <FormInput
                                     name={`${name}.${index}.typePostBack`}
                                     control={control}
-                                    label="Условие"
-                                    options={defaultOptions}
+                                    label="Тип постбэка"
+                                    disabled={true}
                                 />
                                 <Button
                                     type="button"
@@ -87,7 +87,7 @@ const AddPixel: React.FC<AddPixelProps> = ({ name }) => {
                 variant="ghost"
                 className="w-fit text-blue-500"
                 onClick={() => append({
-                    typePostBack: "",
+                    typePostBack: "Facebook",
                     enterPixel: "",
                     apiKey: '',
                     outPostBack: 'false'

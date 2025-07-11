@@ -1,5 +1,5 @@
 import avatarJpg from '@assets/shadcn-user.jpg'
-import { ItemSpotType } from '@entities/spots/types'
+import { ChannelInfo } from '@entities/spots/types'
 import { Edit, Eye, Gauge, Logs, Trash, Type, User, UserCheck } from 'lucide-react'
 import IconButtonWithTooltip from '@feature/iconButtonTooltip'
 import ModalGenLink from '../modal-gen-link'
@@ -9,7 +9,7 @@ import ModalDelete from '@feature/modal-delete'
 import { useDeleteSpot } from '@entities/spots/hooks/delete-landing-list'
 
 interface ItemSpotProps {
-    item: ItemSpotType
+    item: ChannelInfo
 }
 
 const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
@@ -22,8 +22,8 @@ const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
 
     const { mutateAsync } = useDeleteSpot()
 
-    const OpenDeleteModal = (id: string) => {
-        setDeleteId(id)
+    const OpenDeleteModal = (id: number) => {
+        setDeleteId(String(id))
         setOpenDelete(true)
     }
 
@@ -45,7 +45,7 @@ const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
                     />
                     <div>
                         <span className='text-sm font-normal text-slate-400'>Название</span>
-                        <p className="text-[13px] font-medium ">{item.name} (ID {item.id}) </p>
+                        <p className="text-[13px] font-medium ">{item.title} (ID {item.id}) </p>
                     </div>
                 </div>
                 <div>
@@ -54,7 +54,7 @@ const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
                         <span className="text-sm font-normal text-slate-400">Подписчики:</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <span className="text-[13px] font-medium">{item.subscriber}</span>
+                        <span className="text-[13px] font-medium">{item.members}</span>
                     </div>
                 </div>
                 <div>
@@ -64,9 +64,9 @@ const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
                     </div>
                     <div className="flex items-center gap-1">
                         <span className="text-[13px] font-medium">
-                            {item.type === 'App' && 'Telegram app'}
-                            {item.type === 'Bot' && 'Telegram bot'}
-                            {item.type === 'channel' && 'Telegram channel'}
+                            {/* {item.type === 'App' && 'Telegram app'}
+                            {item.type === 'Bot' && 'Telegram bot'} */}
+                            {item.spot_type === 'telegram_channels' && 'Telegram channel'}
                         </span>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
                             className="rounded-full w-4 h-4"
                             alt="avatar"
                         />
-                        <span className="text-[13px] font-medium">{item.creator}</span>
+                        <span className="text-[13px] font-medium">{item.owner_email ?? "qwertykto@proton.me (Nout)"}</span>
                     </div>
                 </div>
 
@@ -89,7 +89,7 @@ const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
                     <IconButtonWithTooltip onClickButton={() => { }} icon={<Edit />} tooltip='Изменить' />
                     <IconButtonWithTooltip onClickButton={() => navigate('item/follower')} icon={<UserCheck />} tooltip='Подписчики' />
                     <IconButtonWithTooltip onClickButton={() => navigate('item/postback')} icon={<Gauge />} tooltip='Постбэки' />
-                    {item.type === 'channel' && <IconButtonWithTooltip onClickButton={() => navigate('item/conversion')} icon={<Logs />} tooltip='Конверсии' />}
+                    {item.spot_type === 'telegram_channels' && <IconButtonWithTooltip onClickButton={() => navigate('item/conversion')} icon={<Logs />} tooltip='Конверсии' />}
                     <IconButtonWithTooltip onClickButton={() => setOpenLink(true)} icon={<Eye />} tooltip='Сгенерировать ссылку для лендинга' />
                     <IconButtonWithTooltip onClickButton={() => OpenDeleteModal(item.id)} icon={<Trash />} tooltip='Удалить' variant="destructive" />
                 </div>

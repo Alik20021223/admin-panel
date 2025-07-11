@@ -37,7 +37,7 @@ class Mailing_service {
   //   return result.data;
   // }
 
-  async deleteMailingFromList(id: number) {
+  async deleteMailingFromList(id: string) {
     const result = await axiosInstance.delete(`${MAILINGS_URL.LIST}/${id}`);
 
     return result.data;

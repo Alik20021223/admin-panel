@@ -52,8 +52,8 @@ export interface DragHandleProps {
 
 export type ButtonBotType = {
   name: string;
-  link: string;
-  id: number;
+  url: string;
+  id?: number;
 };
 
 export type UserType = {

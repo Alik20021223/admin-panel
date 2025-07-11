@@ -6,10 +6,10 @@ export function useDeleteMailing() {
 
   const { mutateAsync, isSuccess, isError, isPending, isIdle } = useMutation({
     mutationKey: ["delete-mailing"],
-    mutationFn: (payload: number) =>
+    mutationFn: (payload: string) =>
       mailingService.deleteMailingFromList(payload),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["list-mailings"] }),
+      queryClient.invalidateQueries({ queryKey: ["list-mailing"] }),
   });
 
   return { mutateAsync, isSuccess, isError, isPending, isIdle };

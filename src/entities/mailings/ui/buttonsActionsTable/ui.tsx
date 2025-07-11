@@ -5,8 +5,8 @@ import { TooltipProvider } from "@shadcdn/tooltip"
 import IconButtonWithTooltip from "@feature/iconButtonTooltip"
 import ModalDelete from "@feature/modal-delete"
 import { useState } from "react"
-import { useDeleteLanding } from "@entities/landing/hooks/delete-landing-list"
 import { useNavigate } from "react-router-dom"
+import { useDeleteMailing } from "@entities/mailings/hooks/delete-mailing-list"
 
 interface ButtonsActionsTableProps {
     props: CellContext<TableRow, unknown>
@@ -17,7 +17,7 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
     const [openDelete, setOpenDelete] = useState(false)
     const [deleteId, setDeleteId] = useState("")
 
-    const { mutateAsync } = useDeleteLanding()
+    const { mutateAsync } = useDeleteMailing()
 
     const navigate = useNavigate()
 

@@ -15,12 +15,16 @@ import { countryMock } from "country-data"
 import { FormMultiSelectCountry } from "@feature/formSelectСountry"
 import { useCreateDefaultLanding } from "@entities/landing/hooks/create-landing-default"
 import { useNavigate } from "react-router-dom"
+import { useUpdateDefaultLanding } from "@entities/landing/hooks/put-landing-default"
 
-const GeneralTab = () => {
+const GeneralTab = ({ id }: { id: string }) => {
 
     const { infoData, editLanding, editData } = useLandingStore()
 
     const { mutateAsync } = useCreateDefaultLanding()
+    const { mutateAsync: putData } = useUpdateDefaultLanding()
+
+
 
     const navigate = useNavigate()
 
@@ -44,14 +48,30 @@ const GeneralTab = () => {
     const onSubmitForm = (data: GeneralFormType) => {
         const spotType = infoData?.spots.find(spot => spot.id === Number(data.spot))?.spot_type ?? "";
 
-        mutateAsync({
-            name: data.name,
-            spot_type: spotType,
-            domain_id: Number(data.domen),
-            spot_id: Number(data.spot),
-            allowed_countries: data.showToCountry,
-            auto_redirect: Boolean(data.autoRedirect)
-        })
+        if (editLanding && editData) {
+            putData({
+                payload: {
+                    name: data.name,
+                    spot_type: spotType,
+                    domain_id: Number(data.domen),
+                    spot_id: Number(data.spot),
+                    allowed_countries: data.showToCountry,
+                    auto_redirect: Boolean(data.autoRedirect)
+                },
+                id: id || "",
+            })
+        } else {
+            mutateAsync({
+                name: data.name,
+                spot_type: spotType,
+                domain_id: Number(data.domen),
+                spot_id: Number(data.spot),
+                allowed_countries: data.showToCountry,
+                auto_redirect: Boolean(data.autoRedirect)
+            })
+        }
+
+
 
         navigate('/landings')
     }

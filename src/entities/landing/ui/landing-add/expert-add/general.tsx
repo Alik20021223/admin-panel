@@ -15,17 +15,20 @@ import { useCreateProLanding } from "@entities/landing/hooks/create-landing-pro"
 import { useLandingStore } from "@entities/landing/store";
 import { mapToSelectOptions } from "@shared/utils";
 import { useEffect } from "react";
+import { useUpdateProLanding } from "@entities/landing/hooks/put-landing-pro";
 
 
 
 interface ExpertGeneralTabProps {
     onNextStep: () => void;
+    id: string
 }
 
-const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
+const ExpertGeneralTab = ({ onNextStep, id }: ExpertGeneralTabProps) => {
 
     const { infoData, editLanding, editData } = useLandingStore()
     const { mutateAsync } = useCreateProLanding()
+    const { mutateAsync: EditMutate } = useUpdateProLanding()
 
     const form = useForm<ExpertGeneralFormType>({
         resolver: zodResolver(expertGeneralSchema),
@@ -52,16 +55,34 @@ const ExpertGeneralTab = ({ onNextStep }: ExpertGeneralTabProps) => {
         const spotType = infoData?.spots.find(spot => spot.id === Number(data.spot))?.spot_type ?? "";
 
 
-        mutateAsync({
-            members: Number(data.countUsers),
-            title: data.title,
-            name: data.name,
-            description: data.description,
-            auto_redirect: Boolean(data.autoRedirect),
-            domain_id: Number(data.domen),
-            spot_type: spotType,
-            spot_id: Number(data.spot),
-        })
+        if (editLanding && editData) {
+            EditMutate({
+                payload: {
+                    members: Number(data.countUsers),
+                    title: data.title,
+                    name: data.name,
+                    description: data.description,
+                    auto_redirect: Boolean(data.autoRedirect),
+                    domain_id: Number(data.domen),
+                    spot_type: spotType,
+                    spot_id: Number(data.spot),
+                },
+                id: id || '',
+            })
+        } else {
+            mutateAsync({
+                members: Number(data.countUsers),
+                title: data.title,
+                name: data.name,
+                description: data.description,
+                auto_redirect: Boolean(data.autoRedirect),
+                domain_id: Number(data.domen),
+                spot_type: spotType,
+                spot_id: Number(data.spot),
+            })
+        }
+
+
         onNextStep()
     }
 

@@ -14,9 +14,10 @@ import { useLandingStore } from "@entities/landing/store";
 
 interface ExpertTranslateTabProps {
     onNextStep: () => void;
+    id: string
 }
 
-const ExpertTranslateTab = ({ onNextStep }: ExpertTranslateTabProps) => {
+const ExpertTranslateTab = ({ onNextStep, id }: ExpertTranslateTabProps) => {
     const form = useForm<TranslateFormType>({
         resolver: zodResolver(expertTranslateSchema),
         mode: "onChange",

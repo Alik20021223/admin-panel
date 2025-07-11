@@ -3,7 +3,7 @@ import { FormType } from "@entities/spots/types";
 import { Funnel, Plus } from "lucide-react";
 import { useState } from "react";
 import FilterRow from "@entities/spots/ui/filter-row-spots";
-import { CreateTypeSpotTelegram, SpotsMockItems } from "@entities/spots/mock";
+import { CreateTypeSpotTelegram } from "@entities/spots/mock";
 import ItemSpot from "@entities/spots/ui/item-spot";
 import {
     Dialog,
@@ -26,7 +26,7 @@ const SpotsContent = () => {
     const { data } = useQueryListSpots()
 
     console.log(data);
-    
+
 
     const handleSubmitFilterRow = (data: FormType) => {
         console.log(data);
@@ -67,7 +67,7 @@ const SpotsContent = () => {
                 </div>
                 {openFilterData && <FilterRow onClose={() => setFilterData(false)} onSubmit={handleSubmitFilterRow} />}
                 <div className="relative grid grid-cols-4 gap-[10px] max-h-[calc(100vh-126px)] overflow-y-auto custom-scroll">
-                    {SpotsMockItems.map((item) => (
+                    {data.spots.map((item) => (
                         <ItemSpot item={item} />
                     ))}
                 </div>

@@ -58,17 +58,17 @@ const LandingAddContent = () => {
             {
                 value: "general",
                 label: "Общее",
-                content: ({ onNextStep }) => <ExpertGeneralTab onNextStep={onNextStep} />,
+                content: ({ onNextStep }) => <ExpertGeneralTab id={edit || ""} onNextStep={onNextStep} />,
             },
             {
                 value: "design",
                 label: "Дизайн",
-                content: ({ onNextStep }) => <ExpertDesignTab onNextStep={onNextStep} />,
+                content: ({ onNextStep }) => <ExpertDesignTab id={edit || ""} onNextStep={onNextStep} />,
             },
             {
                 value: "translate",
                 label: "Переводы",
-                content: ({ onNextStep }) => <ExpertTranslateTab onNextStep={onNextStep} />,
+                content: ({ onNextStep }) => <ExpertTranslateTab id={edit || ""} onNextStep={onNextStep} />,
             },
         ]
         : [
@@ -77,7 +77,7 @@ const LandingAddContent = () => {
                 label: "Общее",
                 content: () => {
                     return (
-                        <GeneralTab />
+                        <GeneralTab id={edit || ""} />
                     );
                 },
             },

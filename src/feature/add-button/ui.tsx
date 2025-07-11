@@ -1,11 +1,12 @@
 import FormInput from "@feature/formInput";
 import { Plus, Trash2 } from "lucide-react";
-import { useFieldArray, useFormContext } from "react-hook-form";
-import { Button } from "@shadcdn/button"; // предположим, у тебя такой
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { Button } from "@shadcdn/button";
 import { Label } from "@shadcdn/label";
+import { ButtonBotType } from "@shared/types";
 
 interface AddButtonProps {
-    name: string; // пример: "buttons"
+    name: string; // пример: "buttonsTypeHello"
 }
 
 const AddButton: React.FC<AddButtonProps> = ({ name }) => {
@@ -16,11 +17,21 @@ const AddButton: React.FC<AddButtonProps> = ({ name }) => {
         name,
     });
 
+    // Смотрим за текущими кнопками
+    const values = useWatch({ control, name }) || [];
+
+    const getNextId = () => {
+        const ids = values.map((item: ButtonBotType) => item?.id ?? 0);
+        const maxId = ids.length ? Math.max(...ids) : 0;
+        return maxId + 1;
+    };
+
     return (
         <div className="space-y-4">
-            {fields.length > 0 && <Label>
-                Кнопки
-            </Label>}
+            {fields.length > 0 && (
+                <Label>Кнопки</Label>
+            )}
+
             {fields.map((field, index) => (
                 <div
                     key={field.id}
@@ -45,14 +56,19 @@ const AddButton: React.FC<AddButtonProps> = ({ name }) => {
                         <Trash2 className="w-4 h-4" />
                     </Button>
                 </div>
-
             ))}
 
             <Button
                 type="button"
                 variant="ghost"
                 className="w-fit bg-slate-100"
-                onClick={() => append({ name: "", url: "" })}
+                onClick={() =>
+                    append({
+                        name: "",
+                        url: "",
+                        id: getNextId(),
+                    })
+                }
             >
                 <Plus className="w-4 h-4 mr-2" />
                 Добавить кнопку

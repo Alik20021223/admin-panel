@@ -13,19 +13,22 @@ import AddButton from "@feature/add-button"
 import PreviewContent from "@feature/preview"
 import DropFieldInner from "@feature/dropField"
 import { useQueryFormMailing } from "@entities/mailings/hooks/get-data-form"
-import { mapToSelectOptions } from "@/shared/utils"
+import { fileToBase64, mapToSelectOptions } from "@shared/utils"
 import { TimeInputField } from "@feature/FormTime"
 import { useCreateMailing } from "@entities/mailings/hooks/create-mailing"
 import { mergeDateAndTime } from "@shared/utils"
 import { useGetInfoMailing } from "@entities/mailings/hooks/get-mailing-by-id"
 import { useSearchParams } from "react-router-dom"
 import { useEffect } from "react"
+import { useUpdateMailing } from "@entities/mailings/hooks/update-mainling"
 
 const AddMailing = () => {
 
     const { data: FormDataMock } = useQueryFormMailing()
     const [searchParams] = useSearchParams();
     const edit = searchParams.get("edit");
+    const { mutateAsync } = useCreateMailing()
+    const { mutateAsync: EditMutate } = useUpdateMailing()
 
     const { data: infoMailing } = useGetInfoMailing(edit || "")
 
@@ -68,7 +71,8 @@ const AddMailing = () => {
         }
     }, [infoMailing, form]);
 
-    const { mutateAsync } = useCreateMailing()
+
+
 
     const SpotsOptions = mapToSelectOptions(FormDataMock?.channels, "id", "title");
     const mailingTypesOptions = mapToSelectOptions(
@@ -77,7 +81,7 @@ const AddMailing = () => {
         "label"
     );
 
-    const onSubmitForm = (data: EditFormType) => {
+    const onSubmitForm = async (data: EditFormType) => {
         const dateAndTime = mergeDateAndTime(data.dateAndTime, data.time);
         const spotsArray = data.spot.map((s) => Math.abs(Number(s)));
         const spotsString = JSON.stringify(spotsArray); // Получишь например "[1002684105006]"
@@ -94,101 +98,106 @@ const AddMailing = () => {
         }
 
         if (data.media) {
-            formData.append("image", data.media);
+            const base64Image = await fileToBase64(data.media);
+            formData.append("image", base64Image); // <-- теперь это string
         }
 
-        mutateAsync(formData);
+        if (edit) {
+            EditMutate({ payload: formData, id: edit || "" })
+        } else {
+            mutateAsync(formData);
+        }        
     };
 
-    const text = form.watch('text')
-    const buttonsType = form.watch('buttonsType')
-    const typeMailing = form.watch('typeMailing')
+const text = form.watch('text')
+const buttonsType = form.watch('buttonsType')
+const typeMailing = form.watch('typeMailing')
 
-    return (
-        <>
-            <div className="px-2 py-3 bg-white rounded-lg">
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmitForm)} className="space-y-3">
-                        <div className="grid grid-cols-2 gap-3 items-center">
-                            <FormInput name="name" control={form.control} label="Введите название" />
-                            <FormSelect name="typeMailing" control={form.control} label="Тип рассылки" options={mailingTypesOptions} />
-                            {
-                                typeMailing === "permanent"
-                                    ?
-                                    <>
-                                        <TimeInputField
-                                            name="time"
-                                            control={form.control}
-                                            label="Время"
-                                        />
-
-                                        {/* dayOptions */}
-                                        <Controller
-                                            name="daysOfWeek"
-                                            control={form.control}
-                                            render={({ field }) => (
-                                                <MultiSelect
-                                                    options={dayOptions}
-                                                    value={field.value}
-                                                    label="День недели"
-                                                    onChange={field.onChange}
-                                                    placeholder="Выберите "
-                                                />
-                                            )}
-                                        />
-                                    </>
-                                    : <div className="w-full">
-                                        <CalendarTimeField
-                                            name="dateAndTime"
-                                            timeName="time"
-                                            control={form.control}
-                                            label="Дата и время"
-                                        />
-                                    </div>
-                            }
-
-                            <Controller
-                                name="spot"
-                                control={form.control}
-                                render={({ field }) => (
-                                    <MultiSelect
-                                        options={SpotsOptions}
-                                        value={field.value}
-                                        label="Cпот"
-                                        onChange={field.onChange}
-                                        placeholder="Выберите cпот"
+return (
+    <>
+        <div className="px-2 py-3 bg-white rounded-lg">
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmitForm)} className="space-y-3">
+                    <div className="grid grid-cols-2 gap-3 items-center">
+                        <FormInput name="name" control={form.control} label="Введите название" />
+                        <FormSelect name="typeMailing" control={form.control} label="Тип рассылки" options={mailingTypesOptions} />
+                        {
+                            typeMailing === "permanent"
+                                ?
+                                <>
+                                    <TimeInputField
+                                        name="time"
+                                        control={form.control}
+                                        label="Время"
                                     />
-                                )}
-                            />
-                        </div>
 
-                        <PreviewContent text={text} buttonArray={buttonsType} />
+                                    {/* dayOptions */}
+                                    <Controller
+                                        name="daysOfWeek"
+                                        control={form.control}
+                                        render={({ field }) => (
+                                            <MultiSelect
+                                                options={dayOptions}
+                                                value={field.value}
+                                                label="День недели"
+                                                onChange={field.onChange}
+                                                placeholder="Выберите "
+                                            />
+                                        )}
+                                    />
+                                </>
+                                : <div className="w-full">
+                                    <CalendarTimeField
+                                        name="dateAndTime"
+                                        timeName="time"
+                                        control={form.control}
+                                        label="Дата и время"
+                                    />
+                                </div>
+                        }
 
                         <Controller
-                            name="text"
+                            name="spot"
                             control={form.control}
                             render={({ field }) => (
-                                <CustomEditor value={field.value} label="Текст" onChange={field.onChange} />
+                                <MultiSelect
+                                    options={SpotsOptions}
+                                    value={field.value}
+                                    label="Cпот"
+                                    onChange={field.onChange}
+                                    placeholder="Выберите cпот"
+                                />
                             )}
                         />
+                    </div>
 
-                        <Controller
-                            name="media"
-                            control={form.control}
-                            render={({ field }) => (
-                                <DropFieldInner field={field} label="Медиа" />
-                            )}
-                        />
+                    <PreviewContent text={text} buttonArray={buttonsType} />
 
-                        <AddButton name="buttonsType" />
-                        <div className="col-span-3">
-                            <Button type="submit" className="space-x-2 w-full"><Plus className="w-4 h-4" />Добавить рассылку</Button>
-                        </div>
-                    </form>
-                </Form>
-            </div>
-        </>
-    )
+                    <Controller
+                        name="text"
+                        control={form.control}
+                        render={({ field }) => (
+                            <CustomEditor value={field.value} label="Текст" onChange={field.onChange} />
+                        )}
+                    />
+
+                    <Controller
+                        name="media"
+                        control={form.control}
+                        render={({ field }) => (
+                            <DropFieldInner field={field} label="Медиа" />
+                        )}
+                    />
+
+                    <AddButton name="buttonsType" />
+                    <div className="col-span-3">
+                        <Button type="submit" className="space-x-2 w-full"><Plus className="w-4 h-4" />Добавить рассылку</Button>
+                    </div>
+                </form>
+            </Form>
+        </div>
+    </>
+)
 }
 
 export default AddMailing

@@ -10,13 +10,15 @@ import { expertDesignSchema } from '../validation';
 import { useCreateProDesign } from '@entities/landing/hooks/create-landing-design';
 import { useEffect } from 'react';
 import { useLandingStore } from '@entities/landing/store';
+import { useUpdateDesignLanding } from '@entities/landing/hooks/put-landing-design';
 
 interface ExpertDesignTabProps {
     onNextStep: () => void;
+    id: string
 }
 
 
-const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
+const ExpertDesignTab = ({ onNextStep, id }: ExpertDesignTabProps) => {
 
     const form = useForm<ExpertDesignFormType>({
         resolver: zodResolver(expertDesignSchema),
@@ -32,6 +34,7 @@ const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
     })
 
     const { mutateAsync } = useCreateProDesign()
+    const { mutateAsync: EditDesign } = useUpdateDesignLanding()
 
     const { editLanding, editData } = useLandingStore()
 
@@ -55,7 +58,13 @@ const ExpertDesignTab = ({ onNextStep }: ExpertDesignTabProps) => {
         formData.append("background_color", data.bgColor)
         formData.append("banner_background_color", data.colorBgBanner)
 
-        mutateAsync(formData)
+        if (editLanding && editData) {
+            EditDesign({ payload: formData, id: id || '' })
+        } else {
+            mutateAsync(formData)
+        }
+
+
         onNextStep()
     }
 

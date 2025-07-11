@@ -30,6 +30,7 @@ const FirstStep = () => {
             buttonsTypeHello: [],
             postBack: [],
         },
+        mode: "all",
     })
 
     const { mutateAsync: AddSpotMessage } = useSpotAddMessage()
@@ -41,8 +42,10 @@ const FirstStep = () => {
 
         const mappedButtons = data.buttonsTypeHello.map((btn) => ({
             text: btn.name,
-            url: btn.link,
+            url: btn.url,
         }));
+
+        
 
         AddSpotMessage({
             auto_approve: data.autoReception,
@@ -63,16 +66,27 @@ const FirstStep = () => {
 
     const { mutateAsync } = useCheckChannel()
 
-    const onCheck = () => {
+    const onCheck = async () => {
+        try {
+            const response = await mutateAsync({
+                bot_token: form.getValues("tokenBot"),
+                channel_id: Number(form.getValues("idChannel")),
+            });
 
 
-        setChecked(true)
-        mutateAsync({
-            bot_token: form.getValues('tokenBot'),
-            channel_id: Number(form.getValues('idChannel'))
-        })
-    }
 
+            // если ответ содержит status === 200
+            if (response?.message === "bot is valid and is an admin in the channel") {
+                setChecked(true);
+            }
+        } catch (error) {
+            console.error("Ошибка проверки", error);
+        }
+    };
+
+    console.log(form.formState.errors);
+    console.log(form.watch());
+    
 
     return (
         <>
@@ -121,19 +135,22 @@ const FirstStep = () => {
                                         Проверить
                                     </Button>
                                 </div>
-
-
                             </div>
                         </div>
                         {checked &&
                             <>
                                 <SecondStep form={form} />
                                 <div className="mt-5 w-full">
-                                    <Button disabled={!form.formState.isValid} type="submit" className="space-x-2 w-full"><Plus className="w-4 h-4" />Создать спот</Button>
+                                    <Button
+                                        disabled={!form.formState.isValid}
+                                        type="submit"
+                                        className="space-x-2 w-full"
+                                    >
+                                        <Plus className="w-4 h-4" />
+                                        Создать спот
+                                    </Button>
                                 </div>
                             </>}
-
-
                     </form>
                 </Form>
             </div>

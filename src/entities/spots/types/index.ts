@@ -31,13 +31,6 @@ export type TableRowFollower = {
   actions?: ReactNode; // Действия
 };
 
-export type ItemSpotType = {
-  name: string;
-  id: string;
-  subscriber: number;
-  type: "App" | "Bot" | "channel";
-  creator: string;
-};
 
 export type ColumnConfig = {
   id: string;
@@ -144,7 +137,7 @@ export type PostBack = {
   enterPixel: string;
   apiKey: string;
   outPostBack: string;
-  outPostBackArray: outPostBackType[];
+  outPostBackArray?: outPostBackType[];
 };
 
 export type AppSpotPostBackType = {
@@ -219,6 +212,7 @@ export type ChannelInfo = {
   members: number;
   welcome_buttons: WelcomeButton[];
   title: string;
+  spot_type: string;
   pixels: Pixel[];
   // available_users: UserShortInfo[];
   // permissions: ChannelPermissionDTO[];

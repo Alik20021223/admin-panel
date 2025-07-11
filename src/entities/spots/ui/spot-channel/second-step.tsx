@@ -1,4 +1,4 @@
-import { Controller, UseFormReturn } from "react-hook-form";
+import { Controller, FieldValues, UseFormReturn } from "react-hook-form";
 import { StepOneSpotChannel } from "@entities/spots/types";
 import { Switch } from "@shadcdn/switch";
 import PreviewContent from "@feature/preview";
@@ -8,8 +8,8 @@ import AddButton from "@feature/add-button";
 import AddPixel from "@feature/add-pixel";
 import { Separator } from "@shadcdn/separator";
 
-type SecondStepProps = {
-    form: UseFormReturn<StepOneSpotChannel>;
+type SecondStepProps<T extends FieldValues = StepOneSpotChannel> = {
+    form: UseFormReturn<T>;
 };
 
 const SecondStep = ({ form }: SecondStepProps) => {
@@ -55,12 +55,12 @@ const SecondStep = ({ form }: SecondStepProps) => {
                             )}
                         />
 
-                        <AddButton name="buttonsType" />
+                        <AddButton name="buttonsTypeHello" />
 
                         {/* Тут можно добавить блок кнопок, если они у тебя уже реализованы */}
                     </div>
                 )}
-                <Separator/>
+                <Separator />
                 <h1 className="font-semibold">ШАГ ІІІ ФУНКЦИЯ ОТПРАВКИ СОБЫТИЙ</h1>
                 <AddPixel name="postBack" />
             </div>

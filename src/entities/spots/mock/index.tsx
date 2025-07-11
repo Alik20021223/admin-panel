@@ -1,7 +1,7 @@
-import { CustomColumnDef, TableRow } from '@entities/landing/types';
-import { ItemSpotType, TableRowFollower, TableRowСonversion } from '@entities/spots/types';
+import { CustomColumnDef } from '@entities/landing/types';
+import { TableRowFollower, TableRowСonversion } from '@entities/spots/types';
 import TgIcon from '@assets/telegram.svg'
-import { Bot, EllipsisVertical, LayoutPanelLeft } from 'lucide-react';
+import { EllipsisVertical } from 'lucide-react';
 import { Button } from '@shadcdn/button';
 
 
@@ -166,58 +166,6 @@ export const tableBodyMockFollower: TableRowFollower[] = [
     landing: "https://crypto-site.com/landing3",
     source: "Google",
     os: "Windows",
-  },
-];
-
-
-export const SpotsMockItems: ItemSpotType[] = [
-  {
-    name: 'eww',
-    id: '5893',
-    subscriber: 0,
-    type: 'App',
-    creator: 'qwertykto@proton.me (Nout)',
-  },
-  {
-    name: 'test 2',
-    id: '5892',
-    subscriber: 4,
-    type: 'channel',
-    creator: 'qwertykto@proton.me (Nout)',
-  },
-  {
-    name: 'первый бот',
-    id: '5631',
-    subscriber: 0,
-    type: 'Bot',
-    creator: 'qwertykto@proton.me (Nout)',
-  },
-  {
-    name: 'first_bot',
-    id: '5395',
-    subscriber: 0,
-    type: 'Bot',
-    creator: 'qwertykto@proton.me (Nout)',
-  },
-];
-
-
-
-
-
-export const tableDataMock: TableRow[] = [
-  {
-    id: 1,
-    name: "Канал A",
-    domen: "example.com",
-    spot: "test 1",
-  },
-  {
-    id: 2,
-    name: "Канал B",
-    domen: "test.ru",
-    spot: "test 2",
-
   },
 ];
 

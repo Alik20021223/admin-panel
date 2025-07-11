@@ -74,8 +74,8 @@ class Landings_service {
   // Put
 
   async putLandingDefault(payload: CreateDefaultLanding, id: string) {
-    const result = await axiosInstance.post(
-      `${LANDINGS_URL.LIST}/${id}/default`,
+    const result = await axiosInstance.put(
+      `${LANDINGS_URL.LIST}/${id}/general`,
       payload
     );
 

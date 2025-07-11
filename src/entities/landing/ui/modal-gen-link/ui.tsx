@@ -42,7 +42,6 @@ const ModalGenLink = ({ open, setOpen }: ModalGenLinkProps) => {
                                         control={form.control}
                                         label="Рекламная сеть"
                                         disabled={true}
-
                                     />
 
                                     <FormSelect
