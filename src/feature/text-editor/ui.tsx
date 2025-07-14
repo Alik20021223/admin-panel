@@ -184,7 +184,14 @@ export default function CustomEditor({ value, onChange, label, tooltipText, read
                     <Editor
                         ref={editorRef}
                         value={value}
-                        onTextChange={(e) => onChange(e.htmlValue || '')}
+                        onTextChange={(e) => {
+                            const html = e.htmlValue || '';
+                            const plain = editorRef.current?.getQuill().getText().trim();
+
+                            const isPlain = html === `<p>${plain}</p>` || !/<\/?(b|i|u|s|a|span|code|pre|blockquote)/i.test(html);
+
+                            onChange(isPlain ? plain : html);
+                        }}
                         headerTemplate={customHeader}
                         style={{ height: '200px' }}
                         className="rounded-md"

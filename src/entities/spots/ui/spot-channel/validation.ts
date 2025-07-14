@@ -3,7 +3,10 @@ import { z } from "zod";
 // Схема для кнопок
 const buttonBotSchema = z.object({
   name: z.string().min(1, "Название кнопки обязательно"),
-  url: z.string().min(1, "Ссылка обязательна"),
+  url: z
+    .string()
+    .min(1, "Ссылка обязательна")
+    .url("Введите корректную ссылку (например, https://example.com)"),
   id: z.number().optional(),
 });
 

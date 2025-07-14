@@ -25,7 +25,7 @@ export type FormType = {
 
 export type EditFormType = {
   name: string;
-  typeMailing: string;
+  typeMailing: "permanent" | "disposable";
   spot: string[];
   dateAndTime: Date;
   text: string;

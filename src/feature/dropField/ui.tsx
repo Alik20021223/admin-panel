@@ -16,9 +16,12 @@ const DropFieldInner = <T extends FieldValues>({ field, label = "Медиа", di
         disabled
             ? { noClick: true, noDrag: true, disabled: true }
             : {
-                onDrop: (acceptedFiles: File[]) => field.onChange(acceptedFiles),
+                onDrop: (acceptedFiles) => {
+                    field.onChange(acceptedFiles[0]);
+                }
             }
     );
+
 
 
     return (
@@ -46,9 +49,9 @@ const DropFieldInner = <T extends FieldValues>({ field, label = "Медиа", di
             </div>
 
 
-            {Array.isArray(field.value) && field.value.length > 0 && (
+            {field.value && (
                 <div className="mt-2 text-sm text-gray-600">
-                    Выбран файл: {field.value[0]?.name}
+                    Выбран файл: {field.value.name}
                 </div>
             )}
         </FormItem>
