@@ -56,6 +56,12 @@ export type ButtonBotType = {
   id?: number;
 };
 
+export type ButtonBotTypeResponse = {
+  text: string;
+  url: string;
+  id?: string;
+} 
+
 export type UserType = {
   id: number;
   role: string;

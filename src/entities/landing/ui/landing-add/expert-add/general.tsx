@@ -96,7 +96,7 @@ const ExpertGeneralTab = ({ onNextStep, id }: ExpertGeneralTabProps) => {
                 spot: String(editData.current_landing.spot.id),
                 countUsers: String(editData.landing.members),
                 autoRedirect: String(editData.landing.auto_redirect),
-                // showToCountry: editData.landing.allowed_countries || [],
+                showToCountry: editData.landing.allowed_countries || [],
             });
         }
     }, [editLanding, editData]);

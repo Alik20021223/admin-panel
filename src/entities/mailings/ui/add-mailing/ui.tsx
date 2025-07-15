@@ -13,7 +13,7 @@ import AddButton from "@feature/add-button"
 import PreviewContent from "@feature/preview"
 import DropFieldInner from "@feature/dropField"
 import { useQueryFormMailing } from "@entities/mailings/hooks/get-data-form"
-import { fileToBinary, mapToSelectOptions } from "@shared/utils"
+import { mapToSelectOptions } from "@shared/utils"
 import { TimeInputField } from "@feature/FormTime"
 import { useCreateMailing } from "@entities/mailings/hooks/create-mailing"
 import { mergeDateAndTime } from "@shared/utils"
@@ -36,8 +36,7 @@ const AddMailing = () => {
 
     const { data: infoMailing } = useGetInfoMailing(edit || "")
 
-
-
+    const imagePreviewUrl = infoMailing?.current_mailing?.image ?? "";
 
     const form = useForm<EditFormType>({
         resolver: zodResolver(EditFormSchema),
@@ -66,15 +65,20 @@ const AddMailing = () => {
                 name: mailing.mailing_name,
                 typeMailing: mailing.mailing_type,
                 text: mailing.text,
-                spot: mailing.spots.map((s) => String(s)), // т.к. у тебя select работает по string
+                spot: mailing.spots.map((s) => String(s)),
                 dateAndTime: new Date(date),
                 time: time,
                 daysOfWeek: mailing.days_of_week,
-                media: null, // если хочешь показывать media, то нужно отдельно подгрузить файл
-                buttonsType: [], // если редактирование кнопок будет — сюда передавай
+                media: null,
+                buttonsType: mailing.buttons.map((btn) => ({
+                    name: btn.text,
+                    url: btn.url,
+                    id: Math.floor(Math.random() * 100000), // или btn.id, если он есть
+                })),
             });
         }
     }, [infoMailing, form]);
+
 
     const SpotsOptions = mapToSelectOptions(FormDataMock?.channels, "id", "title");
     const mailingTypesOptions = mapToSelectOptions(
@@ -88,7 +92,6 @@ const AddMailing = () => {
         const spotsArray = data.spot.map((s) => Math.abs(Number(s)));
         const spotsString = JSON.stringify(spotsArray); // Получишь например "[1002684105006]"
         const mappedButtons = data.buttonsType.map((btn) => ({
-            id: btn.id,
             text: btn.name,
             url: btn.url,
         }));
@@ -106,9 +109,11 @@ const AddMailing = () => {
         }
 
         if (data.media) {
-            const binaryImage = await fileToBinary(data.media);
-            formData.append("image", binaryImage); // <-- теперь это string
+            formData.append("image", data.media); // пользователь выбрал новый файл
+        } else if (imagePreviewUrl) {
+            formData.append("image", imagePreviewUrl); // оставляем старое изображение
         }
+
 
         // console.log(data);
 
@@ -121,13 +126,6 @@ const AddMailing = () => {
             mutateAsync(formData);
         }
     };
-
-
-
-
-
-    console.log(form.formState.errors);
-
 
     const text = form.watch('text')
     const buttonsType = form.watch('buttonsType')
@@ -205,7 +203,11 @@ const AddMailing = () => {
                             name="media"
                             control={form.control}
                             render={({ field }) => (
-                                <DropFieldInner field={field} label="Медиа" />
+                                <DropFieldInner
+                                    field={field}
+                                    label="Медиа"
+                                    previewUrl={imagePreviewUrl} // <-- сюда пробрасываем ссылку
+                                />
                             )}
                         />
 

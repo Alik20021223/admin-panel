@@ -44,11 +44,22 @@ const ExpertDesignTab = ({ onNextStep, id }: ExpertDesignTabProps) => {
 
         if (data.avatar) {
             formData.append("avatar_image", data.avatar)
+        } else if (editData?.landing.avatar_image) {
+            formData.append("avatar_image", editData?.landing.avatar_image)
         }
 
         if (data.logo) {
             formData.append("logo_image", data.logo)
+        } else if (editData?.landing.logo_image) {
+            formData.append("logo_image", editData?.landing.logo_image)
         }
+
+        if (data.patternBg) {
+            formData.append("background_image", data.patternBg)
+        } else if (editData?.landing.background_image) {
+            formData.append("background_image", editData?.landing.background_image)
+        }
+
 
         if (data.patternBg) {
             formData.append("background_image", data.patternBg)
@@ -87,21 +98,33 @@ const ExpertDesignTab = ({ onNextStep, id }: ExpertDesignTabProps) => {
                             name="logo"
                             control={form.control}
                             render={({ field }) => (
-                                <DropFieldInner field={field} label="Логотип" />
+                                <DropFieldInner
+                                    field={field}
+                                    label="Логотип"
+                                    previewUrl={editData?.landing.logo_image}
+                                />
                             )}
                         />
                         <Controller
                             name="avatar"
                             control={form.control}
                             render={({ field }) => (
-                                <DropFieldInner field={field} label="Аватар" />
+                                <DropFieldInner
+                                    field={field}
+                                    label="Аватар"
+                                    previewUrl={editData?.landing.avatar_image}
+                                />
                             )}
                         />
                         <Controller
                             name="patternBg"
                             control={form.control}
                             render={({ field }) => (
-                                <DropFieldInner field={field} label="Паттерн фона" />
+                                <DropFieldInner
+                                    field={field}
+                                    label="Паттерн фона"
+                                    previewUrl={editData?.landing.background_image}
+                                />
                             )}
                         />
                     </div>

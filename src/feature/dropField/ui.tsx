@@ -9,9 +9,15 @@ interface DropFieldInnerProps<T extends FieldValues> {
     field: ControllerRenderProps<T, Path<T>>
     label?: string
     disabled?: boolean
+    previewUrl?: string
 }
 
-const DropFieldInner = <T extends FieldValues>({ field, label = "Медиа", disabled }: DropFieldInnerProps<T>) => {
+const DropFieldInner = <T extends FieldValues>({
+    field,
+    label = "Медиа",
+    disabled,
+    previewUrl = "",
+}: DropFieldInnerProps<T>) => {
     const { getRootProps, getInputProps } = useDropzone(
         disabled
             ? { noClick: true, noDrag: true, disabled: true }
@@ -52,6 +58,12 @@ const DropFieldInner = <T extends FieldValues>({ field, label = "Медиа", di
             {field.value && (
                 <div className="mt-2 text-sm text-gray-600">
                     Выбран файл: {field.value.name}
+                </div>
+            )}
+
+            {previewUrl && (
+                <div className="mt-2 text-sm text-gray-600">
+                    Выбран файл: {previewUrl}
                 </div>
             )}
         </FormItem>

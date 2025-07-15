@@ -10,9 +10,10 @@ import { Separator } from "@shadcdn/separator";
 
 type SecondStepProps<T extends FieldValues = StepOneSpotChannel> = {
     form: UseFormReturn<T>;
+    previewUrl: string;
 };
 
-const SecondStep = ({ form }: SecondStepProps) => {
+const SecondStep = ({ form, previewUrl }: SecondStepProps) => {
 
     const autoReception = form.watch("autoReception")
     const helloSelected = form.watch("HelloSelect")
@@ -51,7 +52,7 @@ const SecondStep = ({ form }: SecondStepProps) => {
                             name="mediaHello"
                             control={form.control}
                             render={({ field }) => (
-                                <DropFieldInner field={field} label="Медиа" />
+                                <DropFieldInner field={field} label="Медиа" previewUrl={previewUrl} />
                             )}
                         />
 

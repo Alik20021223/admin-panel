@@ -1,6 +1,15 @@
 import avatarJpg from '@assets/shadcn-user.jpg'
 import { ChannelInfo } from '@entities/spots/types'
-import { Edit, Eye, Gauge, Logs, Trash, Type, User, UserCheck } from 'lucide-react'
+import {
+    Edit,
+    Eye,
+    // Gauge,
+    // Logs,
+    Trash,
+    Type,
+    User,
+    UserCheck
+} from 'lucide-react'
 import IconButtonWithTooltip from '@feature/iconButtonTooltip'
 import ModalGenLink from '../modal-gen-link'
 import { useState } from 'react'
@@ -86,10 +95,10 @@ const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
                 </div>
 
                 <div className={`flex justify-evenly w-full justify-center items-center`}>
-                    <IconButtonWithTooltip onClickButton={() => { }} icon={<Edit />} tooltip='Изменить' />
-                    <IconButtonWithTooltip onClickButton={() => navigate('item/follower')} icon={<UserCheck />} tooltip='Подписчики' />
-                    <IconButtonWithTooltip onClickButton={() => navigate('item/postback')} icon={<Gauge />} tooltip='Постбэки' />
-                    {item.spot_type === 'telegram_channels' && <IconButtonWithTooltip onClickButton={() => navigate('item/conversion')} icon={<Logs />} tooltip='Конверсии' />}
+                    <IconButtonWithTooltip onClickButton={() => { navigate(`/spots/create/channel?edit=${item.id}`) }} icon={<Edit />} tooltip='Изменить' />
+                    {/* <IconButtonWithTooltip onClickButton={() => navigate('item/follower')} icon={<UserCheck />} tooltip='Подписчики' /> */}
+                    {/* <IconButtonWithTooltip onClickButton={() => navigate('item/postback')} icon={<Gauge />} tooltip='Постбэки' /> */}
+                    {/* {item.spot_type === 'telegram_channels' && <IconButtonWithTooltip onClickButton={() => navigate('item/conversion')} icon={<Logs />} tooltip='Конверсии' />} */}
                     <IconButtonWithTooltip onClickButton={() => setOpenLink(true)} icon={<Eye />} tooltip='Сгенерировать ссылку для лендинга' />
                     <IconButtonWithTooltip onClickButton={() => OpenDeleteModal(item.id)} icon={<Trash />} tooltip='Удалить' variant="destructive" />
                 </div>

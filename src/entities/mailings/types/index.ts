@@ -1,4 +1,4 @@
-import { ButtonBotType, SpotType } from "@shared/types";
+import { ButtonBotType, ButtonBotTypeResponse, SpotType } from "@shared/types";
 import { ReactNode } from "react";
 
 export type TableRow = {
@@ -63,6 +63,8 @@ export interface CurrentMailing {
   scheduled_at: string; // ISO string (RFC3339)
   days_of_week: DayOfWeek[];
   status: MailingStatus;
+  buttons: ButtonBotTypeResponse[];
+  image: string;
 }
 
 export type MailingType = "permanent" | "disposable";

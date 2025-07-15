@@ -6,6 +6,7 @@ import {
   CheckChannelType,
   ListSpotsResponseType,
 } from "@entities/spots/types";
+import { ChannelResponse } from "@entities/spots/types/response";
 
 class Spots_service {
   async getListSpots(): Promise<ListSpotsResponseType> {
@@ -47,6 +48,14 @@ class Spots_service {
 
   async AddChannelPhoto(payload: FormData) {
     const result = await axiosInstance.post(SPOTS_URL.SPOTS_ADD_PHOTO, payload);
+
+    return result.data;
+  }
+
+  async getInfoSpotById(id: string): Promise<ChannelResponse> {
+    const result = await axiosInstance.get<ChannelResponse>(
+      `${SPOTS_URL.LIST}/${id}`
+    );
 
     return result.data;
   }

@@ -17,7 +17,7 @@ interface ExpertTranslateTabProps {
     id: string
 }
 
-const ExpertTranslateTab = ({ onNextStep, id }: ExpertTranslateTabProps) => {
+const ExpertTranslateTab = ({ onNextStep }: ExpertTranslateTabProps) => {
     const form = useForm<TranslateFormType>({
         resolver: zodResolver(expertTranslateSchema),
         mode: "onChange",

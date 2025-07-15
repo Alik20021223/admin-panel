@@ -7,16 +7,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { StepOneSpotSchema } from "./validation";
 import { Checkbox } from "@shadcdn/checkbox";
 import { Label } from "@shadcdn/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SecondStep from "./second-step";
 import { Plus } from "lucide-react";
 import { useCheckChannel } from "@entities/spots/hooks/check-channel";
 import { useSpotAddMessage } from "@entities/spots/hooks/spots-add-channel-message";
-import { useSpotAddPhoto } from "../../hooks/spots-add-channel-photo";
+import { useSpotAddPhoto } from "@entities/spots/hooks/spots-add-channel-photo";
+import { useGetInfoSpotChannel } from "@entities/spots/hooks/get-channel-by-id";
+import { useSearchParams } from "react-router-dom";
 
 const FirstStep = () => {
 
     const [checked, setChecked] = useState<boolean>(false)
+    const [searchParams] = useSearchParams()
+    const editId = searchParams.get('edit')
 
     const form = useForm<StepOneSpotChannel>({
         resolver: zodResolver(StepOneSpotSchema),
@@ -37,6 +41,34 @@ const FirstStep = () => {
     const { mutateAsync: AddSpotPhoto } = useSpotAddPhoto()
 
 
+    const { data: EditData } = useGetInfoSpotChannel(editId || "")
+
+    useEffect(() => {
+        if (EditData?.channel) {
+            const channel = EditData.channel;
+
+
+
+            form.reset({
+                idChannel: String(channel.channel_id),
+                tokenBot: channel.bot_token,
+                autoReception: true, // если у тебя нет этого значения в EditData — можешь оставить false
+                HelloSelect: Boolean(channel.welcome_message || channel.welcome_buttons.length > 0),
+                textHello: channel.welcome_message ?? "",
+                mediaHello: null, // см. ниже про превью
+                buttonsTypeHello: channel.welcome_buttons.map(btn => ({
+                    name: btn.text_button,
+                    url: btn.url_button,
+                    id: btn.id
+                })),
+                postBack: [],
+            });
+
+            setChecked(true); // если хочешь сразу показать второй шаг
+        }
+    }, [EditData, form]);
+
+
     const onSubmitForm = (data: StepOneSpotChannel) => {
         // console.log(data);
 
@@ -45,7 +77,7 @@ const FirstStep = () => {
             url: btn.url,
         }));
 
-        
+
 
         AddSpotMessage({
             auto_approve: data.autoReception,
@@ -83,10 +115,6 @@ const FirstStep = () => {
             console.error("Ошибка проверки", error);
         }
     };
-
-    console.log(form.formState.errors);
-    console.log(form.watch());
-    
 
     return (
         <>
@@ -139,7 +167,7 @@ const FirstStep = () => {
                         </div>
                         {checked &&
                             <>
-                                <SecondStep form={form} />
+                                <SecondStep form={form} previewUrl={EditData?.channel?.welcome_image_url || ""} />
                                 <div className="mt-5 w-full">
                                     <Button
                                         disabled={!form.formState.isValid}
