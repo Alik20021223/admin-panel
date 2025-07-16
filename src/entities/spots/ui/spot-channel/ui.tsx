@@ -15,6 +15,8 @@ import { useSpotAddMessage } from "@entities/spots/hooks/spots-add-channel-messa
 import { useSpotAddPhoto } from "@entities/spots/hooks/spots-add-channel-photo";
 import { useGetInfoSpotChannel } from "@entities/spots/hooks/get-channel-by-id";
 import { useSearchParams } from "react-router-dom";
+import { useCreateSpot } from "@entities/spots/hooks/create-channel";
+import { useSpotAddPostBack } from "@entities/spots/hooks/spots-add-channel-postback";
 
 const FirstStep = () => {
 
@@ -39,6 +41,8 @@ const FirstStep = () => {
 
     const { mutateAsync: AddSpotMessage } = useSpotAddMessage()
     const { mutateAsync: AddSpotPhoto } = useSpotAddPhoto()
+    const { mutateAsync: AddSpotPixels } = useSpotAddPostBack()
+
 
 
     const { data: EditData } = useGetInfoSpotChannel(editId || "")
@@ -61,7 +65,11 @@ const FirstStep = () => {
                     url: btn.url_button,
                     id: btn.id
                 })),
-                postBack: [],
+                postBack: EditData.pixels.map((pst) => ({
+                    typePostBack: 'Facebook',
+                    apiKey: pst.access_token,
+                    enterPixel: String(pst.pixel_id),
+                })),
             });
 
             setChecked(true); // если хочешь сразу показать второй шаг
@@ -77,7 +85,13 @@ const FirstStep = () => {
             url: btn.url,
         }));
 
+        const mappedPixel = data.postBack.map((pixel) => ({
+            pixel_id: Number(pixel.enterPixel),
+            access_token: pixel.apiKey,
+        }));
 
+
+        AddSpotPixels({ pixels: mappedPixel })
 
         AddSpotMessage({
             auto_approve: data.autoReception,
@@ -97,6 +111,7 @@ const FirstStep = () => {
 
 
     const { mutateAsync } = useCheckChannel()
+    const { mutateAsync: CreateSpot } = useCreateSpot()
 
     const onCheck = async () => {
         try {
@@ -109,12 +124,19 @@ const FirstStep = () => {
 
             // если ответ содержит status === 200
             if (response?.message === "bot is valid and is an admin in the channel") {
+                CreateSpot({
+                    bot_token: form.getValues("tokenBot"),
+                    channel_id: Number(form.getValues("idChannel")),
+                })
                 setChecked(true);
             }
         } catch (error) {
             console.error("Ошибка проверки", error);
         }
     };
+
+    console.log(form.formState.errors);
+
 
     return (
         <>

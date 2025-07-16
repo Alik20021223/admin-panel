@@ -3,17 +3,14 @@ import { Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { Button } from "@shadcdn/button"; // предположим, у тебя такой
 import { Label } from "@shadcdn/label";
-import { postBackOptions } from "@shared/mock";
-import { FormSelect } from "@feature/formSelect";
 import { Separator } from "@shadcdn/separator";
-import AddOutPostBack from "@feature/add-out-postback";
 
 interface AddPixelProps {
     name: string; // пример: "buttons"
 }
 
 const AddPixel: React.FC<AddPixelProps> = ({ name }) => {
-    const { control, watch } = useFormContext();
+    const { control } = useFormContext();
 
     const { fields, append, remove } = useFieldArray({
         control,
@@ -26,10 +23,6 @@ const AddPixel: React.FC<AddPixelProps> = ({ name }) => {
                 Пиксели
             </Label>
             {fields.map((field, index) => {
-
-                const outPostBack = watch(`${name}.${index}.outPostBack`)
-
-
                 return (
                     <>
                         <div key={field.id} className="border px-3 py-4 rounded-md bg-slate-100">
@@ -56,6 +49,7 @@ const AddPixel: React.FC<AddPixelProps> = ({ name }) => {
                                     name={`${name}.${index}.enterPixel`}
                                     control={control}
                                     label="Введите пиксель"
+                                    // type="number"
                                     placeholder="Введите пиксель"
                                 />
                                 <FormInput
@@ -65,17 +59,6 @@ const AddPixel: React.FC<AddPixelProps> = ({ name }) => {
                                     placeholder="Введите API ключ"
                                 />
                                 <Separator />
-
-                                <FormSelect
-                                    name={`${name}.${index}.outPostBack`}
-                                    control={control}
-                                    label="Внешний постбэк"
-                                    options={postBackOptions}
-                                />
-
-                                {outPostBack === 'true' &&
-                                    <AddOutPostBack name="outPostBackArray" />
-                                }
                             </div>
                         </div >
                     </>

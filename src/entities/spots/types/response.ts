@@ -38,8 +38,6 @@ export interface Permission {
   can_use: boolean;
 }
 
-
-
 export interface ChannelResponse {
   channel: Channel;
   pixels: Pixel[];
@@ -48,3 +46,12 @@ export interface ChannelResponse {
   user: ChannelUser;
   owner_email: string;
 }
+
+export type PostBackPayloadType = {
+  pixel_id: number;
+  access_token: string;
+};
+
+export type AddPixelType = {
+  pixels: PostBackPayloadType[];
+};

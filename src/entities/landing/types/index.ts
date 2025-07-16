@@ -139,3 +139,5 @@ export type LandingData = {
   landing: Landing;
   spots: SpotType[];
 };
+
+

@@ -7,6 +7,7 @@ import {
   ListSpotsResponseType,
 } from "@entities/spots/types";
 import { ChannelResponse } from "@entities/spots/types/response";
+import { AddPixelType } from "@entities/spots/types/response";
 
 class Spots_service {
   async getListSpots(): Promise<ListSpotsResponseType> {
@@ -37,9 +38,24 @@ class Spots_service {
     return result.data;
   }
 
+  async CreateSpot(payload: CheckChannelType) {
+    const result = await axiosInstance.post(SPOTS_URL.LIST, payload);
+
+    return result.data;
+  }
+
   async AddChannelMessage(payload: AddChannelMessage) {
     const result = await axiosInstance.post(
       SPOTS_URL.SPOTS_ADD_MESSAGE,
+      payload
+    );
+
+    return result.data;
+  }
+
+  async AddChannelPostBack(payload: AddPixelType) {
+    const result = await axiosInstance.post(
+      SPOTS_URL.SPOTS_ADD_PIXELS,
       payload
     );
 

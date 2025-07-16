@@ -31,7 +31,6 @@ export type TableRowFollower = {
   actions?: ReactNode; // Действия
 };
 
-
 export type ColumnConfig = {
   id: string;
   isVisible: boolean;
@@ -136,8 +135,6 @@ export type PostBack = {
   typePostBack: string;
   enterPixel: string;
   apiKey: string;
-  outPostBack: string;
-  outPostBackArray?: outPostBackType[];
 };
 
 export type AppSpotPostBackType = {

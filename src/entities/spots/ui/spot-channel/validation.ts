@@ -10,35 +10,16 @@ const buttonBotSchema = z.object({
   id: z.number().optional(),
 });
 
-// Схема для outPostBack
-const outPostBackSchema = z.object({
-  event: z.string().min(1, "Событие обязательно"),
-  id: z.string().min(1, "ID обязательно"),
-  typeRequest: z.string().min(1, "Тип запроса обязателен"),
-  linkToOutPostBack: z.string().min(1, "Ссылка обязательна"),
-});
-
 // Схема для postBack
-export const postBackSchema = z
-  .object({
-    typePostBack: z.string().min(1, "Тип постбэка обязателен"),
-    enterPixel: z.string().min(1, "Пиксель входа обязателен"),
-    apiKey: z.string().min(1, "API ключ обязателен"),
-    outPostBack: z.string().min(1, "Укажите, нужен ли исходящий постбэк"),
-    outPostBackArray: z.array(outPostBackSchema).optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (
-      data.outPostBack === "true" &&
-      (!data.outPostBackArray || data.outPostBackArray.length === 0)
-    ) {
-      ctx.addIssue({
-        path: ["outPostBackArray"],
-        code: z.ZodIssueCode.custom,
-        message: "Заполните хотя бы один исходящий постбэк",
-      });
-    }
-  });
+export const postBackSchema = z.object({
+  typePostBack: z.string().min(1, "Тип постбэка обязателен"),
+  enterPixel: z
+    .string()
+    .min(1, "Введите пиксель")
+    .regex(/^\d+$/, "Пиксель должен содержать только цифры"),
+
+  apiKey: z.string().min(1, "API ключ обязателен"),
+});
 
 // Основная схема
 export const StepOneSpotSchema = z.object({
