@@ -17,6 +17,8 @@ import { useGetInfoSpotChannel } from "@entities/spots/hooks/get-channel-by-id";
 import { useSearchParams } from "react-router-dom";
 import { useCreateSpot } from "@entities/spots/hooks/create-channel";
 import { useSpotAddPostBack } from "@entities/spots/hooks/spots-add-channel-postback";
+import { useUpdateSpot } from "@entities/spots/hooks/put-channel";
+import { useUpdateSpotPhoto } from "@entities/spots/hooks/update-spot-channel-photo";
 
 const FirstStep = () => {
 
@@ -42,6 +44,10 @@ const FirstStep = () => {
     const { mutateAsync: AddSpotMessage } = useSpotAddMessage()
     const { mutateAsync: AddSpotPhoto } = useSpotAddPhoto()
     const { mutateAsync: AddSpotPixels } = useSpotAddPostBack()
+    const { mutateAsync } = useCheckChannel()
+    const { mutateAsync: CreateSpot } = useCreateSpot()
+    const { mutateAsync: UpdateSpot } = useUpdateSpot()
+    const { mutateAsync: UpdateSpotPhoto } = useUpdateSpotPhoto()
 
 
 
@@ -85,33 +91,58 @@ const FirstStep = () => {
             url: btn.url,
         }));
 
+        const editMappedButtons = data.buttonsTypeHello.map((btn) => ({
+            text_button: btn.name,
+            url_button: btn.url,
+        }));
+
         const mappedPixel = data.postBack.map((pixel) => ({
             pixel_id: Number(pixel.enterPixel),
             access_token: pixel.apiKey,
         }));
 
-
-        AddSpotPixels({ pixels: mappedPixel })
-
-        AddSpotMessage({
-            auto_approve: data.autoReception,
-            welcome_message_flag: data.HelloSelect,
-            welcome_message: data.textHello,
-            welcome_buttons: mappedButtons,
-        });
-
         const formData = new FormData()
 
-        if (data.mediaHello) {
-            formData.append("photo", data.mediaHello)
-        }
 
-        AddSpotPhoto(formData)
+
+        if (editId) {
+            UpdateSpot({
+                payload: {
+                    token: form.getValues("tokenBot"),
+                    channel_id: Number(form.getValues("idChannel")),
+                    welcome_message: data.textHello,
+                    welcome_buttons: editMappedButtons,
+                }, id: editId
+            })
+
+            if (data.mediaHello) {
+                formData.append("photo", data.mediaHello)
+            }
+
+            UpdateSpotPhoto({
+                payload: formData,
+                id: editId
+            })
+        } else {
+            AddSpotPixels({ pixels: mappedPixel })
+
+            AddSpotMessage({
+                auto_approve: data.autoReception,
+                welcome_message_flag: data.HelloSelect,
+                welcome_message: data.textHello,
+                welcome_buttons: mappedButtons,
+            });
+
+            if (data.mediaHello) {
+                formData.append("photo", data.mediaHello)
+            }
+
+            AddSpotPhoto(formData)
+        }
     };
 
 
-    const { mutateAsync } = useCheckChannel()
-    const { mutateAsync: CreateSpot } = useCreateSpot()
+
 
     const onCheck = async () => {
         try {

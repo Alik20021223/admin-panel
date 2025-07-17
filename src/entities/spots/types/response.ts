@@ -12,7 +12,7 @@ export interface Channel {
 }
 
 export interface WelcomeButton {
-  id: number;
+  id?: number;
   text_button: string;
   url_button: string;
 }
@@ -54,4 +54,12 @@ export type PostBackPayloadType = {
 
 export type AddPixelType = {
   pixels: PostBackPayloadType[];
+};
+
+export type UpdateSpot = {
+  channel_id: number;
+  token: string;
+  welcome_message: string;
+  name?: string;
+  welcome_buttons: WelcomeButton[];
 };
