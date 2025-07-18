@@ -14,7 +14,7 @@ import { useCheckChannel } from "@entities/spots/hooks/check-channel";
 import { useSpotAddMessage } from "@entities/spots/hooks/spots-add-channel-message";
 import { useSpotAddPhoto } from "@entities/spots/hooks/spots-add-channel-photo";
 import { useGetInfoSpotChannel } from "@entities/spots/hooks/get-channel-by-id";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCreateSpot } from "@entities/spots/hooks/create-channel";
 import { useSpotAddPostBack } from "@entities/spots/hooks/spots-add-channel-postback";
 import { useUpdateSpot } from "@entities/spots/hooks/put-channel";
@@ -25,6 +25,7 @@ const FirstStep = () => {
     const [checked, setChecked] = useState<boolean>(false)
     const [searchParams] = useSearchParams()
     const editId = searchParams.get('edit')
+    const navigate = useNavigate()
 
     const form = useForm<StepOneSpotChannel>({
         resolver: zodResolver(StepOneSpotSchema),
@@ -37,6 +38,7 @@ const FirstStep = () => {
             mediaHello: null,
             buttonsTypeHello: [],
             postBack: [],
+            title: "",
         },
         mode: "all",
     })
@@ -76,6 +78,7 @@ const FirstStep = () => {
                     apiKey: pst.access_token,
                     enterPixel: String(pst.pixel_id),
                 })),
+                title: EditData.channel.title,
             });
 
             setChecked(true); // если хочешь сразу показать второй шаг
@@ -87,11 +90,6 @@ const FirstStep = () => {
         // console.log(data);
 
         const mappedButtons = data.buttonsTypeHello.map((btn) => ({
-            text: btn.name,
-            url: btn.url,
-        }));
-
-        const editMappedButtons = data.buttonsTypeHello.map((btn) => ({
             text_button: btn.name,
             url_button: btn.url,
         }));
@@ -103,20 +101,22 @@ const FirstStep = () => {
 
         const formData = new FormData()
 
-
-
         if (editId) {
             UpdateSpot({
                 payload: {
                     token: form.getValues("tokenBot"),
                     channel_id: Number(form.getValues("idChannel")),
                     welcome_message: data.textHello,
-                    welcome_buttons: editMappedButtons,
+                    welcome_buttons: mappedButtons,
+                    pixels: mappedPixel,
+                    title: form.getValues("title") || "",
                 }, id: editId
             })
 
             if (data.mediaHello) {
                 formData.append("photo", data.mediaHello)
+            } else if (EditData?.channel?.welcome_image_url) {
+                formData.append("photo", EditData?.channel?.welcome_image_url)
             }
 
             UpdateSpotPhoto({
@@ -139,6 +139,8 @@ const FirstStep = () => {
 
             AddSpotPhoto(formData)
         }
+
+        navigate('/spots')
     };
 
 
@@ -165,9 +167,6 @@ const FirstStep = () => {
             console.error("Ошибка проверки", error);
         }
     };
-
-    console.log(form.formState.errors);
-
 
     return (
         <>
@@ -220,7 +219,12 @@ const FirstStep = () => {
                         </div>
                         {checked &&
                             <>
-                                <SecondStep form={form} previewUrl={EditData?.channel?.welcome_image_url || ""} />
+                                <SecondStep
+                                    form={form}
+                                    previewUrl={EditData?.channel?.welcome_image_url || ""}
+                                    isEdit={!!editId}
+                                    title={EditData?.channel?.title ?? ""}
+                                />
                                 <div className="mt-5 w-full">
                                     <Button
                                         disabled={!form.formState.isValid}

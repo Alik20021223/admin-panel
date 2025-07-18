@@ -1,4 +1,4 @@
-import { ChannelUser } from ".";
+import { ChannelUser, WelcomeButton } from ".";
 
 export interface Channel {
   id: number;
@@ -9,12 +9,6 @@ export interface Channel {
   members: number;
   welcome_buttons: WelcomeButton[];
   title: string;
-}
-
-export interface WelcomeButton {
-  id?: number;
-  text_button: string;
-  url_button: string;
 }
 
 export interface Pixel {
@@ -60,6 +54,7 @@ export type UpdateSpot = {
   channel_id: number;
   token: string;
   welcome_message: string;
-  name?: string;
   welcome_buttons: WelcomeButton[];
+  pixels: PostBackPayloadType[]
+  title: string;
 };

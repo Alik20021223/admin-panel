@@ -7,13 +7,16 @@ import DropFieldInner from "@feature/dropField";
 import AddButton from "@feature/add-button";
 import AddPixel from "@feature/add-pixel";
 import { Separator } from "@shadcdn/separator";
+import FormInput from "@feature/formInput";
 
 type SecondStepProps<T extends FieldValues = StepOneSpotChannel> = {
     form: UseFormReturn<T>;
     previewUrl: string;
+    isEdit: boolean;
+    title?: string;
 };
 
-const SecondStep = ({ form, previewUrl }: SecondStepProps) => {
+const SecondStep = ({ form, previewUrl, isEdit, title }: SecondStepProps) => {
 
     const autoReception = form.watch("autoReception")
     const helloSelected = form.watch("HelloSelect")
@@ -39,6 +42,16 @@ const SecondStep = ({ form, previewUrl }: SecondStepProps) => {
                 {helloSelected === true && (
                     <div className="flex flex-col gap-2 border p-3 rounded bg-muted/20">
                         <PreviewContent text={text ?? ''} buttonArray={buttonsType ?? []} />
+
+                        {isEdit && (
+                            <FormInput
+                                name="title"
+                                control={form.control}
+                                label="Название канала"
+                                placeholder="Введите название канала"
+                                defaultValue={title}
+                            />
+                        )}
 
                         <Controller
                             name="textHello"

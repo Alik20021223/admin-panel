@@ -114,6 +114,7 @@ export type StepOneSpotChannel = {
   mediaHello: File | null;
   buttonsTypeHello: ButtonBotType[];
   postBack: PostBack[];
+  title?: string;
 };
 
 export type CommandCondition = {
@@ -170,7 +171,7 @@ export type BotSpotBotType = {
 };
 
 export type WelcomeButton = {
-  id: number;
+  id?: number;
   text_button: string;
   url_button: string;
 };
@@ -231,10 +232,7 @@ export type AddChannelMessage = {
   auto_approve: boolean;
   welcome_message_flag: boolean;
   welcome_message: string;
-  welcome_buttons: {
-    text: string;
-    url: string;
-  }[];
+  welcome_buttons: WelcomeButton[];
 };
 
 export type AddChannelPhoto = {

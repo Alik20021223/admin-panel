@@ -31,4 +31,5 @@ export const StepOneSpotSchema = z.object({
   mediaHello: z.custom<File>().nullable(),
   buttonsTypeHello: z.array(buttonBotSchema),
   postBack: z.array(postBackSchema),
+  title: z.string().optional(),
 });
