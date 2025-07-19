@@ -4,8 +4,8 @@ import { SPOTS } from "@entities/spots/constant";
 const SpotsPage = lazy(() => import("@pages/spots/spots-page"));
 const SpotsAdd = lazy(() => import("@pages/spots/spots-add-page"));
 const SpotsAddChannel = lazy(() => import("@widgets/spots/spots-channel-content"));
-const SpotsAddApp = lazy(() => import("@widgets/spots/spots-app-content"));
-const SpotsAddBot = lazy(() => import("@widgets/spots/spots-bot-content"));
+// const SpotsAddApp = lazy(() => import("@widgets/spots/spots-app-content"));
+// const SpotsAddBot = lazy(() => import("@widgets/spots/spots-bot-content"));
 const SpotsPostBack = lazy(() => import("@widgets/spots/postback-content"));
 const SpotConversion = lazy(() => import("@widgets/spots/conversion-content"));
 const FollowerContent = lazy(() => import("@widgets/spots/follower-content"));
@@ -24,14 +24,14 @@ export const SPOTS_ROUTES = [
         path: SPOTS.CHANNEL,
         element: <SpotsAddChannel />
       },
-      {
-        path: SPOTS.BOT,
-        element: <SpotsAddBot />
-      },
-      {
-        path: SPOTS.APP,
-        element: <SpotsAddApp />
-      },
+      // {
+      //   path: SPOTS.BOT,
+      //   element: <SpotsAddBot />
+      // },
+      // {
+      //   path: SPOTS.APP,
+      //   element: <SpotsAddApp />
+      // },
     ]
   },
   {

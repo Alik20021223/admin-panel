@@ -1,5 +1,5 @@
 import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel, getSortedRowModel } from '@tanstack/react-table';
-import { tableDataMock, tableHeaderMock } from '@entities/landing/mock';
+import { tableHeaderMock } from '@entities/landing/mock';
 import {
     Table,
     TableBody,

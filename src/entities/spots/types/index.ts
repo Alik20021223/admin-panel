@@ -113,7 +113,7 @@ export type StepOneSpotChannel = {
   textHello: string;
   mediaHello: File | null;
   buttonsTypeHello: ButtonBotType[];
-  postBack: PostBack[];
+  postBack: PixelType[];
   title?: string;
 };
 
@@ -132,14 +132,14 @@ export type outPostBackType = {
   linkToOutPostBack: string;
 };
 
-export type PostBack = {
+export type PixelType = {
   typePostBack: string;
   enterPixel: string;
   apiKey: string;
 };
 
 export type AppSpotPostBackType = {
-  postBack: PostBack[];
+  postBack: PixelType[];
 };
 
 export type AppSpotGeneralType = {
@@ -162,7 +162,7 @@ export type BotSpotType = {
   generalText: string;
   shortName: string;
   linkToWebhook: string;
-  postBack: PostBack[];
+  postBack: PixelType[];
 };
 
 export type BotSpotBotType = {
