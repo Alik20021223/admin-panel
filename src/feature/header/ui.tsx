@@ -1,8 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { mockSideBarItems } from "@shared/mock"; // замени путь на актуальный
-import { Input } from "@shadcdn/input";
-import NotificationDropDown from "./notification/ui";
-import { Search } from "lucide-react";
+// import { Input } from "@shadcdn/input";
+// import { Search } from "lucide-react";
 
 const Header = () => {
     const location = useLocation();
@@ -22,10 +21,9 @@ const Header = () => {
                     </>
                 )}
             </div>
-            <div>
+            {/* <div>
                 <Input placeholder="Введите" leftIcon={<Search />} />
-            </div>
-            <NotificationDropDown />
+            </div> */}
         </header>
     );
 };

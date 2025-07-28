@@ -1,4 +1,4 @@
-import { ButtonBotType, UserType } from "@shared/types";
+import { ButtonBotType, Pixel, UserType } from "@shared/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { ReactNode } from "react";
 
@@ -113,7 +113,6 @@ export type StepOneSpotChannel = {
   textHello: string;
   mediaHello: File | null;
   buttonsTypeHello: ButtonBotType[];
-  postBack: PixelType[];
   title?: string;
 };
 
@@ -176,11 +175,7 @@ export type WelcomeButton = {
   url_button: string;
 };
 
-export type Pixel = {
-  id: number;
-  pixel_id: number; // int64, но в JS это number
-  access_token: string;
-};
+
 
 // export type UserShortInfo = {
 //   // Предполагается, что структура описана отдельно
@@ -219,6 +214,7 @@ export type ChannelInfo = {
 };
 
 export type ListSpotsResponseType = {
+  pixels: Pixel[];
   user: UserType;
   spots: ChannelInfo[];
 };

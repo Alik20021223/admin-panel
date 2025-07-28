@@ -5,7 +5,6 @@ import PreviewContent from "@feature/preview";
 import CustomEditor from "@feature/text-editor";
 import DropFieldInner from "@feature/dropField";
 import AddButton from "@feature/add-button";
-import AddPixel from "@feature/add-pixel";
 import { Separator } from "@shadcdn/separator";
 import FormInput from "@feature/formInput";
 
@@ -26,7 +25,7 @@ const SecondStep = ({ form, previewUrl, isEdit, title }: SecondStepProps) => {
 
     return (
         <>
-            <div className="w-full space-y-3">
+            <div className="w-full space-y-3 mt-4">
                 <h1 className="font-semibold">ШАГ ІІ ФУНКЦИИ АВТОПРИЕМА</h1>
                 <div className="flex items-center gap-2 mt-2 col-span-1">
                     <Switch checked={autoReception} onCheckedChange={(val) => form.setValue("autoReception", val)} />
@@ -75,8 +74,6 @@ const SecondStep = ({ form, previewUrl, isEdit, title }: SecondStepProps) => {
                     </div>
                 )}
                 <Separator />
-                <h1 className="font-semibold">ШАГ ІІІ ФУНКЦИЯ ОТПРАВКИ СОБЫТИЙ</h1>
-                <AddPixel name="postBack" />
             </div>
         </>
     )

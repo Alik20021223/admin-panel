@@ -1,7 +1,6 @@
 "use client"
 
 import {
-    Bell,
     ChevronsUpDown,
     CircleUser,
     LogOut,
@@ -56,10 +55,6 @@ export function NavUser({
         }
     }
 
-
-
-
-
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -110,10 +105,6 @@ export function NavUser({
                                     {user.role}
                                 </DropdownMenuItem>
                             }
-                            <DropdownMenuItem>
-                                <Bell />
-                                Notifications
-                            </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={handleLogOut}>

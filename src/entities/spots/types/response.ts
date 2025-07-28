@@ -46,15 +46,10 @@ export type PostBackPayloadType = {
   access_token: string;
 };
 
-export type AddPixelType = {
-  pixels: PostBackPayloadType[];
-};
-
 export type UpdateSpot = {
   channel_id: number;
   token: string;
   welcome_message: string;
   welcome_buttons: WelcomeButton[];
-  pixels: PostBackPayloadType[]
   title: string;
 };

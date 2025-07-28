@@ -7,9 +7,10 @@ import { Separator } from "@shadcdn/separator";
 
 interface AddPixelProps {
     name: string; // пример: "buttons"
+    edit: boolean;
 }
 
-const AddPixel: React.FC<AddPixelProps> = ({ name }) => {
+const AddPixel: React.FC<AddPixelProps> = ({ name, edit = false }) => {
     const { control } = useFormContext();
 
     const { fields, append, remove } = useFieldArray({
@@ -25,15 +26,14 @@ const AddPixel: React.FC<AddPixelProps> = ({ name }) => {
             {fields.map((field, index) => {
                 return (
                     <>
-                        <div key={field.id} className="border px-3 py-4 rounded-md bg-slate-100">
+                        <div key={field.id} className="border px-3 py-4 space-y-3 rounded-md bg-slate-100">
                             <div
-                                className="grid grid-cols-[1fr_auto] gap-3 space-y-3 items-end "
+                                className="grid grid-cols-[1fr_auto] gap-3 items-end "
                             >
                                 <FormInput
-                                    name={`${name}.${index}.typePostBack`}
+                                    name={`${name}.${index}.namePixel`}
                                     control={control}
-                                    label="Тип постбэка"
-                                    disabled={true}
+                                    label="Название пикселя"
                                 />
                                 <Button
                                     type="button"
@@ -65,12 +65,12 @@ const AddPixel: React.FC<AddPixelProps> = ({ name }) => {
                 )
             })}
 
-            <Button
+            {!edit && <Button
                 type="button"
                 variant="ghost"
                 className="w-fit text-blue-500"
                 onClick={() => append({
-                    typePostBack: "Facebook",
+                    namePixel: "",
                     enterPixel: "",
                     apiKey: '',
                     outPostBack: 'false'
@@ -78,7 +78,7 @@ const AddPixel: React.FC<AddPixelProps> = ({ name }) => {
             >
                 <Plus className="w-4 h-4 mr-2" />
                 Добавить пиксель
-            </Button>
+            </Button>}
         </div >
     );
 };

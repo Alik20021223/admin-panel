@@ -16,13 +16,14 @@ import { useSpotAddPhoto } from "@entities/spots/hooks/spots-add-channel-photo";
 import { useGetInfoSpotChannel } from "@entities/spots/hooks/get-channel-by-id";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCreateSpot } from "@entities/spots/hooks/create-channel";
-import { useSpotAddPostBack } from "@entities/spots/hooks/spots-add-channel-postback";
 import { useUpdateSpot } from "@entities/spots/hooks/put-channel";
 import { useUpdateSpotPhoto } from "@entities/spots/hooks/update-spot-channel-photo";
+import { toast } from "sonner";
 
 const FirstStep = () => {
 
     const [checked, setChecked] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [searchParams] = useSearchParams()
     const editId = searchParams.get('edit')
     const navigate = useNavigate()
@@ -37,7 +38,6 @@ const FirstStep = () => {
             textHello: "",
             mediaHello: null,
             buttonsTypeHello: [],
-            postBack: [],
             title: "",
         },
         mode: "all",
@@ -45,7 +45,6 @@ const FirstStep = () => {
 
     const { mutateAsync: AddSpotMessage } = useSpotAddMessage()
     const { mutateAsync: AddSpotPhoto } = useSpotAddPhoto()
-    const { mutateAsync: AddSpotPixels } = useSpotAddPostBack()
     const { mutateAsync } = useCheckChannel()
     const { mutateAsync: CreateSpot } = useCreateSpot()
     const { mutateAsync: UpdateSpot } = useUpdateSpot()
@@ -59,8 +58,6 @@ const FirstStep = () => {
         if (EditData?.channel) {
             const channel = EditData.channel;
 
-
-
             form.reset({
                 idChannel: String(channel.channel_id),
                 tokenBot: channel.bot_token,
@@ -73,11 +70,6 @@ const FirstStep = () => {
                     url: btn.url_button,
                     id: btn.id
                 })),
-                postBack: EditData.pixels.map((pst) => ({
-                    typePostBack: 'Facebook',
-                    apiKey: pst.access_token,
-                    enterPixel: String(pst.pixel_id),
-                })),
                 title: EditData.channel.title,
             });
 
@@ -86,87 +78,106 @@ const FirstStep = () => {
     }, [EditData, form]);
 
 
-    const onSubmitForm = (data: StepOneSpotChannel) => {
-        // console.log(data);
-
+    const onSubmitForm = async (data: StepOneSpotChannel) => {
         const mappedButtons = data.buttonsTypeHello.map((btn) => ({
             text_button: btn.name,
             url_button: btn.url,
         }));
 
-        const mappedPixel = data.postBack.map((pixel) => ({
-            pixel_id: Number(pixel.enterPixel),
-            access_token: pixel.apiKey,
-        }));
-
-        const formData = new FormData()
+        const formData = new FormData();
 
         if (editId) {
-            UpdateSpot({
+            await UpdateSpot({
                 payload: {
                     token: form.getValues("tokenBot"),
                     channel_id: Number(form.getValues("idChannel")),
                     welcome_message: data.textHello,
                     welcome_buttons: mappedButtons,
-                    pixels: mappedPixel,
                     title: form.getValues("title") || "",
-                }, id: editId
-            })
-
-            if (data.mediaHello) {
-                formData.append("photo", data.mediaHello)
-            } else if (EditData?.channel?.welcome_image_url) {
-                formData.append("photo", EditData?.channel?.welcome_image_url)
-            }
-
-            UpdateSpotPhoto({
-                payload: formData,
-                id: editId
-            })
-        } else {
-            AddSpotPixels({ pixels: mappedPixel })
-
-            AddSpotMessage({
-                auto_approve: data.autoReception,
-                welcome_message_flag: data.HelloSelect,
-                welcome_message: data.textHello,
-                welcome_buttons: mappedButtons,
+                },
+                id: editId,
             });
 
             if (data.mediaHello) {
-                formData.append("photo", data.mediaHello)
+                formData.append("photo", data.mediaHello);
+            } else if (EditData?.channel?.welcome_image_url) {
+                formData.append("photo", EditData.channel.welcome_image_url);
             }
 
-            AddSpotPhoto(formData)
-        }
+            await UpdateSpotPhoto({
+                payload: formData,
+                id: editId,
+            });
+        } else {
+            try {
+                await CreateSpot({
+                    bot_token: form.getValues("tokenBot"),
+                    channel_id: Number(form.getValues("idChannel")),
+                });
 
-        navigate('/spots')
+                await AddSpotMessage({
+                    auto_approve: data.autoReception,
+                    welcome_message_flag: data.HelloSelect,
+                    welcome_message: data.textHello,
+                    welcome_buttons: mappedButtons,
+                });
+
+                if (data.mediaHello) {
+                    formData.append("photo", data.mediaHello);
+                    await AddSpotPhoto(formData);
+                }
+
+                navigate("/spots");
+            } catch (error) {
+                console.error("Ошибка создания спота:", error);
+                // Можно добавить уведомление или setError
+            }
+        }
     };
 
 
-
-
     const onCheck = async () => {
+        setIsLoading(true)
+
         try {
             const response = await mutateAsync({
                 bot_token: form.getValues("tokenBot"),
                 channel_id: Number(form.getValues("idChannel")),
             });
 
-
-
-            // если ответ содержит status === 200
             if (response?.message === "bot is valid and is an admin in the channel") {
-                CreateSpot({
-                    bot_token: form.getValues("tokenBot"),
-                    channel_id: Number(form.getValues("idChannel")),
-                })
+
+
                 setChecked(true);
+                setIsLoading(false)
             }
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            setIsLoading(false)
             console.error("Ошибка проверки", error);
+
+            // Если это ошибка от сервера
+            if (error.response) {
+                const status = error.response.status;
+                const data = error.response.data;
+
+                if (status === 400) {
+                    // Ошибка валидации или бот не админ
+                    const errorMessage = data?.error || "Ошибка валидации";
+                    toast.error(errorMessage); // отобрази пользователю
+                } else if (status === 500) {
+                    const errorMessage = data?.error || "Ошибка сервера";
+                    const errorDetails = data?.details || "";
+                    toast.error(`${errorMessage}${errorDetails ? `: ${errorDetails}` : ""}`);
+                } else {
+                    toast.error("Неизвестная ошибка");
+                }
+            } else {
+                toast.error("Сетевая ошибка или сервер недоступен");
+            }
         }
     };
+
 
     return (
         <>
@@ -197,23 +208,28 @@ const FirstStep = () => {
                                     <div className="bg-white border rounded-md p-4 space-y-3 text-sm text-neutral-700">
                                         <p className="text-base font-medium">Давайте проверим, что все работает</p>
                                         <div className="flex items-center gap-2">
-                                            <Checkbox disabled id="check-bot-exists" />
+                                            <Checkbox checked={checked} disabled id="check-bot-exists" />
                                             <Label htmlFor="check-bot-exists">Существует ли бот с указанным токеном?</Label>
                                         </div>
 
                                         <div className="flex items-center gap-2">
-                                            <Checkbox disabled id="check-bot-added" />
+                                            <Checkbox checked={checked} disabled id="check-bot-added" />
                                             <Label htmlFor="check-bot-added">Добавлен ли бот в канал?</Label>
                                         </div>
 
                                         <div className="flex items-center gap-2">
-                                            <Checkbox disabled id="check-bot-permissions" />
+                                            <Checkbox checked={checked} disabled id="check-bot-permissions" />
                                             <Label htmlFor="check-bot-permissions">У бота есть все нужные права?</Label>
                                         </div>
                                     </div>
-                                    <Button onClick={onCheck} type="button" className="space-x-2 w-full">
-                                        Проверить
-                                    </Button>
+                                    {!checked &&
+                                        <Button onClick={onCheck} type="button" className="space-x-2 w-full">
+                                            Проверить
+                                            {isLoading && <div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>}
+                                        </Button>}
+
+
+
                                 </div>
                             </div>
                         </div>

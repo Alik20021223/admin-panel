@@ -215,6 +215,7 @@ const AddMailing = () => {
                         <div className="col-span-3">
                             <Button
                                 type="submit"
+                                disabled={!form.formState.isValid}
                                 className="space-x-2 w-full"
                             >
                                 <Plus className="w-4 h-4" />

@@ -10,16 +10,7 @@ const buttonBotSchema = z.object({
   id: z.number().optional(),
 });
 
-// Схема для postBack
-export const postBackSchema = z.object({
-  typePostBack: z.string().min(1, "Тип постбэка обязателен"),
-  enterPixel: z
-    .string()
-    .min(1, "Введите пиксель")
-    .regex(/^\d+$/, "Пиксель должен содержать только цифры"),
 
-  apiKey: z.string().min(1, "API ключ обязателен"),
-});
 
 // Основная схема
 export const StepOneSpotSchema = z.object({
@@ -30,6 +21,5 @@ export const StepOneSpotSchema = z.object({
   textHello: z.string(),
   mediaHello: z.custom<File>().nullable(),
   buttonsTypeHello: z.array(buttonBotSchema),
-  postBack: z.array(postBackSchema),
   title: z.string().optional(),
 });

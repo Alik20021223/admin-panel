@@ -7,6 +7,7 @@ const initialData: ListSpotsResponseType = {
     id: 1,
     role: "",
   },
+  pixels: [],
   spots: [],
 };
 

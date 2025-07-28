@@ -60,7 +60,7 @@ export type ButtonBotTypeResponse = {
   text: string;
   url: string;
   id?: string;
-} 
+};
 
 export type UserType = {
   id: number;
@@ -83,4 +83,11 @@ export type SelectOption = {
   value: string;
   label: string;
   flag?: string;
+};
+
+export type Pixel = {
+  id: number;
+  pixel_id: number; // int64, но в JS это number
+  name: string;
+  access_token: string;
 };

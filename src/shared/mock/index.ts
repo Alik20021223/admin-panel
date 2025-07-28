@@ -1,27 +1,57 @@
-import { AtSign, ChartNoAxesColumn, PanelsTopLeft, Users } from "lucide-react";
-import img from "@assets/shadcn-user.jpg";
-import { NotificationItems, SelectOption } from "@shared/types";
+import {
+  AtSign,
+  ChartNoAxesColumn,
+  PanelsTopLeft,
+  Users,
+  Link,
+  Cable,
+  User,
+} from "lucide-react";
+// import img from "@assets/shadcn-user.jpg";
+import { NotificationItems, SelectOption, UserInfo } from "@shared/types";
 
 export const mockSideBarItems = [
+  {
+    title: "Пользователи",
+    url: "/users",
+    icon: User,
+    roles: ["admin"],
+  },
+  {
+    title: "Пиксели",
+    url: "/pixels",
+    icon: Cable,
+    roles: ["admin"],
+  },
+  {
+    title: "Домен",
+    url: "/domen",
+    icon: Link,
+    roles: ["admin"],
+  },
   {
     title: "Статистика",
     url: "/statistic",
     icon: ChartNoAxesColumn,
+    roles: ["admin"],
   },
   {
     title: "Споты",
     url: "/spots",
     icon: Users,
+    roles: ["admin"],
   },
   {
     title: "Лендинги",
     url: "/landings",
     icon: PanelsTopLeft,
+    roles: ["admin"],
   },
   {
     title: "Рассылки",
     url: "/mailings",
     icon: AtSign,
+    roles: ["admin", "contentMan"],
   },
 ];
 
@@ -77,10 +107,12 @@ export const notifications: NotificationItems[] = [
   },
 ];
 
-export const userMock = {
-  name: "John",
-  email: "alik20021223@gmail.com",
-  avatar: img,
+export const userMock: UserInfo = {
+  first_name: "",
+  email: "",
+  id: 0,
+  last_name: "",
+  role: "",
 };
 
 export const defaultOptions = [
@@ -117,4 +149,12 @@ export const dayOptions: SelectOption[] = [
   { value: "friday", label: "Пятница" },
   { value: "saturday", label: "Суббота" },
   { value: "sunday", label: "Воскресенье" },
+];
+
+export const roleOptions: SelectOption[] = [
+  { label: "Администратор", value: "admin" },
+  { label: "Покупатель", value: "buyer" },
+  { label: "Гость", value: "guest" },
+  { label: "Контент-менеджер", value: "contentMan" },
+  { label: "Отдел качества", value: "OK" },
 ];

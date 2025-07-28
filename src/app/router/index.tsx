@@ -12,6 +12,13 @@ import { SPOTS } from "@entities/spots/constant";
 import { SPOTS_ROUTES } from "@entities/spots/router";
 import PublicRoute from "./publicRoute";
 import ProtectedRoute from "./protectedRoute";
+import { DOMEN } from "@entities/domen/constant";
+import { DOMENS_ROUTES } from "@entities/domen/router";
+import RolePage from "@pages/role-page";
+import { PIXELS } from "@entities/pixels/constant";
+import { PIXELS_ROUTES } from "@entities/pixels/router";
+import { USERS } from "@entities/users/constant";
+import { USERS_ROUTES } from "@entities/users/router";
 
 
 
@@ -41,6 +48,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
+        path: "/",
+        element: <RolePage />
+      },
+      {
         path: "/statistic",
         element: <StatisticPage />,
       },
@@ -58,6 +69,21 @@ export const router = createBrowserRouter([
         path: MAILINGS.PREFIX,
         element: <Outlet />,
         children: MAILING_ROUTES,
+      },
+      {
+        path: DOMEN.PREFIX,
+        element: <Outlet />,
+        children: DOMENS_ROUTES,
+      },
+      {
+        path: PIXELS.PREFIX,
+        element: <Outlet />,
+        children: PIXELS_ROUTES,
+      },
+      {
+        path: USERS.PREFIX,
+        element: <Outlet />,
+        children: USERS_ROUTES,
       },
     ],
   },

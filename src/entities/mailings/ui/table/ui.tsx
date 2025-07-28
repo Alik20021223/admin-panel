@@ -28,11 +28,8 @@ const TableMailing = () => {
 
     const { data, isLoading } = useQueryListMailing()
 
-    console.log(data);
-
-
     const table = useReactTable({
-        data: data,
+        data: data ?? [],
         columns: tableHeaderMock,
         state: {
             columnVisibility: columnVisibility,
@@ -87,7 +84,7 @@ const TableMailing = () => {
                                 ))}
                             </TableHeader>
                             <TableBody>
-                                {table.getRowModel().rows.map((row) => (
+                                {table.getRowModel()?.rows?.map((row) => (
                                     <TableRow key={row.id}>
                                         {row.getVisibleCells().map((cell) => (
                                             <TableCell key={cell.id}>

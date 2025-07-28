@@ -8,6 +8,7 @@ const initialData: ListLandingResponseType = {
     role: "",
   },
   landings: [],
+  pixels: []
 };
 
 export function useQueryListLanding() {

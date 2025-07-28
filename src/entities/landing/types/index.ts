@@ -1,4 +1,4 @@
-import { SpotType, DomainType, UserType } from "@shared/types";
+import { SpotType, DomainType, UserType, Pixel } from "@shared/types";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type TableRow = {
@@ -6,6 +6,7 @@ export type TableRow = {
   title: string;
   spot_title: string;
   domain: string;
+  link: string;
 };
 
 export type ColumnConfig = {
@@ -59,6 +60,7 @@ export type ExpertDesignFormType = {
 export type ListLandingResponseType = {
   user: UserType;
   landings: TableRow[];
+  pixels: Pixel[];
 };
 
 export type InfoAddFormResponseType = {
@@ -139,5 +141,3 @@ export type LandingData = {
   landing: Landing;
   spots: SpotType[];
 };
-
-

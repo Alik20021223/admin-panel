@@ -9,6 +9,7 @@ export const tableHeaderMock: CustomColumnDef<TableRow>[] = [
   { id: "title", accessorKey: "title", header: "Название", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
   { id: "domain", accessorKey: "domain", header: "Домен", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
   { id: "spot_title", accessorKey: "spot_title", header: "Спот", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
+  { id: "link", accessorKey: "link", header: "Ссылка на лендинг", cell: (props) => <a href={String(props.getValue() ?? '')}>{String(props.getValue() ?? '')}</a> },
   {
     id: "actions",
     accessorKey: "actions",
@@ -18,26 +19,25 @@ export const tableHeaderMock: CustomColumnDef<TableRow>[] = [
       style: { width: "252px" },
     },
   }
-
 ];
 
 
 
 
-export const tableDataMock: TableRow[] = [
-  {
-    landing_id: "1",
-    title: "Канал A",
-    domain: "example.com",
-    spot_title: "test 1",
-  },
-  {
-    landing_id: "2",
-    title: "Канал B",
-    domain: "test.ru",
-    spot_title: "test 2",
-  },
-];
+// export const tableDataMock: TableRow[] = [
+//   {
+//     landing_id: "1",
+//     title: "Канал A",
+//     domain: "example.com",
+//     spot_title: "test 1",
+//   },
+//   {
+//     landing_id: "2",
+//     title: "Канал B",
+//     domain: "test.ru",
+//     spot_title: "test 2",
+//   },
+// ];
 
 export const stepsLandingExpAdd = [
   { value: "general", label: "Общее" },

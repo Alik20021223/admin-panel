@@ -1,6 +1,6 @@
 import { CellContext } from "@tanstack/react-table"
 import { TableRow } from "@entities/mailings/types"
-import { CopyPlus, Edit, Trash } from "lucide-react"
+import { Edit, Trash } from "lucide-react"
 import { TooltipProvider } from "@shadcdn/tooltip"
 import IconButtonWithTooltip from "@feature/iconButtonTooltip"
 import ModalDelete from "@feature/modal-delete"
@@ -34,11 +34,6 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
         <>
             <TooltipProvider delayDuration={500}>
                 <div className="flex gap-1 items-center">
-                    <IconButtonWithTooltip
-                        onClickButton={() => console.log("Копировать", props)}
-                        icon={<CopyPlus className="text-black hover:text-white" />}
-                        tooltip="Копировать"
-                    />
                     <IconButtonWithTooltip
                         onClickButton={() => navigate(`add-bot?edit=${props.row.original.id}`)}
                         icon={<Edit className="text-black hover:text-white" />}

@@ -184,8 +184,3 @@ export const CreateTypeSpotTelegram = [
   },
 ]
 
-export const LinkSpotsOptions = [
-  { label: "Прямая ссылка на спот", value: "false" },
-  { label: "Ссылка на лендинг", value: "true" },
-];
-

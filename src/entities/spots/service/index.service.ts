@@ -6,11 +6,7 @@ import {
   CheckChannelType,
   ListSpotsResponseType,
 } from "@entities/spots/types";
-import {
-  ChannelResponse,
-  UpdateSpot,
-  AddPixelType,
-} from "@entities/spots/types/response";
+import { ChannelResponse, UpdateSpot } from "@entities/spots/types/response";
 
 class Spots_service {
   async getListSpots(): Promise<ListSpotsResponseType> {
@@ -20,14 +16,6 @@ class Spots_service {
 
     return result.data;
   }
-
-  // async getInfoAddForm(): Promise<InfoAddFormResponseType> {
-  //   const result = await axiosInstance.get<InfoAddFormResponseType>(
-  //     LANDINGS_URL.INFO_ADD_FORM
-  //   );
-
-  //   return result.data;
-  // }
 
   async deleteFromSpotList(id: number) {
     const result = await axiosInstance.delete(`${SPOTS_URL.LIST}/${id}`);
@@ -65,15 +53,6 @@ class Spots_service {
   async AddChannelMessage(payload: AddChannelMessage) {
     const result = await axiosInstance.post(
       SPOTS_URL.SPOTS_ADD_MESSAGE,
-      payload
-    );
-
-    return result.data;
-  }
-
-  async AddChannelPostBack(payload: AddPixelType) {
-    const result = await axiosInstance.post(
-      SPOTS_URL.SPOTS_ADD_PIXELS,
       payload
     );
 

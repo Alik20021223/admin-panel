@@ -12,6 +12,7 @@ import {
   ColumnPinningState,
 } from "@tanstack/react-table";
 import { MockInitialData } from "../mock";
+import { Pixel } from "@shared/types";
 
 interface LandingTableState {
   columnVisibility: VisibilityState;
@@ -34,6 +35,9 @@ interface LandingTableState {
 
   editData: LandingData | null;
   setEditData: (data: LandingData | null) => void;
+
+  pixels: Pixel[];
+  setPixels: (value: Pixel[]) => void;
 }
 
 export const useLandingStore = create<LandingTableState>((set, get) => ({
@@ -71,4 +75,7 @@ export const useLandingStore = create<LandingTableState>((set, get) => ({
     const newState = typeof updater === "function" ? updater(old) : updater;
     set({ columnPinning: newState });
   },
+
+  pixels: [],
+  setPixels: (value) => set({ pixels: value }),
 }));

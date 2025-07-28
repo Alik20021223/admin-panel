@@ -17,11 +17,21 @@ import {
 // import { Signal } from "lucide-react"
 import { NavUser } from "./nav-user"
 import { useQueryInfoUser } from "@shared/hooks/get-info-person"
+import { useSharedStore } from "@shared/store"
+import { useEffect } from "react"
+import RoleAccess from "@feature/RoleControl"
 
 
 const SidebarCustom = (props: React.ComponentProps<typeof Sidebar>) => {
 
     const { data: userData } = useQueryInfoUser()
+    const { setUser } = useSharedStore()
+
+    useEffect(() => {
+        if (userData) {
+            setUser(userData)
+        }
+    }, [userData])
 
     return (
         <Sidebar collapsible="icon" {...props}>
@@ -39,17 +49,16 @@ const SidebarCustom = (props: React.ComponentProps<typeof Sidebar>) => {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {mockSideBarItems.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild tooltip={item.title} className="bg-slate-200">
-                                        <a href={item.url} className="flex items-center gap-2">
-                                            <item.icon className="h-4 w-4" />
-
-                                            <span className="whitespace-nowrap">
-                                                {item.title}
-                                            </span>
-                                        </a>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
+                                <RoleAccess key={item.title} allowedRoles={item.roles}>
+                                    <SidebarMenuItem>
+                                        <SidebarMenuButton asChild tooltip={item.title} className="bg-slate-200">
+                                            <a href={item.url} className="flex items-center gap-2">
+                                                <item.icon className="h-4 w-4" />
+                                                <span className="whitespace-nowrap">{item.title}</span>
+                                            </a>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                </RoleAccess>
                             ))}
                         </SidebarMenu>
                     </SidebarGroupContent>

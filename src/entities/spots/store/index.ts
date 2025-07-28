@@ -7,6 +7,7 @@ import {
   Column,
   ColumnPinningState,
 } from "@tanstack/react-table";
+import { Pixel } from "@shared/types";
 
 interface SpotsTableState {
   columnVisibilityConversion: VisibilityState;
@@ -34,6 +35,9 @@ interface SpotsTableState {
 
   columnPinningFollower: ColumnPinningState;
   setColumnPinningFollower: (updater: Updater<ColumnPinningState>) => void; // для закрепа
+
+  pixels: Pixel[];
+  setPixels: (value: Pixel[]) => void;
 }
 
 export const useSpotsTableStore = create<SpotsTableState>((set, get) => ({
@@ -86,4 +90,7 @@ export const useSpotsTableStore = create<SpotsTableState>((set, get) => ({
     const newState = typeof updater === "function" ? updater(old) : updater;
     set({ columnPinningFollower: newState });
   },
+
+  pixels: [],
+  setPixels: (value) => set({ pixels: value }),
 }));
