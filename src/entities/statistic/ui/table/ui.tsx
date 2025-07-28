@@ -1,5 +1,5 @@
 import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel, getSortedRowModel } from '@tanstack/react-table';
-import { tableDataMock, tableHeaderMock } from '@entities/statistic/mock';
+import { tableHeaderMock } from '@entities/statistic/mock';
 import {
     Table,
     TableBody,
@@ -33,7 +33,7 @@ const TableStatistic = () => {
 
 
     const table = useReactTable({
-        data: tableDataMock,
+        data: data?.channels || [],
         columns: tableHeaderMock,
         state: {
             columnFilters: columnFilter,

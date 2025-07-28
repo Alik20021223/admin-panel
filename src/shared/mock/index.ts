@@ -21,13 +21,13 @@ export const mockSideBarItems = [
     title: "Пиксели",
     url: "/pixels",
     icon: Cable,
-    roles: ["admin"],
+    roles: ["admin", "buyer"],
   },
   {
     title: "Домен",
     url: "/domen",
     icon: Link,
-    roles: ["admin"],
+    roles: ["admin", "buyer"],
   },
   {
     title: "Статистика",
@@ -39,13 +39,13 @@ export const mockSideBarItems = [
     title: "Споты",
     url: "/spots",
     icon: Users,
-    roles: ["admin"],
+    roles: ["admin", "buyer"],
   },
   {
     title: "Лендинги",
     url: "/landings",
     icon: PanelsTopLeft,
-    roles: ["admin"],
+    roles: ["admin", "buyer"],
   },
   {
     title: "Рассылки",

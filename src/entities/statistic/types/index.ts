@@ -1,20 +1,15 @@
 export type TableRow = {
-  name: string;
-  clicks: number;
-  subscribers: number;
-  cr: string;
-  clean_subscribers: number;
-  clean_cr: string;
-  unsubs: number;
-  unsubs_percent: string;
-  bot_activations: number;
-  dialogs: number;
-  repeat_sales_sum: number;
-  repeat_sales_count: number;
-  sales_sum: number;
-  sales_count: number;
-  registrations_sum: number;
-  registrations_count: number;
+  channel_id: number;
+  channel_name: string;
+  total_clicks: number;
+  total_subscribers: number;
+  net_subscribers: number;
+  unsubscriptions: number;
+  percentage_unsubscriptions: number;
+};
+
+export type StatisticResponse = {
+  channels: TableRow[];
 };
 
 export type FilterInputType = {
@@ -27,7 +22,6 @@ export type ColumnConfig = {
   isVisible: boolean;
   isPinned: boolean;
 };
-
 
 export type FormType = {
   period: {

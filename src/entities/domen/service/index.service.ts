@@ -1,7 +1,7 @@
 import { axiosInstance } from "@shared/utils/axios";
 // import { ListMailingsResponseType } from "@entities/spots/types";
 import { DOMEN_URL } from "@entities/domen/constant/api_url";
-import { EditFormType } from "@/entities/domen/ui/add-pixels/validation";
+import { EditFormType } from "@/entities/domen/ui/add-domen/validation";
 
 class Domen_service {
   async getListDomen() {

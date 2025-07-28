@@ -5,7 +5,7 @@ class statistic_service {
   async getDataDashboardStatistic() {
     const result = await axiosInstance.get(STATISTIC_URL.DASHBOARD_STATISTICS);
 
-    return result;
+    return result.data;
   }
 }
 

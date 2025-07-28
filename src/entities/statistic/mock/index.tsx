@@ -2,22 +2,48 @@ import { ColumnDef } from '@tanstack/react-table';
 import { TableRow } from '@entities/statistic/types';
 
 export const tableHeaderMock: ColumnDef<TableRow>[] = [
-  { id: "name", accessorKey: "name", header: "Название", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "clicks", accessorKey: "clicks", header: "Кол-во кликов", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "subscribers", accessorKey: "subscribers", header: "Кол-во подписчиков", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "cr", accessorKey: "cr", header: "CR", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "clean_subscribers", accessorKey: "clean_subscribers", header: "Кол-во подписчиков чистых", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "clean_cr", accessorKey: "clean_cr", header: "CR чистый", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "unsubs", accessorKey: "unsubs", header: "Кол-во отписок", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "unsubs_percent", accessorKey: "unsubs_percent", header: "% отписок", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "bot_activations", accessorKey: "bot_activations", header: "Кол-во активаций бота", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "dialogs", accessorKey: "dialogs", header: "Кол-во диалогов", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "repeat_sales_sum", accessorKey: "repeat_sales_sum", header: "Сумма повторных продаж", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "repeat_sales_count", accessorKey: "repeat_sales_count", header: "Количество повторных продаж", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "sales_sum", accessorKey: "sales_sum", header: "Сумма продаж", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "sales_count", accessorKey: "sales_count", header: "Количество продаж", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "registrations_sum", accessorKey: "registrations_sum", header: "Сумма регистраций", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "registrations_count", accessorKey: "registrations_count", header: "Количество регистраций", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
+  {
+    id: "channel_id",
+    accessorKey: "channel_id",
+    header: "ID канала",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
+  {
+    id: "channel_name",
+    accessorKey: "channel_name",
+    header: "Название канала",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
+  {
+    id: "total_clicks",
+    accessorKey: "total_clicks",
+    header: "Общее число кликов",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
+  {
+    id: "total_subscribers",
+    accessorKey: "total_subscribers",
+    header: "Общее число подписчиков",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
+  {
+    id: "net_subscribers",
+    accessorKey: "net_subscribers",
+    header: "Чистые подписчики",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
+  {
+    id: "unsubscriptions",
+    accessorKey: "unsubscriptions",
+    header: "Не подписанные",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
+  {
+    id: "percentage_unsubscriptions",
+    accessorKey: "percentage_unsubscriptions",
+    header: "% Не подписанных",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
 ];
 
 

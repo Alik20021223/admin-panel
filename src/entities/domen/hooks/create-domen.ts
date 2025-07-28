@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import DomainService from "@entities/domen/service/index.service";
-import { EditFormType } from "@/entities/domen/ui/add-pixels/validation";
+import { EditFormType } from "@/entities/domen/ui/add-domen/validation";
 
 export function useCreateDomain() {
   const queryClient = useQueryClient();

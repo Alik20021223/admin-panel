@@ -2,12 +2,12 @@ import { Button } from "@shadcdn/button";
 import { Plus } from "lucide-react";
 import TableDomen from "@entities/domen/ui/table";
 import { useState } from "react";
-import AddDomenModal from "@/entities/domen/ui/add-pixels";
+import AddDomenModal from "@/entities/domen/ui/add-domen";
 
 const DomenContent = () => {
 
 
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
 
     return (
         <div className="space-y-5">
