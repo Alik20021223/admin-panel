@@ -4,6 +4,7 @@ export type TableRow = {
   ID: string;
   url: string;
   status: string;
+  sys_domain: boolean;
   actions?: ReactNode; // для отображения React-компонентов в колонке "Действия"
 };
 

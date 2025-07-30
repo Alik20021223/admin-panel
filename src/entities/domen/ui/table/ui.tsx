@@ -10,7 +10,6 @@ import {
 } from "@shadcdn/table"
 import { useDomenTableStore } from '@entities/domen/store';
 import { useEffect } from 'react';
-import { ArrowDownUp } from 'lucide-react';
 import { useQueryListDomain } from '@entities/domen/hooks/get-list-domen';
 
 const TableDomen = () => {
@@ -62,13 +61,6 @@ const TableDomen = () => {
                                             <TableHead key={header.id}>
                                                 <div className="flex items-center gap-3">
                                                     {String(header.column.columnDef.header)}
-                                                    {header.column.getCanSort() && header.column.id !== 'actions' && (
-                                                        <ArrowDownUp
-                                                            size={14}
-                                                            onClick={header.column.getToggleSortingHandler()}
-                                                            className="cursor-pointer"
-                                                        />
-                                                    )}
                                                 </div>
                                             </TableHead>
                                         ))}

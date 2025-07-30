@@ -26,6 +26,7 @@ const SpotsContent = () => {
 
     const { data } = useQueryListSpots()
 
+
     const { setPixels } = useSpotsTableStore()
 
     useEffect(() => {
@@ -72,7 +73,7 @@ const SpotsContent = () => {
                 {openFilterData && <FilterRow onClose={() => setFilterData(false)} onSubmit={handleSubmitFilterRow} />}
                 <div className="relative grid grid-cols-4 gap-[10px] max-h-[calc(100vh-126px)] overflow-y-auto custom-scroll">
                     {data.spots.map((item) => (
-                        <ItemSpot item={item} />
+                        <ItemSpot item={item} domain={data.system_domain} />
                     ))}
                 </div>
 

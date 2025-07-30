@@ -20,13 +20,3 @@ export const tableHeaderMock: ColumnDef<TableRow>[] = [
     id: "actions", accessorKey: "actions", header: "Действия", cell: (props) => <ButtonsActionsTable props={props} />,
   },
 ];
-
-
-
-
-export const multiOptions = [
-  { value: "apple", label: "Apple" },
-  { value: "banana", label: "Banana" },
-  { value: "orange", label: "Orange" },
-];
-

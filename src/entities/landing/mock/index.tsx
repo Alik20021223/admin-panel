@@ -9,7 +9,6 @@ export const tableHeaderMock: CustomColumnDef<TableRow>[] = [
   { id: "title", accessorKey: "title", header: "Название", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
   { id: "domain", accessorKey: "domain", header: "Домен", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
   { id: "spot_title", accessorKey: "spot_title", header: "Спот", cell: (props) => <p>{String(props.getValue() ?? '')}</p> },
-  { id: "link", accessorKey: "link", header: "Ссылка на лендинг", cell: (props) => <a href={String(props.getValue() ?? '')}>{String(props.getValue() ?? '')}</a> },
   {
     id: "actions",
     accessorKey: "actions",

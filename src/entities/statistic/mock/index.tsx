@@ -44,10 +44,13 @@ export const tableHeaderMock: ColumnDef<TableRow>[] = [
     header: "% Не подписанных",
     cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
   },
+  {
+    id: "conversion",
+    accessorKey: "conversion",
+    header: "Конверсии",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
 ];
-
-
-
 
 export const tableDataMock = [
   {

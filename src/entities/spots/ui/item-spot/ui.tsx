@@ -19,9 +19,10 @@ import { useDeleteSpot } from '@entities/spots/hooks/delete-landing-list'
 
 interface ItemSpotProps {
     item: ChannelInfo
+    domain: string
 }
 
-const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
+const ItemSpot: React.FC<ItemSpotProps> = ({ item, domain }) => {
 
     const [openLink, setOpenLink] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
@@ -35,8 +36,6 @@ const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
         setDeleteId(String(id))
         setOpenDelete(true)
     }
-
-
 
     const onDeleteSpot = (id: string) => {
         mutateAsync(Number(id))
@@ -104,7 +103,7 @@ const ItemSpot: React.FC<ItemSpotProps> = ({ item }) => {
                 </div>
             </div>
 
-            <ModalGenLink open={openLink} setOpen={setOpenLink} />
+            <ModalGenLink open={openLink} setOpen={setOpenLink} domain={domain} />
             <ModalDelete open={openDelete} setOpen={setOpenDelete} id={deleteId} onDelete={onDeleteSpot} />
         </>
     )

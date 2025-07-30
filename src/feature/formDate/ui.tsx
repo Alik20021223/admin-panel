@@ -1,5 +1,3 @@
-// components/form/CalendarField.tsx
-
 import { CalendarIcon } from "lucide-react"
 import { Button } from "@shadcdn/button"
 import { Calendar } from "@shadcdn/calendar"
@@ -28,10 +26,7 @@ interface RangeModeProps<T extends FieldValues> extends BaseProps<T> {
     required?: boolean
 }
 
-
 type CalendarFieldProps<T extends FieldValues> = SingleModeProps<T> | RangeModeProps<T>
-
-
 
 const isValidDate = (d: unknown): d is Date => {
     return d instanceof Date && !isNaN(d.getTime());
@@ -50,8 +45,16 @@ const isValidDateRange = (range: unknown): range is DateRange => {
     );
 };
 
+// Function to get yesterday's date
+const getYesterday = () => {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    return yesterday;
+};
 
-
+// Function to get today's date
+const getToday = () => new Date();
 
 export const CalendarField = <T extends FieldValues>(props: CalendarFieldProps<T>) => {
     const { name, control, label, placeholder = "Выберите дату" } = props
@@ -71,6 +74,9 @@ export const CalendarField = <T extends FieldValues>(props: CalendarFieldProps<T
                     : isValidDate(value)
                         ? format(value, "dd.MM.yyyy")
                         : "";
+
+                // console.log(value);
+                
 
                 return (
                     <div className="flex flex-col gap-3">
@@ -109,10 +115,38 @@ export const CalendarField = <T extends FieldValues>(props: CalendarFieldProps<T
                                         captionLayout="dropdown"
                                         onSelect={(date: Date | DateRange | undefined) => {
                                             onChange(date)
-                                            setOpen(false)
                                         }}
                                         {...(isRange ? { required: props.required ?? false } : {})}
                                     />
+                                    <div className="flex justify-between p-3">
+                                        {/* Button to set yesterday's date */}
+                                        <Button
+                                            className="text-black bg-slate-300"
+                                            onClick={() => {
+                                                const currentValue = value // Get current value if any
+                                                onChange({
+                                                    from: getYesterday(),  // Set yesterday's date to 'from'
+                                                    to: currentValue.to || currentValue.from, // Keep existing 'to' value or 'from'
+                                                })
+                                            }}
+                                        >
+                                            Вчера
+                                        </Button>
+
+                                        {/* Button to set today's date */}
+                                        <Button
+                                            className="text-black bg-slate-300"
+                                            onClick={() => {
+                                                const currentValue = value
+                                                onChange({
+                                                    from: currentValue.from || getToday(), // Keep existing 'from' or set today's date
+                                                    to: getToday(),  // Set today's date to 'to'
+                                                })
+                                            }}
+                                        >
+                                            Сегодня
+                                        </Button>
+                                    </div>
                                 </PopoverContent>
                             </Popover>
                         </div>

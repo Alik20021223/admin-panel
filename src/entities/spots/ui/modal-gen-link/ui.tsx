@@ -14,12 +14,15 @@ import { Copy } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { useSpotsTableStore } from "@entities/spots/store";
 
+const spotsLink = `&fbclid=<?= $_GET["fbclid"] ?>&campaign_id=<?= $_GET["campaign_id"] ?>&adset_id=<?= $_GET["adset_id"] ?>&ad_id=<?= $_GET["ad_id"] ?>&campaign_name=<?= $_GET["campaign_name"] ?>&adset_name=<?= $_GET["adset_name"] ?>&ad_name=<?= $_GET["ad_name"] ?>&placement=<?= $_GET["placement"] ?>&site_source_name=<?= $_GET["site_source_name"] ?>&b=<?= $_GET["b"] ?>`
+
 interface ModalGenLinkProps {
     open: boolean,
     setOpen: (value: boolean) => void;
+    domain: string,
 }
 
-const ModalGenLink = ({ open, setOpen }: ModalGenLinkProps) => {
+const ModalGenLink = ({ open, setOpen, domain }: ModalGenLinkProps) => {
     const form = useForm({
         defaultValues: {
             landingLink: '',
@@ -27,23 +30,22 @@ const ModalGenLink = ({ open, setOpen }: ModalGenLinkProps) => {
         }
     });
 
+    console.log(domain);
+
+
     const { pixels } = useSpotsTableStore()
 
     const landingLink = form.watch('landingLink');
-    const baseUrl = window.location.origin
+    // const baseUrl = window.location.origin
 
     useEffect(() => {
         if (landingLink) {
-            const finalUrl = `${baseUrl}?pixel=${landingLink}`;
+            const finalUrl = `https://${domain}?pixel=${landingLink}${spotsLink}`;
             form.setValue("resultUrl", finalUrl);
         } else {
             form.setValue("resultUrl", "");
         }
     }, [landingLink, form]);
-
-    console.log('test');
-    
-
 
     // Генерируем options из item.pixels
     const pixelOptions = useMemo(() => {
@@ -52,7 +54,6 @@ const ModalGenLink = ({ open, setOpen }: ModalGenLinkProps) => {
             value: String(pixel.pixel_id),
         })) ?? [];
     }, [pixels]);
-
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -65,7 +66,7 @@ const ModalGenLink = ({ open, setOpen }: ModalGenLinkProps) => {
                                 <FormSelect
                                     name="landingLink"
                                     control={form.control}
-                                    label="Мне нужна"
+                                    label="Выберите пиксель"
                                     options={pixelOptions} // 👈 используем пиксели как options
                                 />
 

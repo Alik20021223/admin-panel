@@ -1,6 +1,6 @@
 import { CellContext } from "@tanstack/react-table"
 import { TableRow } from "@entities/landing/types"
-import { Files, Edit, Trash } from "lucide-react"
+import { Files, Edit, Trash, ChevronRight } from "lucide-react"
 import { TooltipProvider } from "@shadcdn/tooltip"
 import IconButtonWithTooltip from "@feature/iconButtonTooltip"
 import ModalDelete from "@feature/modal-delete"
@@ -19,6 +19,8 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
     const [openDelete, setOpenDelete] = useState(false)
     const [deleteId, setDeleteId] = useState('')
     const [landingId, setLandingId] = useState('')
+
+    const item = props.row.original
 
     const { mutateAsync } = useDeleteLanding()
 
@@ -49,23 +51,25 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
         <>
             <TooltipProvider delayDuration={500}>
                 <div className="flex gap-1 items-center">
-                    {/* <IconButtonWithTooltip
-                        onClickButton={() => console.log("Копировать", props)}
-                        icon={<CopyPlus className="text-black hover:text-white" />}
-                        tooltip="Копировать"
-                    /> */}
                     <IconButtonWithTooltip
-                        onClickButton={() => OpenLinkModal(props.row.original.landing_id)}
+                        onClickButton={() =>
+                            window.location.href = `https://${item.domain}/l/${item.landing_id}`
+                        }
+                        icon={<ChevronRight className="text-black hover:text-white" />}
+                        tooltip="Открыть ссылку"
+                    />
+                    <IconButtonWithTooltip
+                        onClickButton={() => OpenLinkModal(item.landing_id)}
                         icon={<Files className="text-black hover:text-white" />}
                         tooltip="Копировать ссылку"
                     />
                     <IconButtonWithTooltip
-                        onClickButton={() => onEditLanding(props.row.original.landing_id)}
+                        onClickButton={() => onEditLanding(item.landing_id)}
                         icon={<Edit className="text-black hover:text-white" />}
                         tooltip="Редактировать"
                     />
                     <IconButtonWithTooltip
-                        onClickButton={() => OpenDeleteModal(props.row.original.landing_id)}
+                        onClickButton={() => OpenDeleteModal(item.landing_id)}
                         icon={<Trash className="text-black hover:text-white" />}
                         tooltip="Удалить"
                     />
@@ -77,7 +81,7 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
                     key={landingId} // заставит React сбросить состояние при смене landingId
                     open={openLink}
                     setOpen={setOpenLink}
-                    id={landingId}
+                    item={item}
                 />
             )}
 

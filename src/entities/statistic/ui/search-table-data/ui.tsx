@@ -5,7 +5,7 @@ import { Search } from "lucide-react";
 const SearchTableData = () => {
     const { columnFilter, setColumnFilter } = useStatisticTableStore();
 
-    const taskName = columnFilter.find((item) => item.id === 'name')?.value || '';
+    const taskName = columnFilter.find((item) => item.id === 'channel_name')?.value || '';
 
     const onFilterChange = (id: string, value: string) => {
         const updated = columnFilter.filter(f => f.id !== id);
@@ -18,7 +18,7 @@ const SearchTableData = () => {
             <Input
                 leftIcon={<Search />}
                 value={taskName}
-                onChange={(e) => onFilterChange('name', e.target.value)}
+                onChange={(e) => onFilterChange('channel_name', e.target.value)}
                 placeholder="Поиск по названию"
             />
         </div>

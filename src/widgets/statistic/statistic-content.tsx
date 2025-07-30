@@ -18,17 +18,27 @@ const StatisticContent = () => {
         setFilterData(false)
     }
 
+    const onOpenFilterData = () => {
+        setFilterData(true)
+    }
+
     return (
         <>
             <div className="space-y-5">
                 <div className="flex gap-4">
                     <SearchTableData />
-                    <Button onClick={() => setFilterData(true)} variant="outline">Фильтр данных
+                    {/* <Button onClick={onOpenFilterData} variant="outline">Фильтр данных
+                        <Funnel />
+                    </Button> */}
+                    <Button onClick={onOpenFilterData} variant="outline">Фильтр данных
                         <Funnel />
                     </Button>
                     <ColumnFilter />
                 </div>
-                {openFilterData && <FilterRow onClose={() => setFilterData(false)} onSubmit={handleSubmitFilterRow} />}
+                {
+                    openFilterData &&
+                    <FilterRow onClose={() => setFilterData(false)} onSubmit={handleSubmitFilterRow} />
+                }
                 <TableStatistic />
             </div>
         </>

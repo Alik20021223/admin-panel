@@ -175,8 +175,6 @@ export type WelcomeButton = {
   url_button: string;
 };
 
-
-
 // export type UserShortInfo = {
 //   // Предполагается, что структура описана отдельно
 //   // id: number;
@@ -207,6 +205,7 @@ export type ChannelInfo = {
   title: string;
   spot_type: string;
   pixels: Pixel[];
+
   // available_users: UserShortInfo[];
   // permissions: ChannelPermissionDTO[];
   user: ChannelUser;
@@ -217,6 +216,7 @@ export type ListSpotsResponseType = {
   pixels: Pixel[];
   user: UserType;
   spots: ChannelInfo[];
+  system_domain: string;
 };
 
 export type CheckChannelType = {

@@ -5,22 +5,28 @@ import { Form } from "@shadcdn/form"
 import FormInput from "@feature/formInput"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { EditFormSchema, EditFormType } from "./validation"
-import { useCreateDomain } from "@entities/domen/hooks/create-domen"
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
 } from "@shadcdn/dialog"
-interface AddDomenModalProps {
+import { TableRow } from "@entities/domen/types"
+import { useCreateSystemDomain } from "@entities/domen/hooks/create-system-domen"
+import { useEditSystemDomain } from "@entities/domen/hooks/edit-system-domen"
+import { useEffect } from "react"
+
+interface AddSystemDomenModalProps {
     open: boolean,
     setOpen: (value: boolean) => void;
+    item?: TableRow | null
 }
 
-const AddDomenModal: React.FC<AddDomenModalProps> = ({ open, setOpen }) => {
+const AddSystemDomenModal: React.FC<AddSystemDomenModalProps> = ({ open, setOpen, item = null }) => {
 
-    const { mutateAsync } = useCreateDomain()
-
+    const { mutateAsync: CreateAsync } = useCreateSystemDomain()
+    const { mutateAsync: EditAsync } = useEditSystemDomain()
+    
     const form = useForm<EditFormType>({
         resolver: zodResolver(EditFormSchema),
         defaultValues: {
@@ -28,17 +34,29 @@ const AddDomenModal: React.FC<AddDomenModalProps> = ({ open, setOpen }) => {
         },
     });
 
-    const onSubmitForm = async (data: EditFormType) => {
-        mutateAsync(data)
-    };
+    useEffect(() => {
+        if (item !== null) {
+            form.reset({
+                url: item.url
+            })
+        }
+    }, [])
 
+    const onSubmitForm = async (data: EditFormType) => {
+        if (item) {
+            EditAsync({ payload: data, id: item.ID })
+        } else {
+            CreateAsync(data)
+        }
+
+    };
 
     return (
         <>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Добавить домен</DialogTitle>
+                        <DialogTitle>Добавить системный домен</DialogTitle>
                         <div className="px-3 py-4">
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmitForm)} className="space-y-3">
@@ -66,4 +84,4 @@ const AddDomenModal: React.FC<AddDomenModalProps> = ({ open, setOpen }) => {
     )
 }
 
-export default AddDomenModal
+export default AddSystemDomenModal

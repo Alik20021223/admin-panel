@@ -12,15 +12,20 @@ import { Button } from "@shadcdn/button";
 import { Copy } from "lucide-react";
 import { useLandingStore } from "@entities/landing/store";
 import React, { useCallback, useEffect, useMemo } from "react";
+import { TableRow } from "@entities/landing/types";
+import { useSharedStore } from "@shared/store";
+
+const landingUrlStatic = `campaign_id={{campaign.id}}&adset_id={{adset.id}}&ad_id={{ad.id}}&campaign_name={{campaign.name}}&adset_name={{adset.name}}&ad_name={{ad.name}}&placement={{placement}}&site_source_name={{site_source_name}}`
 
 interface ModalGenLinkProps {
     open: boolean,
     setOpen: (value: boolean) => void;
-    id: string
+    item: TableRow
 }
 
-const ModalGenLink = ({ open, setOpen, id }: ModalGenLinkProps) => {
+const ModalGenLink = ({ open, setOpen, item }: ModalGenLinkProps) => {
     const { pixels } = useLandingStore();
+    const { user } = useSharedStore()
 
     const form = useForm({
         defaultValues: {
@@ -30,7 +35,6 @@ const ModalGenLink = ({ open, setOpen, id }: ModalGenLinkProps) => {
     });
 
     const pixelID = form.watch('pixel');
-    const baseUrl = window.location.origin;
 
     // Логгируем pixels только при их изменении
     useEffect(() => {
@@ -41,8 +45,7 @@ const ModalGenLink = ({ open, setOpen, id }: ModalGenLinkProps) => {
 
     useEffect(() => {
         if (!open) return;
-
-        const newUrl = pixelID ? `${baseUrl}/l/${id}?pixel=${pixelID}` : "";
+        const newUrl = pixelID ? `${item.domain}/l/${item.landing_id}?idx=${user?.id}&pixel=${pixelID}&${landingUrlStatic}` : "";
         const currentUrl = form.getValues("resultUrl");
 
         if (currentUrl !== newUrl) {
@@ -52,7 +55,7 @@ const ModalGenLink = ({ open, setOpen, id }: ModalGenLinkProps) => {
                 shouldValidate: false,
             });
         }
-    }, [open, pixelID, id, form, baseUrl]);
+    }, [open, pixelID, item, form]);
 
     const pixelOptions = useMemo(() => {
         return pixels?.map(pixel => ({
@@ -79,7 +82,7 @@ const ModalGenLink = ({ open, setOpen, id }: ModalGenLinkProps) => {
                                 <FormSelect
                                     name="pixel"
                                     control={form.control}
-                                    label="Pixel"
+                                    label="Выберите пиксель"
                                     options={pixelOptions}
                                 />
 

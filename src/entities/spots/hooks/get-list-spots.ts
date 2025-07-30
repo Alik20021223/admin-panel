@@ -9,6 +9,7 @@ const initialData: ListSpotsResponseType = {
   },
   pixels: [],
   spots: [],
+  system_domain: "",
 };
 
 export function useQueryListSpots() {

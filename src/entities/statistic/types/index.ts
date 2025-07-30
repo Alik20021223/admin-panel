@@ -6,6 +6,7 @@ export type TableRow = {
   net_subscribers: number;
   unsubscriptions: number;
   percentage_unsubscriptions: number;
+  conversion: number;
 };
 
 export type StatisticResponse = {
@@ -25,21 +26,7 @@ export type ColumnConfig = {
 
 export type FormType = {
   period: {
-    from: Date;
-    to: Date;
+    from: Date | null;
+    to: Date | null;
   };
-  fb_adset: string;
-  fb_campaign: string;
-  fb_ad: string;
-  fb_ad_name: string;
-  adset_name: string;
-  source_name: string;
-  spot_type: string;
-  channel: string;
-  company: string;
-  placement: string;
-  landing: string;
-  spot: string;
-  country: string;
-  buyer: string;
 };

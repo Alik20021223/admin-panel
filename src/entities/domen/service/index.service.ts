@@ -21,6 +21,21 @@ class Domen_service {
 
     return result.data;
   }
+
+  async createSystemDomain(payload: EditFormType) {
+    const result = await axiosInstance.post(DOMEN_URL.SYSTEM_DOMAIN, payload);
+
+    return result.data;
+  }
+
+  async editSystemDomain(payload: EditFormType, id: string) {
+    const result = await axiosInstance.put(
+      `${DOMEN_URL.SYSTEM_DOMAIN}/${id}`,
+      payload
+    );
+
+    return result.data;
+  }
 }
 
 export default new Domen_service();

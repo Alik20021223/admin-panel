@@ -80,8 +80,10 @@ const GeneralTab = ({ id }: { id: string }) => {
         if (editLanding && editData && infoData.spots.length && infoData.domains.length) {
             form.reset({
                 name: editData.landing.name || "",
-                domen: String(editData.current_landing.domain.id),
-                spot: String(editData.current_landing.spot.id),
+                domen: String(editData.current_landing.domain?.id || ""),
+                spot: editData.current_landing.spot?.id
+                    ? String(editData.current_landing.spot.id)
+                    : "", // или null, если нужно
                 showToCountry: editData.landing.allowed_countries || [],
                 autoRedirect: String(editData.landing.auto_redirect),
             });

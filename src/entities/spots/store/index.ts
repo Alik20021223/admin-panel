@@ -38,6 +38,8 @@ interface SpotsTableState {
 
   pixels: Pixel[];
   setPixels: (value: Pixel[]) => void;
+
+  
 }
 
 export const useSpotsTableStore = create<SpotsTableState>((set, get) => ({
