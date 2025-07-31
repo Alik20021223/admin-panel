@@ -15,6 +15,7 @@ import {
 import { Link } from "react-router-dom";
 import { useQueryListSpots } from "@entities/spots/hooks/get-list-spots";
 import { useSpotsTableStore } from "@entities/spots/store";
+import { useSharedStore } from "@shared/store";
 // import { useNavigate } from "react-router-dom";
 
 
@@ -26,8 +27,8 @@ const SpotsContent = () => {
 
     const { data } = useQueryListSpots()
 
-
     const { setPixels } = useSpotsTableStore()
+    const { user } = useSharedStore()
 
     useEffect(() => {
         setPixels(data.pixels)
@@ -48,10 +49,12 @@ const SpotsContent = () => {
 
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant="default">
-                                <Plus />
-                                Добавить спот
-                            </Button>
+                            {user?.role !== "buyer" &&
+                                <Button variant="default">
+                                    <Plus />
+                                    Добавить спот
+                                </Button>
+                            }
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
