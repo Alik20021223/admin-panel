@@ -59,7 +59,7 @@ export const updateAuth = (status: boolean) => {
   window.dispatchEvent(new Event("auth_check_changed"));
 };
 
-export function mapToSelectOptions<T extends Record<string, unknown>>(
+export function mapToSelectOptions<T>(
   data: T[] = [],
   valueKey: keyof T,
   labelKey: keyof T

@@ -5,7 +5,7 @@ import { StatisticResponse } from "@entities/statistic/types";
 export function useQueryDashboardStatistic() {
   const { isLoading, isError, data, error, refetch } =
     useQuery<StatisticResponse>({
-      queryKey: ["dashboard-statistic"],
+      queryKey: ["statistic-filter"],
       queryFn: () => statisticService.getDataDashboardStatistic(),
       retry: false,
     });

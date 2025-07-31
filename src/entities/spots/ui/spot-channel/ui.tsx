@@ -226,10 +226,8 @@ const FirstStep = () => {
                                         <Button onClick={onCheck} type="button" className="space-x-2 w-full">
                                             Проверить
                                             {isLoading && <div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>}
-                                        </Button>}
-
-
-
+                                        </Button>
+                                    }
                                 </div>
                             </div>
                         </div>

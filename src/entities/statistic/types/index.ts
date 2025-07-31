@@ -25,8 +25,24 @@ export type ColumnConfig = {
 };
 
 export type FormType = {
-  period: {
-    from: Date | null;
-    to: Date | null;
+  period?: {
+    from: Date;
+    to: Date;
   };
+  pixel?: number | null; // ID Facebook Pixel для фильтрации
+  campaign_id?: string; // ID кампании Facebook
+  campaign_name?: string; // Название кампании Facebook
+  adset_id?: string; // ID набора объявлений
+  adset_name?: string; // Название набора объявлений
+  ad_id?: string; // ID объявления
+  ad_name?: string; // Название объявления
+  placement?: string; // Размещение объявления
+  site_source_name?: string; // Источник трафика (например, facebook)
+  landing?: string; // ID лендинга для фильтрации
+  channels?: string; // ID канала
+  // spot_type?: string; // Тип спота
+  // group?: string; // Группировка данных (например: date__date)
+  date_from?: string; // Начальная дата в формате YYYY-MM-DD
+  date_to?: string; // Конечная дата в формате YYYY-MM-DD
+  // domain?: string; // Домен для фильтрации (example.com и т.д.)
 };

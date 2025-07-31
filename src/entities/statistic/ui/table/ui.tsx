@@ -11,9 +11,13 @@ import {
 import { useStatisticTableStore } from '@entities/statistic/store';
 import { useEffect } from 'react';
 import { ArrowDownUp } from 'lucide-react';
-import { useQueryDashboardStatistic } from '@entities/statistic/hooks/get-dashboard-statistic';
+import { TableRow as TypeTableRow } from '@entities/statistic/types';
 
-const TableStatistic = () => {
+interface TableStatisticProps {
+    data: TypeTableRow[]
+}
+
+const TableStatistic: React.FC<TableStatisticProps> = ({ data }) => {
 
     const {
         columnFilter,
@@ -27,13 +31,9 @@ const TableStatistic = () => {
         setColumnPinning
     } = useStatisticTableStore()
 
-    const { data } = useQueryDashboardStatistic()
-
-    console.log(data);
-
 
     const table = useReactTable({
-        data: data?.channels || [],
+        data: data || [],
         columns: tableHeaderMock,
         state: {
             columnFilters: columnFilter,
