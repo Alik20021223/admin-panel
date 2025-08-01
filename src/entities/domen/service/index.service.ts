@@ -28,6 +28,15 @@ class Domen_service {
     return result.data;
   }
 
+  async checkDomain(payload: string) {
+    const result = await axiosInstance.post(
+      `${DOMEN_URL.LIST}/${payload}/verify`,
+      payload
+    );
+
+    return result.data;
+  }
+
   async editSystemDomain(payload: EditFormType, id: string) {
     const result = await axiosInstance.put(
       `${DOMEN_URL.SYSTEM_DOMAIN}/${id}`,

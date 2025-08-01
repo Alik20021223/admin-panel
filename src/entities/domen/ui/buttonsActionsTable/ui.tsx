@@ -7,6 +7,8 @@ import ModalDelete from "@feature/modal-delete"
 import { useState } from "react"
 import { useDeleteDomain } from "@entities/domen/hooks/delete-domen-list"
 import AddSystemDomenModal from "@entities/domen/ui/add-system-domen"
+import { Check } from 'lucide-react';
+import { useCheckDomain } from "@entities/domen/hooks/check-domain"
 
 interface ButtonsActionsTableProps {
     props: CellContext<TableRow, unknown>
@@ -22,6 +24,7 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
     const [deleteId, setDeleteId] = useState("")
 
     const { mutateAsync } = useDeleteDomain()
+    const { mutateAsync: checkDomain } = useCheckDomain()
 
     const OpenEdit = (item: TableRow) => {
         setEditSystem(item)
@@ -37,6 +40,10 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
         mutateAsync(id)
     }
 
+    const onCheckDomain = (id: string) => {
+        checkDomain(id)
+    }
+
     return (
         <>
             <TooltipProvider delayDuration={500}>
@@ -47,11 +54,19 @@ const ButtonsActionsTable: React.FC<ButtonsActionsTableProps> = ({ props }) => {
                         tooltip="Редактировать"
                     />}
 
-                    {!item.sys_domain && <IconButtonWithTooltip
-                        onClickButton={() => OpenDeleteModal(item.ID)}
-                        icon={<Trash className="text-black hover:text-white" />}
-                        tooltip="Удалить"
-                    />}
+                    {!item.sys_domain &&
+                        <IconButtonWithTooltip
+                            onClickButton={() => OpenDeleteModal(item.ID)}
+                            icon={<Trash className="text-black hover:text-white" />}
+                            tooltip="Удалить"
+                        />
+                    }
+
+                    <IconButtonWithTooltip
+                        onClickButton={() => onCheckDomain(item.ID)}
+                        icon={<Check className="text-black hover:text-white" />}
+                        tooltip="Пройти верификацию"
+                    />
                 </div>
             </TooltipProvider>
 
