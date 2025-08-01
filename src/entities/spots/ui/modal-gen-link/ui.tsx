@@ -14,7 +14,7 @@ import { useEffect, useMemo } from "react";
 import { useSpotsTableStore } from "@entities/spots/store";
 import { useSharedStore } from "@shared/store";
 
-const spotsLink = `&fbclid=<?= $_GET["fbclid"] ?>&campaign_id=<?= $_GET["campaign_id"] ?>&adset_id=<?= $_GET["adset_id"] ?>&ad_id=<?= $_GET["ad_id"] ?>&campaign_name=<?= $_GET["campaign_name"] ?>&adset_name=<?= $_GET["adset_name"] ?>&ad_name=<?= $_GET["ad_name"] ?>&placement=<?= $_GET["placement"] ?>&site_source_name=<?= $_GET["site_source_name"] ?>&b=<?= $_GET["b"] ?>`
+const spotsLink = `&fbclid=<?= $_GET["fbclid"] ?>&campaign_id=<?= $_GET["campaign_id"] ?>&adset_id=<?= $_GET["adset_id"] ?>&ad_id=<?= $_GET["ad_id"] ?>&campaign_name=<?= $_GET["campaign_name"] ?>&adset_name=<?= $_GET["adset_name"] ?>&ad_name=<?= $_GET["ad_name"] ?>&placement=<?= $_GET["placement"] ?>&site_source_name=<?= $_GET["site_source_name"]`
 
 interface ModalGenLinkProps {
     open: boolean,
@@ -38,7 +38,7 @@ const ModalGenLink = ({ open, setOpen, domain }: ModalGenLinkProps) => {
 
     useEffect(() => {
         if (landingLink) {
-            const finalUrl = `https://${domain}?idx=${user?.id}&pixel=${landingLink}${spotsLink}`;
+            const finalUrl = `https://${domain}/clicks/?idx=${user?.id}&pixel=${landingLink}${spotsLink}`;
             form.setValue("resultUrl", finalUrl);
         } else {
             form.setValue("resultUrl", "");

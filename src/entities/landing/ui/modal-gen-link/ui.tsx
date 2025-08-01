@@ -45,7 +45,7 @@ const ModalGenLink = ({ open, setOpen, item }: ModalGenLinkProps) => {
 
     useEffect(() => {
         if (!open) return;
-        const newUrl = pixelID ? `${item.domain}/l/${item.landing_id}?idx=${user?.id}&pixel=${pixelID}&${landingUrlStatic}` : "";
+        const newUrl = pixelID ? `${item.domain}/l/${item.landing_id}/?idx=${user?.id}&pixel=${pixelID}&${landingUrlStatic}` : "";
         const currentUrl = form.getValues("resultUrl");
 
         if (currentUrl !== newUrl) {

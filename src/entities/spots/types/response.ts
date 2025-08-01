@@ -52,4 +52,5 @@ export type UpdateSpot = {
   welcome_message: string;
   welcome_buttons: WelcomeButton[];
   title: string;
+  permissions: number[];
 };

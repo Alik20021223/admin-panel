@@ -114,6 +114,7 @@ export type StepOneSpotChannel = {
   mediaHello: File | null;
   buttonsTypeHello: ButtonBotType[];
   title?: string;
+  permissions?: string[];
 };
 
 export type CommandCondition = {

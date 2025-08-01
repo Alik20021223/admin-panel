@@ -15,6 +15,18 @@ export const tableHeaderMock: ColumnDef<TableRow>[] = [
     cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
   },
   {
+    id: "conversion",
+    accessorKey: "conversion",
+    header: "CR",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
+  {
+    id: "conversion_clear",
+    accessorKey: "conversion_clear",
+    header: "Чистый CR",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
+  {
     id: "total_clicks",
     accessorKey: "total_clicks",
     header: "Общее число кликов",
@@ -44,10 +56,17 @@ export const tableHeaderMock: ColumnDef<TableRow>[] = [
     header: "% Не подписанных",
     cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
   },
+
   {
-    id: "conversion",
-    accessorKey: "conversion",
-    header: "Конверсии",
+    id: "total_purchase",
+    accessorKey: "total_purchase",
+    header: "Кол-во продаж",
+    cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
+  },
+  {
+    id: "total_sum_purchase",
+    accessorKey: "total_sum_purchase",
+    header: "Сумма продаж",
     cell: (props) => <p>{String(props.getValue() ?? '')}</p>,
   },
 ];

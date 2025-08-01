@@ -7,6 +7,9 @@ export type TableRow = {
   unsubscriptions: number;
   percentage_unsubscriptions: number;
   conversion: number;
+  total_purchase: number;
+  total_sum_purchase: number;
+  conversion_clear: number;
 };
 
 export type StatisticResponse = {

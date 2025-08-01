@@ -1,13 +1,13 @@
 import { Button } from "@shadcdn/button";
 import FormInput from "@feature/formInput";
 import { Form } from "@shadcdn/form";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { StepOneSpotChannel } from "@entities/spots/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StepOneSpotSchema } from "./validation";
 import { Checkbox } from "@shadcdn/checkbox";
 import { Label } from "@shadcdn/label";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SecondStep from "./second-step";
 import { Plus } from "lucide-react";
 import { useCheckChannel } from "@entities/spots/hooks/check-channel";
@@ -19,11 +19,16 @@ import { useCreateSpot } from "@entities/spots/hooks/create-channel";
 import { useUpdateSpot } from "@entities/spots/hooks/put-channel";
 import { useUpdateSpotPhoto } from "@entities/spots/hooks/update-spot-channel-photo";
 import { toast } from "sonner";
+import { MultiSelect } from "@feature/MultiSelect";
+import { SelectOption } from "@shared/types";
 
 const FirstStep = () => {
 
     const [checked, setChecked] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    const [localPermissions, setLocalPermissions] = useState<SelectOption[]>([]);
+
     const [searchParams] = useSearchParams()
     const editId = searchParams.get('edit')
     const navigate = useNavigate()
@@ -39,6 +44,7 @@ const FirstStep = () => {
             mediaHello: null,
             buttonsTypeHello: [],
             title: "",
+            permissions: []
         },
         mode: "all",
     })
@@ -49,10 +55,14 @@ const FirstStep = () => {
     const { mutateAsync: CreateSpot } = useCreateSpot()
     const { mutateAsync: UpdateSpot } = useUpdateSpot()
     const { mutateAsync: UpdateSpotPhoto } = useUpdateSpotPhoto()
-
-
-
     const { data: EditData } = useGetInfoSpotChannel(editId || "")
+
+    const userOptions = useMemo(() => {
+        return (EditData?.available_users || []).map((user) => ({
+            label: user.email,
+            value: String(user.id),
+        }));
+    }, [EditData]);
 
     useEffect(() => {
         if (EditData?.channel) {
@@ -62,10 +72,10 @@ const FirstStep = () => {
                 idChannel: String(channel.channel_id),
                 tokenBot: channel.bot_token,
                 autoReception: true, // если у тебя нет этого значения в EditData — можешь оставить false
-                HelloSelect: Boolean(channel.welcome_message || channel.welcome_buttons.length > 0),
+                HelloSelect: Boolean(channel.welcome_message || (channel.welcome_buttons?.length ?? 0) > 0),
                 textHello: channel.welcome_message ?? "",
                 mediaHello: null, // см. ниже про превью
-                buttonsTypeHello: channel.welcome_buttons.map(btn => ({
+                buttonsTypeHello: channel.welcome_buttons?.map(btn => ({
                     name: btn.text_button,
                     url: btn.url_button,
                     id: btn.id
@@ -73,16 +83,27 @@ const FirstStep = () => {
                 title: EditData.channel.title,
             });
 
+            const permissionMapped = (EditData?.permissions || []).map((p) => ({
+                label: p.email,
+                value: String(p.user_id),
+            }));
+            setLocalPermissions(permissionMapped);
+
             setChecked(true); // если хочешь сразу показать второй шаг
         }
     }, [EditData, form]);
-
 
     const onSubmitForm = async (data: StepOneSpotChannel) => {
         const mappedButtons = data.buttonsTypeHello.map((btn) => ({
             text_button: btn.name,
             url_button: btn.url,
         }));
+
+        const finalPermissions = [
+            ...localPermissions.map((item) => Number(item.value)),
+            ...((form.getValues("permissions") ?? []).map((val: string) => Number(val))),
+        ];
+
 
         const formData = new FormData();
 
@@ -94,6 +115,7 @@ const FirstStep = () => {
                     welcome_message: data.textHello,
                     welcome_buttons: mappedButtons,
                     title: form.getValues("title") || "",
+                    permissions: finalPermissions,
                 },
                 id: editId,
             });
@@ -134,7 +156,6 @@ const FirstStep = () => {
             }
         }
     };
-
 
     const onCheck = async () => {
         setIsLoading(true)
@@ -178,6 +199,10 @@ const FirstStep = () => {
         }
     };
 
+    const handleRemovePermission = (userId: string) => {
+        const newPermissions = localPermissions.filter((item) => item.value !== userId);
+        setLocalPermissions(newPermissions);
+    };
 
     return (
         <>
@@ -239,6 +264,47 @@ const FirstStep = () => {
                                     isEdit={!!editId}
                                     title={EditData?.channel?.title ?? ""}
                                 />
+
+                                {editId &&
+                                    <Controller
+                                        name="permissions"
+                                        control={form.control}
+                                        render={({ field }) => (
+                                            <MultiSelect
+                                                options={userOptions}
+                                                value={field.value || []}
+                                                label="Доступные пользователи"
+                                                onChange={field.onChange}
+                                                placeholder="Выберите пользователей"
+                                            />
+                                        )}
+                                    />
+                                }
+
+                                {localPermissions.length > 0 && (
+                                    <div className="w-full mt-4">
+                                        <p className="text-sm font-medium mb-2">Права доступа:</p>
+                                        <div className="flex flex-col gap-2">
+                                            {localPermissions.map((item) => (
+                                                <div
+                                                    key={item.value}
+                                                    className="flex items-center justify-between border p-2 rounded-md bg-gray-50"
+                                                >
+                                                    <span>{item.label}</span>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        onClick={() => handleRemovePermission(item.value)}
+                                                        title="Удалить пользователя"
+                                                    >
+                                                        ✕
+                                                    </Button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
                                 <div className="mt-5 w-full">
                                     <Button
                                         disabled={!form.formState.isValid}
